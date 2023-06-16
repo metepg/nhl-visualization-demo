@@ -1,0 +1,33 @@
+.container {
+    display: grid;
+    width: 1060px;
+    grid-template-columns: 60px 75px 220px 220px 220px 55px 25px 75px 30px;
+    gap: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.container:hover {
+    background-color: var(--light-grey);
+}
+
+.column {
+    display: flex;
+}
+
+.header {
+    padding: 5px;
+    border-bottom: 1px solid var(--black);
+    text-align: center;
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    margin: 0 auto;
+    font-size: 14px;
+}

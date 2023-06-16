@@ -1,0 +1,15 @@
+:root {
+    --black: #231F20;
+    --white: #FFFFFF;
+    --red: #E21836;
+    --dark-grey: #848694;
+    --light-grey: #ECEEF2;
+    background-color: var(--white);
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+}
+
+.content-wrapper {
+    width: 1080px;
+    margin: 0 auto;
+}
