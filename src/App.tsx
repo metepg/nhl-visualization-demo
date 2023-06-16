@@ -1,9 +1,9 @@
 import React from 'react';
 import './styles.css';
-import EventRow from "./components/event-row/EventRow.tsx";
 import data from './data';
 import ContentHeader from "./components/content-header/ContentHeader.tsx";
 import {GameData} from "./interfaces.ts";
+import Content from "./components/content/Content.tsx";
 
 
 const App: React.FC = () => {
@@ -13,7 +13,7 @@ const App: React.FC = () => {
         <div className="content-wrapper">
             <ContentHeader />
             {exampleData.map((gameData: GameData) => (
-                <EventRow key={gameData.game} events={gameData.events} date={gameData.date} />
+                <Content key={gameData.game} events={gameData.events} date={gameData.date}/>
             ))}
         </div>
     );
