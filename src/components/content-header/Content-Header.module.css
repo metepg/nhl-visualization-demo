@@ -5,14 +5,8 @@
     background-color: var(--white);
     gap: 10px;
     margin-bottom: 3px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 0 10px;
 }
-
-.container:first-child {
-    padding-left: 10px;
-}
-
 
 .column {
     display: flex;
@@ -20,7 +14,7 @@
 }
 
 .header {
-    padding: 5px;
+    padding: 5px 0;
     border-bottom: 1px solid var(--black);
     text-align: center;
 }
