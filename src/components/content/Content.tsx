@@ -1,41 +1,17 @@
 import React from "react";
 import styles from './Content.module.css'
 import Timeline from "../timeline/Timeline.tsx";
-import styled from "styled-components";
 import {GameEvent} from "../../interfaces.ts";
+import Circle from "../circle/Circle.tsx";
+import Result from "../result/Result.tsx";
 
 
-interface EventProps {
+interface ContentProps {
     events: GameEvent[];
     date: string;
 }
 
-const CircleContainer = styled.div`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    `;
-const Circle = styled.div<{ winner?: string }>`
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
-      justify-content: center;
-      background-color: ${(props) => (props?.winner === 'home' ? 'var(--red)' : 'var(--black)')};
-    `;
-const Result = styled.div<{winner?: string}>`
-      display: flex;
-      background-color: ${(props) => (props?.winner === 'home' ? 'var(--red)' : 'var(--black)')};
-      border: ${(props) => (props?.winner === 'home' ? '1px solid var(--red)' : '1px solid var(--black)')};
-      border-radius: 20px;
-      justify-content: center;
-      align-items: center;
-      color: var(--white);
-      width: 100%;
-      height: 25px;
-    `;
-const Content: React.FC<EventProps> = ({events, date}) => {
+const Content: React.FC<ContentProps> = ({events, date}) => {
     const homeGoals = events.filter((e) => !!e.player).length;
     const awayGoals = events.length - homeGoals;
     const winner = homeGoals > awayGoals ? 'home' : 'away';
@@ -43,7 +19,7 @@ const Content: React.FC<EventProps> = ({events, date}) => {
     const period1 = events.filter((e) => e.period === 1);
     const period2 = events.filter((e) => e.period === 2);
     const period3 = events.filter((e) => e.period === 3);
-    const shootout = events.filter((e) => e.period === 4);
+    const overtime = events.filter((e) => e.period === 4);
 
     return (
         <div className={styles.container}>
@@ -70,19 +46,17 @@ const Content: React.FC<EventProps> = ({events, date}) => {
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline events={shootout} shootout={true}/>
+                    <Timeline events={overtime} shootout={true}/>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <CircleContainer>
-                        <Circle winner={winner}></Circle>
-                    </CircleContainer>
+                    <Circle winner={winner}></Circle>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Result winner={winner}>{homeGoals}-{awayGoals}</Result>
+                    <Result events={events} />
                 </div>
             </div>
             <div className={styles.column}>
