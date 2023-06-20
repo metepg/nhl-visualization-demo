@@ -1,7 +1,8 @@
 .container {
     display: grid;
     width: 1060px;
-    grid-template-columns: 60px 75px 220px 220px 220px 55px 25px 75px 30px;
+    /*grid-template-columns: 60px 75px 220px 220px 220px 55px 25px 75px 30px;*/
+    grid-template-columns: 60px 75px 223px 223px 223px 58px 25px 62px 30px;
     gap: 10px;
     padding-left: 10px;
     padding-right: 10px;
