@@ -1,3 +1,5 @@
+import {Team} from "./interfaces.ts";
+
 interface GameData {
     game: number;
     date: string;
@@ -12,12 +14,20 @@ interface Event {
     goalType?: string | null;
 }
 
+const teams: Team[] = [
+    { name: 'Anaheim Ducks', players: ["All players", '9 Teemu Selänne'] },
+    { name: 'Arizona Coyotes', players: ["All players", '22 Keith Tkachuk'] },
+    { name: 'Boston Bruins', players: ["All players", '34 Brendan Shanahan'] },
+    { name: 'Buffalo Sabres', players: ["All players", '1 Tommy Salo'] },
+    { name: 'Calgary Flames', players: ["All players",'13 Eric Lindroos'] },
+    { name: 'Carolina Hurricanes', players: ["All players", "18 Jack Drury", "21 Derek Stepan", "24 Seth Jarvis", "71 Jesper Fast", "82 Jesperi Kotkaniemi", "86 Teuvo Teräväinen", "88 Martin Necas",] },
+];
 
-const data: GameData[] = [
+const gameData: GameData[] = [
     {
         game: 1,
         date: 'OCT 14',
-        team: "Carolina",
+        team: "Carolina Hurricanes",
         events: [
             {
                 player: 88,
@@ -45,7 +55,7 @@ const data: GameData[] = [
     {
         game: 2,
         date: 'OCT 17',
-        team: "Carolina",
+        team: "Carolina Hurricanes",
         events: [
             {
                 player: 21,
@@ -68,13 +78,13 @@ const data: GameData[] = [
             {
                 period: 3,
                 timeInSeconds: 18,
-                goalType: null
+                goalType: "PP"
             },
             {
-                player: 16,
+                player: 18,
                 period: 3,
                 timeInSeconds: 1195,
-                goalType: "EV-EN"
+                goalType: "EN"
             },
             {
                 period: 2,
@@ -91,7 +101,7 @@ const data: GameData[] = [
     {
         game: 3,
         date: 'OCT 19',
-        team: "Carolina",
+        team: "Carolina Hurricanes",
         events: [
             {
                 player: 82,
@@ -133,7 +143,7 @@ const data: GameData[] = [
     {
         game: 4,
         date: 'OCT 23',
-        team: "Carolina",
+        team: "Carolina Hurricanes",
         events: [
             {
                 player: 21,
@@ -163,4 +173,4 @@ const data: GameData[] = [
     }
 ];
 
-export default data;
+export default {gameData, teams};
