@@ -12,7 +12,23 @@ interface GameData {
     events: GameEvent[];
 }
 
+interface Filters {
+    team?: string | null;
+    player?: string | null;
+    season?: string | null;
+    goaltypefor?: string | null;
+    goaltypeagainst?: string | null;
+}
+
+interface Team {
+    name: string;
+    players: string[];
+}
+
+
 export type {
+    Filters,
     GameEvent,
-    GameData
+    GameData,
+    Team
 }
