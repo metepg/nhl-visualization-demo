@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Result.module.css'
-import {GameEvent} from "../../interfaces.ts";
+import {GameEvent} from "../../interfaces/CustomData.ts";
 
 interface ResultProps {
     events: GameEvent[];

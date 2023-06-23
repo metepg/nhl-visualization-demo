@@ -1,30 +1,40 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
-import CustomSelect from "../custom-select/CustomSelect.tsx";
-import {Stack} from "@mui/material";
-import {Filters, Team} from "../../interfaces.ts";
+import {Autocomplete, Stack, TextField} from "@mui/material";
+import {Filters} from "../../interfaces/CustomData.ts";
+import {Roster, Team} from "../../interfaces/Teams.ts";
 
 interface FiltersProps {
-    selectedTeam: Team;
-    teamData: Team[];
+    selectedTeam?: Team;
+    teams: Team[] | undefined;
     filters: Filters;
     setFilters: Dispatch<SetStateAction<Filters>>;
-    setSelectedTeam: Dispatch<SetStateAction<Team>>;
+    setSelectedTeam: Dispatch<SetStateAction<Team | undefined>>;
     season: string[];
     goalType: string[];
 }
 
 
-const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, setFilters, selectedTeam, teamData, season, goalType}) => {
-    const teamNames: string[] = teamData.map((t: Team) => t.name);
-    const [players, setPlayers] = useState<string[]>(selectedTeam.players);
+const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, setFilters, selectedTeam, teams, season, goalType}) => {
+    const [players, setPlayers] = useState<Roster[] | undefined>();
+    const teamNames: string[] | undefined = teams?.map((t: Team) => t.name).sort();
+    const allPlayersObject: Roster = {
+        person: {id: 999, fullName: 'All players',  link: ''},
+        position: {code: '', type: '', abbreviation: '', name: ''},
+        jerseyNumber: '9999'
+    };
+    const playerOptions: Roster[] = players ? [allPlayersObject].concat(players.map((player: Roster) => player)) : [allPlayersObject];
 
     useEffect(() => {
-        const teamz: Team = teamData.find((t) => t.name === filters.team)!;
-        if (filters.team !== selectedTeam.name) {
-            setPlayers(teamz.players);
-            setSelectedTeam(teamz);
+        const team: Team | undefined = teams?.find((t: Team) => t.name === filters.team);
+
+        // TODO: Should reset player names selection but doesnt
+        if (filters.team !== selectedTeam?.name) {
+            const sortedPlayers = team?.roster.roster.sort((a: Roster,b: Roster) => {
+                return a.person.fullName.toLowerCase() > b.person.fullName.toLowerCase() ? 1 : -1;
+            })
+            setPlayers(sortedPlayers);
         }
-    }, [selectedTeam, teamData, filters, setSelectedTeam])
+    }, [selectedTeam, teams, filters, setSelectedTeam])
 
     function shortenValueName(value: string): string {
         value = value.toLowerCase().replace(/[^a-z]/g, '');
@@ -38,11 +48,14 @@ const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, set
         return shortened[value];
     }
 
-    function filterEvents(key: string, value: string) {
+    function filterEvents(key: string, value: any): void {
         if (key === 'goaltypefor' || key === 'goaltypeagainst') value = shortenValueName(value);
-        if (key === 'player' && value !== 'All players') value = value.split(' ')[0];
-        const updatedFilters: Filters = { ...filters, [key.toLowerCase()]: value };
+        const updatedFilters: Filters = { ...filters, [key]: value };
         setFilters(updatedFilters);
+    }
+
+    const getPlayerLabel = (value: string): string => {
+        return value.includes('9999') ? value.replace(/[0-9]/g, '').trim() : value;
     }
 
     return (
@@ -52,11 +65,68 @@ const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, set
             spacing={1}
             mb={5}
         >
-            <CustomSelect filterKey={"team"} filterEvents={filterEvents} content={teamNames} label={"Select"} header={"Team"} width={240}/>
-            <CustomSelect filterKey={"player"} filterEvents={filterEvents} content={players} label={"Select player"} header={"Player"} width={240}/>
-            <CustomSelect filterKey={"season"} filterEvents={filterEvents} content={season} label={"Select season"} header={"Season"} width={240}/>
-            <CustomSelect filterKey={"goaltypefor"} filterEvents={filterEvents} content={goalType} label={"Select"} header={"Goals for"} width={160}/>
-            <CustomSelect filterKey={"goaltypeagainst"} filterEvents={filterEvents} content={goalType} label={"Select"} header={"Goals against"} width={160}/>
+            <Stack sx={{width: 1060}} direction="column">
+                <p style={{textAlign: 'center', fontWeight: 'bold'}}>Team</p>
+                <Autocomplete
+                    disablePortal
+                    disableClearable
+                    getOptionLabel={(option: string) => option}
+                    defaultValue={teamNames ? teamNames[0] : ''}
+                    options={teamNames ? teamNames : []}
+                    onChange={(_, value) => filterEvents("team", value)}
+                    sx={{width: 240}}
+                    renderInput={(params) => <TextField {...params} label={"Select"} />}
+                />
+            </Stack>
+            <Stack sx={{width: 1060}} direction="column">
+                <p style={{textAlign: 'center', fontWeight: 'bold'}}>Player</p>
+                <Autocomplete
+                    disablePortal
+                    disableClearable
+                    defaultValue={allPlayersObject}
+                    getOptionLabel={(option: Roster) => getPlayerLabel(`${option.person.fullName} ${option.jerseyNumber} `)}
+                    options={playerOptions}
+                    onChange={(_, value) => filterEvents("player", value.jerseyNumber)}
+                    sx={{width: 240}}
+                    renderInput={(params) => <TextField {...params} label={"Select player"} />}
+                />
+            </Stack>
+            <Stack sx={{width: 1060}} direction="column">
+                <p style={{textAlign: 'center', fontWeight: 'bold'}}>Season</p>
+                <Autocomplete
+                    disablePortal
+                    disableClearable
+                    defaultValue={season[0]}
+                    options={season}
+                    onChange={(_, value) => filterEvents("season", value)}
+                    sx={{width: 240}}
+                    renderInput={(params) => <TextField {...params} label={"Select"} />}
+                />
+            </Stack>
+            <Stack sx={{width: 1060}} direction="column">
+                <p style={{textAlign: 'center', fontWeight: 'bold'}}>Goals for</p>
+                <Autocomplete
+                    disablePortal
+                    defaultValue={goalType[0]}
+                    disableClearable
+                    options={goalType}
+                    onChange={(_, value) => filterEvents("goaltypefor", value)}
+                    sx={{width: 160}}
+                    renderInput={(params) => <TextField {...params} label={"Select"} />}
+                />
+            </Stack>
+            <Stack sx={{width: 1060}} direction="column">
+                <p style={{textAlign: 'center', fontWeight: 'bold'}}>Goals against</p>
+                <Autocomplete
+                    disablePortal
+                    disableClearable
+                    defaultValue={goalType[0]}
+                    options={goalType}
+                    onChange={(_, value) => filterEvents("goaltypeagainst", value)}
+                    sx={{width: 160}}
+                    renderInput={(params) => <TextField {...params} label={"Select"} />}
+                />
+            </Stack>
         </Stack>
     );
 };

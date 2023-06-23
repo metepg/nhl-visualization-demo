@@ -1,5 +1,5 @@
 import React from 'react';
-import {GameEvent} from "../../interfaces.ts";
+import {GameEvent} from "../../interfaces/CustomData.ts";
 import styles from './Timeline.module.css'
 
 interface TimelineProps {

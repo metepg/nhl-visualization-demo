@@ -1,5 +1,3 @@
-import {Team} from "./interfaces.ts";
-
 interface GameData {
     game: number;
     date: string;
@@ -13,15 +11,6 @@ interface Event {
     timeInSeconds: number;
     goalType?: string | null;
 }
-
-const teams: Team[] = [
-    { name: 'Anaheim Ducks', players: ["All players", '9 Teemu Selänne'] },
-    { name: 'Arizona Coyotes', players: ["All players", '22 Keith Tkachuk'] },
-    { name: 'Boston Bruins', players: ["All players", '34 Brendan Shanahan'] },
-    { name: 'Buffalo Sabres', players: ["All players", '1 Tommy Salo'] },
-    { name: 'Calgary Flames', players: ["All players",'13 Eric Lindroos'] },
-    { name: 'Carolina Hurricanes', players: ["All players", "18 Jack Drury", "21 Derek Stepan", "24 Seth Jarvis", "71 Jesper Fast", "82 Jesperi Kotkaniemi", "86 Teuvo Teräväinen", "88 Martin Necas",] },
-];
 
 const gameData: GameData[] = [
     {
@@ -173,4 +162,4 @@ const gameData: GameData[] = [
     }
 ];
 
-export default {gameData, teams};
+export default {gameData};
