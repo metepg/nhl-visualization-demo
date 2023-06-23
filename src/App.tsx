@@ -14,7 +14,7 @@ const App: React.FC = () => {
     const season = ['Regular Season 2022-23', 'Post-Season 2022-23'];
     const goalType = ['All goals', 'Power-play', 'Short-handed', 'Empty-net', 'Game-winning'];
     const [filters, setFilters] = useState<Filters>({
-        team: 'Anaheim Ducks',
+        team: 'Carolina Hurricanes',
         player: '9999', // This is the value for 'All players'
         season: 'Regular Season 2022-23',
         goaltypefor: 'All goals',

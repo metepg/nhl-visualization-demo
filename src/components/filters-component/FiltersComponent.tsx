@@ -71,7 +71,7 @@ const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, set
                     disablePortal
                     disableClearable
                     getOptionLabel={(option: string) => option}
-                    defaultValue={teamNames ? teamNames[0] : ''}
+                    defaultValue={teamNames ? teamNames[5] : ''}
                     options={teamNames ? teamNames : []}
                     onChange={(_, value) => filterEvents("team", value)}
                     sx={{width: 240}}
