@@ -20,7 +20,7 @@ interface Filters {
     goaltypeagainst?: string | null;
 }
 
-interface Team {
+interface Team2 {
     name: string;
     players: string[];
 }
@@ -30,5 +30,5 @@ export type {
     Filters,
     GameEvent,
     GameData,
-    Team
+    Team2
 }

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styles from './Content.module.css'
 import Timeline from "../timeline/Timeline.tsx";
-import {Filters, GameEvent} from "../../interfaces.ts";
+import {Filters, GameEvent} from "../../interfaces/CustomData.ts";
 import Circle from "../circle/Circle.tsx";
 import Result from "../result/Result.tsx";
 
@@ -25,9 +25,9 @@ const Content: React.FC<ContentProps> = ({events, date, filters}) => {
 
 
     useEffect(() => {
-        const filteredEvents = events.filter((event) => {
+        const filteredEvents = events.filter((event: GameEvent): boolean => {
             // Filter by player
-            if (filters.player !== "All players" && event.player?.toString() !== filters.player) {
+            if (filters.player !== "9999" && event.player?.toString() !== filters.player) {
                 return false;
             }
 
@@ -36,7 +36,7 @@ const Content: React.FC<ContentProps> = ({events, date, filters}) => {
                 return false;
             }
 
-            // Filter by goal type against
+            // TODO: Filter by goal type against
             if (filters.goaltypeagainst !== "All goals" && filters.goaltypeagainst !== "AG" && event.goalType === filters.goaltypeagainst) {
                 return false;
             }
