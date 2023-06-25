@@ -12,7 +12,6 @@ const NowVisualizing: React.FC<NowVisualizingProps> = ({filters}) => {
     const goaltypefor = filters.goaltypefor;
     const goaltypeagainst = filters.goaltypeagainst;
     const selectedPlayer = team?.roster.roster.find((player): boolean => player.person.id === filters.player)
-    console.log(selectedPlayer)
     let playerName;
     if (!selectedPlayer) playerName = 'All players';
     else playerName = selectedPlayer?.person.fullName;
@@ -22,11 +21,11 @@ const NowVisualizing: React.FC<NowVisualizingProps> = ({filters}) => {
             <div className={styles.visualizeText}><p>NOW VISUALIZING</p></div>
             <div className={styles.visualizingInfo}>
                 <p>
-                    {`${team?.name.toUpperCase()} >
-                    ${playerName.toUpperCase()} >
-                    ${season?.toUpperCase()} >
-                    ${goaltypefor?.toUpperCase()} FOR >
-                    ${goaltypeagainst?.toUpperCase()} AGAINST`}
+                    <span style={{paddingRight: '10px'}}>{`${team?.name.toUpperCase()}`}&nbsp; &gt;</span>
+                    <span style={{paddingRight: '10px'}}>{`${playerName?.toUpperCase()}`}&nbsp; &gt;</span>
+                    <span style={{paddingRight: '10px'}}>{`${season?.toUpperCase()}`}&nbsp; &gt;</span>
+                    <span style={{paddingRight: '10px'}}>{`${goaltypefor?.toUpperCase()} FOR`}&nbsp; &gt;</span>
+                    <span style={{paddingRight: '10px'}}>{`${goaltypeagainst?.toUpperCase()} AGAINST`}&nbsp; &gt;</span>
                 </p>
             </div>
         </div>
