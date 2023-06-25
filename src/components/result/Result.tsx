@@ -24,8 +24,6 @@ const Circle: React.FC<ResultProps> = ({ game, filters }) => {
     }
 
     if (opposingTeamGoals) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         winner = selectedTeamName && scores[selectedTeamName] > opposingTeamGoals;
     }
 
