@@ -1,87 +1,95 @@
 import React, {useEffect, useState} from "react";
 import styles from './Content.module.css'
 import Timeline from "../timeline/Timeline.tsx";
-import {Filters, GameEvent} from "../../interfaces/CustomData.ts";
+import {Filters} from "../../interfaces/CustomData.ts";
 import Circle from "../circle/Circle.tsx";
 import Result from "../result/Result.tsx";
+import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
+import {formatDate} from "../../utils.ts";
 
 
 interface ContentProps {
-    events: GameEvent[];
-    date: string;
-    filters: Filters
+    events: FilteredGame;
+    filters: Filters;
 }
 
-const Content: React.FC<ContentProps> = ({events, date, filters}) => {
-    const [filteredGameEvents, setFilteredGameEvents] = useState<GameEvent[]>(events);
-    const homeGoals = events.filter((e) => !!e.player).length;
-    const awayGoals = events.length - homeGoals;
-    const winner = homeGoals > awayGoals ? 'home' : 'away';
+const Content: React.FC<ContentProps> = ({events, filters}) => {
+    const [filteredGameEvents, setFilteredGameEvents] = useState<Goal[]>(events.goals);
 
-    const period1 = filteredGameEvents.filter((e) => e.period === 1);
-    const period2 = filteredGameEvents.filter((e) => e.period === 2);
-    const period3 = filteredGameEvents.filter((e) => e.period === 3);
-    const overtime = filteredGameEvents.filter((e) => e.period === 4);
+    // TODO: Make this better
+    const period1: Goal[] = filteredGameEvents.filter((goal: Goal): boolean => goal.period === '1');
+    const period2: Goal[] = filteredGameEvents.filter((goal: Goal): boolean => goal.period === '2');
+    const period3: Goal[] = filteredGameEvents.filter((goal: Goal): boolean => goal.period === '3');
+    const overtime: Goal[] = filteredGameEvents.filter((goal: Goal): boolean => goal.period === 'OT');
 
+    console.log(events)
 
     useEffect(() => {
-        const filteredEvents = events.filter((event: GameEvent): boolean => {
-            // Filter by player
-            if (filters.player !== "9999" && event.player?.toString() !== filters.player) {
+        const filteredEvents: Goal[] = events.goals.filter((goal: Goal): boolean => {
+            // By player
+            if (filters.player !== 999 && filters.player !== goal.scorer.playerId) {
                 return false;
             }
 
             // Filter by goal type for
-            if (filters.goaltypefor !== "All goals" && filters.goaltypefor !== 'AG'  && event.goalType !== filters.goaltypefor) {
+            if (
+                filters.goaltypefor !== 'All goals' &&
+                filters.goaltypefor !== 'AG' &&
+                goal.strength !== filters.goaltypefor
+            ) {
                 return false;
             }
 
-            // TODO: Filter by goal type against
-            if (filters.goaltypeagainst !== "All goals" && filters.goaltypeagainst !== "AG" && event.goalType === filters.goaltypeagainst) {
+            // Filter by goal type against
+            if (
+                filters.goaltypeagainst !== 'All goals' &&
+                filters.goaltypeagainst !== 'AG' &&
+                goal.strength === filters.goaltypeagainst
+            ) {
                 return false;
             }
 
             return true;
-        });
+        })
         setFilteredGameEvents(filteredEvents);
     }, [events, filters])
 
     return (
         <div className={styles.container}>
             <div className={styles.column}>
-                <div className={styles.content}>{date}</div>
+                <div className={styles.content}>{formatDate(events.startTime)}</div>
             </div>
             <div className={styles.column}>
-                <div className={styles.content}>CAR-FLO</div>
+                <div className={styles.content}>{`${events.teams.home.abbreviation}-${events.teams.away.abbreviation}`}</div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline events={period1}/>
+                    <Timeline goals={period1} filters={filters}/>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline events={period2}/>
+                    <Timeline goals={period2} filters={filters}/>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline events={period3}/>
+                    <Timeline goals={period3} filters={filters}/>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline events={overtime} shootout={true}/>
+                    <Timeline goals={overtime} filters={filters} shootout={true}/>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Circle winner={winner}></Circle>
+                    <Circle shootout={events.scores.shootout}></Circle>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Result events={events} />
+                    <Result game={events} filters={filters}/>
                 </div>
             </div>
             <div className={styles.column}>

@@ -16,21 +16,33 @@ interface FiltersProps {
 
 const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, setFilters, selectedTeam, teams, season, goalType}) => {
     const [players, setPlayers] = useState<Roster[] | undefined>();
-    const teamNames: string[] | undefined = teams?.map((t: Team) => t.name).sort();
+    teams?.sort(function (a: Team, b: Team): number {
+        const nameA = a.name.toUpperCase(); // Convert the name to uppercase for case-insensitive sorting
+        const nameB = b.name.toUpperCase();
+
+        if (nameA < nameB) {
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    });
+
     const allPlayersObject: Roster = {
         person: {id: 999, fullName: 'All players',  link: ''},
         position: {code: '', type: '', abbreviation: '', name: ''},
-        jerseyNumber: '9999'
+        jerseyNumber: '999'
     };
     const playerOptions: Roster[] = players ? [allPlayersObject].concat(players.map((player: Roster) => player)) : [allPlayersObject];
 
     useEffect(() => {
-        const team: Team | undefined = teams?.find((t: Team) => t.name === filters.team);
+        const team: Team | undefined = teams?.find((t: Team) => t.id === filters.teamId);
 
         // TODO: Should reset player names selection but doesnt
-        if (filters.team !== selectedTeam?.name) {
+        if (filters.teamId !== selectedTeam?.id) {
             const sortedPlayers = team?.roster.roster.sort((a: Roster,b: Roster) => {
-                return a.person.fullName.toLowerCase() > b.person.fullName.toLowerCase() ? 1 : -1;
+                return a.jerseyNumber - b.jerseyNumber;
             })
             setPlayers(sortedPlayers);
         }
@@ -40,22 +52,23 @@ const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, set
         value = value.toLowerCase().replace(/[^a-z]/g, '');
         const shortened: { [key: string]: string } = {
             allgoals: 'AG',
-            powerplay: 'PP',
-            shorthanded: 'SH',
+            powerplay: 'PPG',
+            shorthanded: 'SHG',
             emptynet: 'EN',
             gamewinning: 'GW'
         };
         return shortened[value];
     }
 
-    function filterEvents(key: string, value: any): void {
-        if (key === 'goaltypefor' || key === 'goaltypeagainst') value = shortenValueName(value);
+    function filterEvents(key: string, value: string | number | undefined): void {
+        if (!value) return;
+        if (key === 'goaltypefor' || key === 'goaltypeagainst') value = shortenValueName(value.toString());
         const updatedFilters: Filters = { ...filters, [key]: value };
         setFilters(updatedFilters);
     }
 
     const getPlayerLabel = (value: string): string => {
-        return value.includes('9999') ? value.replace(/[0-9]/g, '').trim() : value;
+        return value.includes('999') ? value.replace(/[0-9]/g, '').trim() : value;
     }
 
     return (
@@ -70,10 +83,10 @@ const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, set
                 <Autocomplete
                     disablePortal
                     disableClearable
-                    getOptionLabel={(option: string) => option}
-                    defaultValue={teamNames ? teamNames[5] : ''}
-                    options={teamNames ? teamNames : []}
-                    onChange={(_, value) => filterEvents("team", value)}
+                    getOptionLabel={(option: Team) => option.name}
+                    defaultValue={teams ? teams[5] : undefined}
+                    options={teams ? teams : []}
+                    onChange={(_, team: Team) => filterEvents("teamId", team.id)}
                     sx={{width: 240}}
                     renderInput={(params) => <TextField {...params} label={"Select"} />}
                 />
@@ -84,9 +97,9 @@ const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, set
                     disablePortal
                     disableClearable
                     defaultValue={allPlayersObject}
-                    getOptionLabel={(option: Roster) => getPlayerLabel(`${option.person.fullName} ${option.jerseyNumber} `)}
+                    getOptionLabel={(option: Roster) => getPlayerLabel(`${option.jerseyNumber} ${option.person.fullName}`)}
                     options={playerOptions}
-                    onChange={(_, value) => filterEvents("player", value.jerseyNumber)}
+                    onChange={(_, player) => filterEvents("player", player.person.id)}
                     sx={{width: 240}}
                     renderInput={(params) => <TextField {...params} label={"Select player"} />}
                 />
