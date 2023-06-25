@@ -1,0 +1,54 @@
+# Simple workflow for building and reporting status
+
+name: Build and Report Status
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches:
+      - ['master']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        id: build
+        run: npm run build
+        continue-on-error: true
+
+      - name: Report build status
+        if: ${{ failure() }}
+        run: |
+          echo "Build failed"
+          echo "::set-output name=status::failure"
+          # Report build status using GitHub API
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"state": "failure", "context": "Build"}' \
+            "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}"
+
+      - name: Report build success
+        if: ${{ success() }}
+        run: |
+          echo "Build succeeded"
+          echo "::set-output name=status::success"
+          # Report build status using GitHub API
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -d '{"state": "success", "context": "Build"}' \
+            "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }}"
