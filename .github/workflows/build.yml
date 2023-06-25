@@ -5,8 +5,7 @@ name: Build and Report Status
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches:
-      - ['master']
+    branches: ['master']
 
 jobs:
   build:
