@@ -4,7 +4,7 @@ name: Deploy static content to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: [ 'master' ]
+    branches: ['master']
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -38,16 +38,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build
-        id: build
-        run: |
-          npm run build
-          build_exit_code=$?
-          if [ $build_exit_code -ne 0 ]; then
-          echo "Build failed with exit code $build_exit_code"
-          exit $build_exit_code
-          fi
-      - name: Check build status
-        run: echo "Build succeeded"
+        run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
@@ -58,19 +49,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
-
-    # Add a conditional step to stop the merge if the build fails
-    outputs:
-      build-successful: ${{ steps.build.outcome == 'success' }}
-
-  # Add a final step that checks the build status and stops the merge if it failed
-  deploy-check:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check build status
-        run: |
-          if [[ "${{ needs.deploy.outputs.build-successful }}" != "true" ]]; then
-            echo "Build failed. Preventing merge."
-            exit 1
-          fi
