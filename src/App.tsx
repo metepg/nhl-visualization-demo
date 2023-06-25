@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './styles.css';
-import data from "./data"
 import ContentHeader from "./components/content-header/ContentHeader.tsx";
-import {Filters, GameData} from "./interfaces/CustomData.ts";
+import {Filters} from "./interfaces/CustomData.ts";
 import Content from "./components/content/Content.tsx";
 import FiltersComponent from "./components/filters-component/FiltersComponent.tsx";
 import {getTeamData} from "./services/teamService.ts";
@@ -15,7 +14,6 @@ const App: React.FC = () => {
     const season = ['Regular Season 2022-23', 'Post-Season 2022-23'];
     const goalType = ['All goals', 'Power-play', 'Short-handed', 'Empty-net', 'Game-winning'];
     const [teams, setTeams] = useState<Team[]>();
-    const [gameData, setGameData] = useState<FilteredGame[]>();
     const [filters, setFilters] = useState<Filters>({
         team: teams ? teams[5] : null,
         teamId: 12,
@@ -24,10 +22,9 @@ const App: React.FC = () => {
         goaltypefor: 'All goals',
         goaltypeagainst: 'All goals'
     });
-    const [filteredData, setFilteredData] = useState<GameData[]>([]);
+    const [filteredData, setFilteredData] = useState<FilteredGame[]>([]);
     const chosen: Team | undefined = teams?.find((t: Team): boolean => t.id === filters.teamId);
     const [selectedTeam, setSelectedTeam] = useState<Team | undefined>(chosen);
-    const gamezData: FilteredGame[] = getGameDataById(filters.teamId);
 
     useEffect(() => {
         (async () => {
@@ -42,13 +39,13 @@ const App: React.FC = () => {
 
     useEffect(() => {
         const team: Team | undefined = teams?.find((t: Team): boolean => t.id === filters.teamId);
-        const filteredData: GameData[] = data.gameData.filter((game: GameData): boolean => game.team === team?.name);
+        const gamezData: FilteredGame[] = getGameDataById(filters.teamId);
         setSelectedTeam(team);
-        setFilteredData(filteredData);
+        setFilteredData(gamezData);
         if (selectedTeam) {
             filters.team = selectedTeam;
         }
-    }, [selectedTeam ,gameData, teams, filters])
+    }, [selectedTeam , teams, filters])
 
 
 
@@ -64,7 +61,7 @@ const App: React.FC = () => {
                 filters={filters}
                 teams={teams}/>
             <ContentHeader/>
-            {gamezData.map((game: FilteredGame) =>
+            {filteredData.map((game: FilteredGame) =>
                 <Content filters={filters} key={game.startTime} events={game} />
             )}
         </div>

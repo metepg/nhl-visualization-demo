@@ -22,8 +22,6 @@ const Content: React.FC<ContentProps> = ({events, filters}) => {
     const period3: Goal[] = filteredGameEvents.filter((goal: Goal): boolean => goal.period === '3');
     const overtime: Goal[] = filteredGameEvents.filter((goal: Goal): boolean => goal.period === 'OT');
 
-    console.log(events)
-
     useEffect(() => {
         const filteredEvents: Goal[] = events.goals.filter((goal: Goal): boolean => {
             // By player
