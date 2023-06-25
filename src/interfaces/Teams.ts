@@ -63,7 +63,7 @@ export interface RosterObj {
 
 export interface Roster {
     person: Person
-    jerseyNumber?: string
+    jerseyNumber: string
     position: Position
 }
 
