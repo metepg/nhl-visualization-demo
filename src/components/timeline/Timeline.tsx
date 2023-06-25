@@ -3,7 +3,7 @@ import {Filters} from "../../interfaces/CustomData.ts";
 import styles from './Timeline.module.css'
 import {Goal} from "../../interfaces/GameData.ts";
 import {timeInSeconds} from "../../utils.ts";
-import {Roster} from "../../interfaces/Teams.ts";
+import {PlayerInfo} from "../../interfaces/Teams.ts";
 
 interface TimelineProps {
     filters: Filters
@@ -32,7 +32,7 @@ const Timeline: React.FC<TimelineProps> = ({goals, shootout, filters}) => {
                      backgroundColor: isSelectedTeam ? 'var(--red)' : 'var(--black)'}}
             >
                 <span className={styles.eventText}>{isSelectedTeam ? filters?.team?.roster?.roster
-                    .find((player: Roster): boolean => player.person.id === goal.scorer.playerId)?.jerseyNumber : ''}</span>
+                    .find((player: PlayerInfo): boolean => player.person.id === goal.scorer.playerId)?.jerseyNumber : ''}</span>
             </div>
         )
     })

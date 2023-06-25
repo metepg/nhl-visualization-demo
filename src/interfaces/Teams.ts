@@ -57,11 +57,11 @@ export interface Franchise {
 }
 
 export interface RosterObj {
-    roster: Roster[]
+    roster: PlayerInfo[]
     link: string
 }
 
-export interface Roster {
+export interface PlayerInfo {
     person: Person
     jerseyNumber: string
     position: Position

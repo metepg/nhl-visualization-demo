@@ -1,52 +1,36 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {Autocomplete, Stack, TextField} from "@mui/material";
 import {Filters} from "../../interfaces/CustomData.ts";
-import {Roster, Team} from "../../interfaces/Teams.ts";
+import {PlayerInfo, Team} from "../../interfaces/Teams.ts";
+import {ALL_PLAYERS_OBJECT} from "../../constants/defaultValues.ts";
 
 interface FiltersProps {
-    selectedTeam?: Team;
-    teams: Team[] | undefined;
     filters: Filters;
+    goalType: string[];
+    season: string[];
+    selectedTeam?: Team;
     setFilters: Dispatch<SetStateAction<Filters>>;
     setSelectedTeam: Dispatch<SetStateAction<Team | undefined>>;
-    season: string[];
-    goalType: string[];
+    teams: Team[] | undefined;
 }
 
 
 const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, setFilters, selectedTeam, teams, season, goalType}) => {
-    const [players, setPlayers] = useState<Roster[] | undefined>();
-    teams?.sort(function (a: Team, b: Team): number {
-        const nameA = a.name.toUpperCase(); // Convert the name to uppercase for case-insensitive sorting
-        const nameB = b.name.toUpperCase();
-
-        if (nameA < nameB) {
-            return -1;
-        }
-        if (nameA > nameB) {
-            return 1;
-        }
-        return 0;
-    });
-
-    const allPlayersObject: Roster = {
-        person: {id: 999, fullName: 'All players',  link: ''},
-        position: {code: '', type: '', abbreviation: '', name: ''},
-        jerseyNumber: '999'
-    };
-    const playerOptions: Roster[] = players ? [allPlayersObject].concat(players.map((player: Roster) => player)) : [allPlayersObject];
+    const [players, setPlayers] = useState<PlayerInfo[] | undefined>();
+    teams?.sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
+    const playerOptions: PlayerInfo[] = players
+        ? [ALL_PLAYERS_OBJECT].concat(players.map((player: PlayerInfo) => player))
+        : [ALL_PLAYERS_OBJECT];
 
     useEffect(() => {
-        const team: Team | undefined = teams?.find((t: Team) => t.id === filters.teamId);
+        const team = teams?.find(t => t.id === filters.teamId);
 
         // TODO: Should reset player names selection but doesnt
         if (filters.teamId !== selectedTeam?.id) {
-            const sortedPlayers = team?.roster.roster.sort((a: Roster,b: Roster) => {
-                return Number(a.jerseyNumber) - Number(b.jerseyNumber);
-            })
+            const sortedPlayers = team?.roster.roster.sort((a, b) => Number(a.jerseyNumber) - Number(b.jerseyNumber));
             setPlayers(sortedPlayers);
         }
-    }, [selectedTeam, teams, filters, setSelectedTeam])
+    }, [selectedTeam, teams, filters, setSelectedTeam]);
 
     function filterEvents(key: string, value: string | number | undefined): void {
         if (!value) return;
@@ -83,8 +67,8 @@ const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, set
                 <Autocomplete
                     disablePortal
                     disableClearable
-                    defaultValue={allPlayersObject}
-                    getOptionLabel={(option: Roster) => getPlayerLabel(`${option.jerseyNumber} ${option.person.fullName}`)}
+                    defaultValue={ALL_PLAYERS_OBJECT}
+                    getOptionLabel={(option: PlayerInfo) => getPlayerLabel(`${option.jerseyNumber} ${option.person.fullName}`)}
                     options={playerOptions}
                     onChange={(_, player) => filterEvents("player", player.person.id)}
                     sx={{width: 240}}

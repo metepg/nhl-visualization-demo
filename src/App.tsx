@@ -9,23 +9,27 @@ import {Team} from "./interfaces/Teams.ts";
 import {getGameDataById} from "./services/gameDataService.ts";
 import {FilteredGame} from "./interfaces/GameData.ts";
 import NowVisualizing from "./components/now-visualizing/NowVisualizing.tsx";
+import {
+    DEFAULT_GOAL_TYPE_AGAINST,
+    DEFAULT_GOAL_TYPE_FOR,
+    DEFAULT_PLAYER,
+    DEFAULT_SEASON,
+    DEFAULT_TEAM_ID, GOAL_TYPE, SEASON
+} from "./constants/defaultValues.ts";
 
 
 const App: React.FC = () => {
-    const season = ['Regular Season 2022-23', 'Post-Season 2022-23'];
-    const goalType = ['All goals', 'Power-play', 'Short-handed', 'Empty-net', 'Game-winning'];
     const [teams, setTeams] = useState<Team[]>();
     const [filters, setFilters] = useState<Filters>({
         team: teams ? teams[5] : null,
-        teamId: 12,
-        player: 999, // Value for 'All players'
-        season: 'Regular Season 2022-23',
-        goaltypefor: 'All goals',
-        goaltypeagainst: 'All goals'
+        teamId: DEFAULT_TEAM_ID,
+        player: DEFAULT_PLAYER,
+        season: DEFAULT_SEASON,
+        goaltypefor: DEFAULT_GOAL_TYPE_FOR,
+        goaltypeagainst: DEFAULT_GOAL_TYPE_AGAINST
     });
     const [filteredData, setFilteredData] = useState<FilteredGame[]>([]);
-    const chosen: Team | undefined = teams?.find((t: Team): boolean => t.id === filters.teamId);
-    const [selectedTeam, setSelectedTeam] = useState<Team | undefined>(chosen);
+    const [selectedTeam, setSelectedTeam] = useState<Team | undefined>();
 
     useEffect(() => {
         (async () => {
@@ -40,35 +44,38 @@ const App: React.FC = () => {
 
     useEffect(() => {
         const team: Team | undefined = teams?.find((t: Team): boolean => t.id === filters.teamId);
-        const gamezData: FilteredGame[] = getGameDataById(filters.teamId);
+        const gameData: FilteredGame[] = getGameDataById(filters.teamId);
+
+        if (selectedTeam) filters.team = selectedTeam;
+
         setSelectedTeam(team);
-        setFilteredData(gamezData);
-        if (selectedTeam) {
-            filters.team = selectedTeam;
-        }
-    }, [selectedTeam , teams, filters])
+        setFilteredData(gameData);
+    }, [selectedTeam, teams, filters])
 
 
     return (
         !teams ? null :
-            <>
-                <div className="content-wrapper">
-                    <FiltersComponent
-                        selectedTeam={selectedTeam}
-                        setFilters={setFilters}
-                        setSelectedTeam={setSelectedTeam}
-                        season={season}
-                        goalType={goalType}
-                        filters={filters}
-                        teams={teams}/>
-                    <hr/>
-                    <NowVisualizing filters={filters} />
-                    <ContentHeader/>
-                    {filteredData.map((game: FilteredGame) =>
-                        <Content filters={filters} key={game.startTime} events={game}/>
-                    )}
-                </div>
-            </>
+            <div className="content-wrapper">
+                {/*Filters*/}
+                <FiltersComponent
+                    selectedTeam={selectedTeam}
+                    setFilters={setFilters}
+                    setSelectedTeam={setSelectedTeam}
+                    season={SEASON}
+                    goalType={GOAL_TYPE}
+                    filters={filters}
+                    teams={teams}/>
+                <hr/>
+
+                {/*Selected Filters text*/}
+                <NowVisualizing filters={filters}/>
+
+                {/*Game data with headers*/}
+                <ContentHeader/>
+                {filteredData.map((game: FilteredGame) =>
+                    <Content filters={filters} key={game.startTime} events={game}/>
+                )}
+            </div>
     );
 };
 
