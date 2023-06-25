@@ -9,3 +9,15 @@ export const timeInSeconds = ( minutes: number | undefined, seconds: number | un
     return minutes * 60 + seconds;
 }
 
+export const shortenGoalTypeName = (value: string | null | undefined): string => {
+    if (!value) return '';
+    value = value?.toLowerCase().replace(/[^a-z]/g, '');
+    const shortened: { [key: string]: string } = {
+        allgoals: 'AG',
+        powerplay: 'PPG',
+        shorthanded: 'SHG',
+        emptynet: 'EN',
+        gamewinning: 'GW'
+    };
+    return shortened[value];
+}

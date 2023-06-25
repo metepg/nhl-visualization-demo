@@ -5,7 +5,7 @@ import {Filters} from "../../interfaces/CustomData.ts";
 import Circle from "../circle/Circle.tsx";
 import Result from "../result/Result.tsx";
 import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
-import {formatDate} from "../../utils.ts";
+import {formatDate, shortenGoalTypeName} from "../../utils.ts";
 
 
 interface ContentProps {
@@ -30,20 +30,12 @@ const Content: React.FC<ContentProps> = ({events, filters}) => {
             }
 
             // Filter by goal type for
-            if (
-                filters.goaltypefor !== 'All goals' &&
-                filters.goaltypefor !== 'AG' &&
-                goal.strength !== filters.goaltypefor
-            ) {
+            if (filters?.goaltypefor !== 'All goals' && goal.strength !== shortenGoalTypeName(filters.goaltypefor)) {
                 return false;
             }
 
             // Filter by goal type against
-            if (
-                filters.goaltypeagainst !== 'All goals' &&
-                filters.goaltypeagainst !== 'AG' &&
-                goal.strength === filters.goaltypeagainst
-            ) {
+            if (filters.goaltypeagainst !== 'All goals' && shortenGoalTypeName(filters.goaltypeagainst) === goal.strength) {
                 return false;
             }
 

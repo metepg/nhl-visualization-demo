@@ -48,21 +48,8 @@ const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, set
         }
     }, [selectedTeam, teams, filters, setSelectedTeam])
 
-    function shortenValueName(value: string): string {
-        value = value.toLowerCase().replace(/[^a-z]/g, '');
-        const shortened: { [key: string]: string } = {
-            allgoals: 'AG',
-            powerplay: 'PPG',
-            shorthanded: 'SHG',
-            emptynet: 'EN',
-            gamewinning: 'GW'
-        };
-        return shortened[value];
-    }
-
     function filterEvents(key: string, value: string | number | undefined): void {
         if (!value) return;
-        if (key === 'goaltypefor' || key === 'goaltypeagainst') value = shortenValueName(value.toString());
         const updatedFilters: Filters = { ...filters, [key]: value };
         setFilters(updatedFilters);
     }
