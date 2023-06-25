@@ -8,6 +8,7 @@ import {getTeamData} from "./services/teamService.ts";
 import {Team} from "./interfaces/Teams.ts";
 import {getGameDataById} from "./services/gameDataService.ts";
 import {FilteredGame} from "./interfaces/GameData.ts";
+import NowVisualizing from "./components/now-visualizing/NowVisualizing.tsx";
 
 
 const App: React.FC = () => {
@@ -48,23 +49,26 @@ const App: React.FC = () => {
     }, [selectedTeam , teams, filters])
 
 
-
     return (
         !teams ? null :
-        <div className="content-wrapper">
-            <FiltersComponent
-                selectedTeam={selectedTeam}
-                setFilters={setFilters}
-                setSelectedTeam={setSelectedTeam}
-                season={season}
-                goalType={goalType}
-                filters={filters}
-                teams={teams}/>
-            <ContentHeader/>
-            {filteredData.map((game: FilteredGame) =>
-                <Content filters={filters} key={game.startTime} events={game} />
-            )}
-        </div>
+            <>
+                <div className="content-wrapper">
+                    <FiltersComponent
+                        selectedTeam={selectedTeam}
+                        setFilters={setFilters}
+                        setSelectedTeam={setSelectedTeam}
+                        season={season}
+                        goalType={goalType}
+                        filters={filters}
+                        teams={teams}/>
+                    <hr/>
+                    <NowVisualizing filters={filters} />
+                    <ContentHeader/>
+                    {filteredData.map((game: FilteredGame) =>
+                        <Content filters={filters} key={game.startTime} events={game}/>
+                    )}
+                </div>
+            </>
     );
 };
 

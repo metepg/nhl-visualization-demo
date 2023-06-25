@@ -76,7 +76,7 @@ const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, set
             direction="row"
             justifyContent="space-evenly"
             spacing={1}
-            mb={5}
+            mb={20}
         >
             <Stack sx={{width: 1060}} direction="column">
                 <p style={{textAlign: 'center', fontWeight: 'bold'}}>Team</p>
