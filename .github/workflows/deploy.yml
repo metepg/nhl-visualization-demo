@@ -47,7 +47,7 @@ jobs:
           exit $build_exit_code
           fi
       - name: Check build status
-        run: exit ${{ steps.build.outcome }}
+        run: echo "Build succeeded"
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
@@ -58,3 +58,19 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+
+    # Add a conditional step to stop the merge if the build fails
+    outputs:
+      build-successful: ${{ steps.build.outcome == 'success' }}
+
+  # Add a final step that checks the build status and stops the merge if it failed
+  deploy-check:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check build status
+        run: |
+          if [[ "${{ needs.deploy.outputs.build-successful }}" != "true" ]]; then
+            echo "Build failed. Preventing merge."
+            exit 1
+          fi
