@@ -1,6 +1,6 @@
 export const formatDate = (dateString: string): string => {
     const date: Date = new Date(dateString);
-    const monthAbbreviation: string = date.toLocaleString('default', { month: 'short' });
+    const monthAbbreviation: string = date.toLocaleString('en-US', { month: 'short' }).toUpperCase();
     const day: number = date.getDate();
     return `${monthAbbreviation} ${day}`;
 }
