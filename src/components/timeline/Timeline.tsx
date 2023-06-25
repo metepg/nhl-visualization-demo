@@ -28,6 +28,7 @@ const Timeline: React.FC<TimelineProps> = ({goals, shootout, filters}) => {
                      left: `${getCirclePosition(timeInSeconds(goal.min, goal.sec))}%`,
                      width: isSelectedTeam ? '25px' : '12.5px',
                      height: isSelectedTeam ? '25px' : '12.5px',
+                     fontWeight: "normal",
                      backgroundColor: isSelectedTeam ? 'var(--red)' : 'var(--black)'}}
             >
                 <span className={styles.eventText}>{isSelectedTeam ? filters?.team?.roster?.roster
