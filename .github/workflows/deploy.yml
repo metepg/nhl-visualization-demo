@@ -38,7 +38,14 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build
-        run: npm run build
+        id: build
+        run: |
+          npm run build
+          build_exit_code=$?
+          if [ $build_exit_code -ne 0 ]; then
+            echo "Build failed with exit code $build_exit_code"
+            exit $build_exit_code
+          fi
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
