@@ -7,29 +7,33 @@ import Content from "./components/content/Content.tsx";
 import FiltersComponent from "./components/filters-component/FiltersComponent.tsx";
 import {getTeamData} from "./services/teamService.ts";
 import {Team} from "./interfaces/Teams.ts";
+import {getGameDataById} from "./services/gameDataService.ts";
+import {FilteredGame} from "./interfaces/GameData.ts";
 
 
 const App: React.FC = () => {
-    const [teams, setTeams] = useState<Team[]>();
     const season = ['Regular Season 2022-23', 'Post-Season 2022-23'];
     const goalType = ['All goals', 'Power-play', 'Short-handed', 'Empty-net', 'Game-winning'];
+    const [teams, setTeams] = useState<Team[]>();
+    const [gameData, setGameData] = useState<FilteredGame[]>();
     const [filters, setFilters] = useState<Filters>({
-        team: 'Carolina Hurricanes',
-        player: '9999', // This is the value for 'All players'
+        team: teams ? teams[5] : null,
+        teamId: 12,
+        player: 999, // Value for 'All players'
         season: 'Regular Season 2022-23',
         goaltypefor: 'All goals',
         goaltypeagainst: 'All goals'
     });
-
     const [filteredData, setFilteredData] = useState<GameData[]>([]);
-    const chosen: Team | undefined = teams?.find((t: Team): boolean => t.name === filters.team);
+    const chosen: Team | undefined = teams?.find((t: Team): boolean => t.id === filters.teamId);
     const [selectedTeam, setSelectedTeam] = useState<Team | undefined>(chosen);
+    const gamezData: FilteredGame[] = getGameDataById(filters.teamId);
 
     useEffect(() => {
         (async () => {
             try {
-                const response = await getTeamData();
-                setTeams(response.data.teams);
+                const teamDataResponse = await getTeamData();
+                setTeams(teamDataResponse.data.teams);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -37,11 +41,16 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const team: Team | undefined = teams?.find((t: Team): boolean => t.name.toLowerCase() === filters.team?.toLowerCase());
-        const filteredData: GameData[] = data.gameData.filter((item: GameData)=> item.team === team?.name);
+        const team: Team | undefined = teams?.find((t: Team): boolean => t.id === filters.teamId);
+        const filteredData: GameData[] = data.gameData.filter((game: GameData): boolean => game.team === team?.name);
         setSelectedTeam(team);
         setFilteredData(filteredData);
-    }, [teams, filters])
+        if (selectedTeam) {
+            filters.team = selectedTeam;
+        }
+    }, [selectedTeam ,gameData, teams, filters])
+
+
 
     return (
         !teams ? null :
@@ -55,9 +64,9 @@ const App: React.FC = () => {
                 filters={filters}
                 teams={teams}/>
             <ContentHeader/>
-            {filteredData.map((gameData: GameData) => (
-                <Content filters={filters} key={gameData.game} events={gameData.events} date={gameData.date}/>
-            ))}
+            {gamezData.map((game: FilteredGame) =>
+                <Content filters={filters} key={game.startTime} events={game} />
+            )}
         </div>
     );
 };

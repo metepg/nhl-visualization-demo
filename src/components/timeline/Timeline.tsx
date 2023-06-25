@@ -1,13 +1,17 @@
 import React from 'react';
-import {GameEvent} from "../../interfaces/CustomData.ts";
+import {Filters} from "../../interfaces/CustomData.ts";
 import styles from './Timeline.module.css'
+import {Goal} from "../../interfaces/GameData.ts";
+import {timeInSeconds} from "../../utils.ts";
+import {Roster} from "../../interfaces/Teams.ts";
 
 interface TimelineProps {
-    events: GameEvent[];
-    shootout?: boolean
+    filters: Filters
+    goals: Goal[];
+    shootout?: boolean;
 }
 
-const Timeline: React.FC<TimelineProps> = ({events, shootout}) => {
+const Timeline: React.FC<TimelineProps> = ({goals, shootout, filters}) => {
     const getCirclePosition = (goalTime: number): string => {
         const minutes = 20;
         const periodDurationInSeconds: number = minutes * 60;
@@ -15,19 +19,26 @@ const Timeline: React.FC<TimelineProps> = ({events, shootout}) => {
         return circlePosition.toString();
     };
 
+    const goalEvent = goals.map((goal: Goal, index: number) => {
+        const isSelectedTeam: boolean = goal.team === filters?.team?.abbreviation;
+        return (
+            <div key={index} className={styles.circle}
+                 // TODO: Remove inline styles to css
+                 style={{
+                     left: `${getCirclePosition(timeInSeconds(goal.min, goal.sec))}%`,
+                     width: isSelectedTeam ? '25px' : '12.5px',
+                     height: isSelectedTeam ? '25px' : '12.5px',
+                     backgroundColor: isSelectedTeam ? 'var(--red)' : 'var(--black)'}}
+            >
+                <span className={styles.eventText}>{isSelectedTeam ? filters?.team?.roster?.roster
+                    .find((player: Roster): boolean => player.person.id === goal.scorer.playerId)?.jerseyNumber : ''}</span>
+            </div>
+        )
+    })
+
     return (
         <div className={styles.wrapper}>
-            {events.map((event: GameEvent, index: number) => (
-                <div key={index} className={styles.circle}
-                     style={{
-                         left: `${getCirclePosition(event.timeInSeconds)}%`,
-                         width: event.player ? '25px' : '12.5px',
-                         height: event.player ? '25px' : '12.5px',
-                         backgroundColor: event.player ? 'var(--red)' : 'var(--black)'}}
-                >
-                    <span className={styles.eventText}>{event?.player}</span>
-                </div>
-            ))}
+            {goalEvent}
             <div className={styles.timelineLine} style={{width: shootout ? '53px' : '212px'}}/>
         </div>
     );

@@ -1,3 +1,5 @@
+import {Team} from "./Teams.ts";
+
 interface GameEvent {
     player?: number;
     timeInSeconds: number;
@@ -13,8 +15,9 @@ interface GameData {
 }
 
 interface Filters {
-    team?: string | null;
-    player?: string | null;
+    team?: Team | null;
+    teamId?: number | null;
+    player?: number | null;
     season?: string | null;
     goaltypefor?: string | null;
     goaltypeagainst?: string | null;
