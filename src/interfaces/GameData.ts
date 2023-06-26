@@ -1253,3 +1253,7 @@ export interface FilteredGame {
     currentStats: CurrentStats
     gameStats: GameStats
 }
+
+export interface Periods {
+    [key: string]: Goal[];
+}

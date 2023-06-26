@@ -17,7 +17,6 @@ interface FiltersProps {
 
 const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, setFilters, selectedTeam, teams, season, goalType}) => {
     const [players, setPlayers] = useState<PlayerInfo[] | undefined>();
-    teams?.sort((a, b) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
     const playerOptions: PlayerInfo[] = players
         ? [ALL_PLAYERS_OBJECT].concat(players.map((player: PlayerInfo) => player))
         : [ALL_PLAYERS_OBJECT];

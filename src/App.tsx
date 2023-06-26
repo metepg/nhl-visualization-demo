@@ -16,6 +16,7 @@ import {
     DEFAULT_SEASON,
     DEFAULT_TEAM_ID, GOAL_TYPE, SEASON
 } from "./constants/defaultValues.ts";
+import {CircularProgress} from "@mui/material";
 
 
 const App: React.FC = () => {
@@ -35,7 +36,10 @@ const App: React.FC = () => {
         (async () => {
             try {
                 const teamDataResponse = await getTeamData();
-                setTeams(teamDataResponse.data.teams);
+                const teamsSortedAlphabetically = teamDataResponse.data.teams
+                    .sort((a: Team, b: Team) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
+
+                setTeams(teamsSortedAlphabetically);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -54,8 +58,11 @@ const App: React.FC = () => {
 
 
     return (
-        !teams ? null :
-            <div className="content-wrapper">
+        !teams ?
+            <div className='container'>
+                <CircularProgress/>
+            </div>
+            : <div className="content-wrapper">
                 {/*Filters*/}
                 <FiltersComponent
                     selectedTeam={selectedTeam}
