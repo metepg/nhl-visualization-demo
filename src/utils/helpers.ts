@@ -45,26 +45,20 @@ export const groupGoalsByPeriod = (goals: Goal[]): Periods => {
 }
 
 export const filterGoals = (goals: Goal[], filters: Filters) => {
-    const selectedTeam = filters.team?.abbreviation;
-    const goalTypeAgainst = shortenGoalTypeName(filters.goaltypeagainst);
-    return goals.filter((goal: Goal): boolean => {
-        const isPlayerSelected = filters.player !== 999 && filters.player !== goal.scorer.playerId;
+    const selectedTeam: string | undefined = filters.team?.abbreviation;
+    const goalTypeAgainst: string = shortenGoalTypeName(filters.goaltypeagainst);
+    const goalTypeFor: string = shortenGoalTypeName(filters.goaltypefor);
+    return goals.map((goal: Goal): Goal => {
+        const isPlayerSelected: boolean = filters.player === 999 || filters.player === goal.scorer.playerId;
+        const goalTypeSelectedTeam: boolean = filters.goaltypefor === 'All goals' || goalTypeFor === goal.strength;
+        const goalTypeOtherTeam: boolean = filters.goaltypeagainst === 'All goals' || goal.strength === goalTypeAgainst;
+        const isSelectedTeamsGoal: boolean = goal.team === selectedTeam;
 
-        // Filter by player
-        if (isPlayerSelected) return false;
-
-        // Filter selected team's goals based on goaltypefor
-        if (selectedTeam && filters.goaltypefor !== 'All goals' && goal.team === selectedTeam && goal.strength !== shortenGoalTypeName(filters.goaltypefor))
-            return false;
-
-        if (filters.goaltypeagainst !== 'All goals') {
-            // If selected team's goal, ignore the goaltypeagainst filter
-            if (selectedTeam && goal.team === selectedTeam) return true;
-
-            // Filter other teams' goals based on goaltypeagainst
-            return goal.strength === goalTypeAgainst && goal.team !== selectedTeam;
-        }
-
-        return true;
+        return {
+            ...goal,
+            showGoal:
+                (isSelectedTeamsGoal && isPlayerSelected && goalTypeSelectedTeam) ||
+                (!isSelectedTeamsGoal && goalTypeOtherTeam)
+        };
     });
-}
+};

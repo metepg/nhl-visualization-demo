@@ -22,7 +22,7 @@ import {CircularProgress} from "@mui/material";
 const App: React.FC = () => {
     const [teams, setTeams] = useState<Team[]>();
     const [filters, setFilters] = useState<Filters>({
-        team: teams ? teams[5] : null,
+        team: null,
         teamId: DEFAULT_TEAM_ID,
         player: DEFAULT_PLAYER,
         season: DEFAULT_SEASON,
@@ -40,6 +40,14 @@ const App: React.FC = () => {
                     .sort((a: Team, b: Team) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
 
                 setTeams(teamsSortedAlphabetically);
+                setFilters({
+                    team: teamsSortedAlphabetically[5],
+                    teamId: DEFAULT_TEAM_ID,
+                    player: DEFAULT_PLAYER,
+                    season: DEFAULT_SEASON,
+                    goaltypefor: DEFAULT_GOAL_TYPE_FOR,
+                    goaltypeagainst: DEFAULT_GOAL_TYPE_AGAINST
+                })
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -50,11 +58,14 @@ const App: React.FC = () => {
         const team: Team | undefined = teams?.find((t: Team): boolean => t.id === filters.teamId);
         const gameData: FilteredGame[] = getGameDataById(filters.teamId);
 
-        if (selectedTeam) filters.team = selectedTeam;
-
         setSelectedTeam(team);
         setFilteredData(gameData);
-    }, [selectedTeam, teams, filters])
+
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            team: selectedTeam ?? prevFilters.team
+        }));
+    }, [selectedTeam, teams, filters.teamId]);
 
 
     return (

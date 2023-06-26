@@ -21,6 +21,7 @@ const Timeline: React.FC<TimelineProps> = ({goals, shootout, filters}) => {
 
     const goalEvent = goals.map((goal: Goal, index: number) => {
         const isSelectedTeam: boolean = goal.team === filters?.team?.abbreviation;
+        const filterMatched: boolean | undefined = goal.showGoal;
         return (
             <div key={index} className={styles.circle}
                  // TODO: Remove inline styles to css
@@ -29,7 +30,13 @@ const Timeline: React.FC<TimelineProps> = ({goals, shootout, filters}) => {
                      width: isSelectedTeam ? '25px' : '12.5px',
                      height: isSelectedTeam ? '25px' : '12.5px',
                      fontWeight: "normal",
-                     backgroundColor: isSelectedTeam ? 'var(--red)' : 'var(--black)'}}
+                     backgroundColor: isSelectedTeam
+                         ? filterMatched
+                             ? 'var(--red)'
+                             : 'var(--filtered-selected-team)'
+                         : filterMatched
+                             ?'var(--black)'
+                             : 'var(--filtered-other-team)'}}
             >
                 <span className={styles.eventText}>{isSelectedTeam ? filters?.team?.roster?.roster
                     .find((player: PlayerInfo): boolean => player.person.id === goal.scorer.playerId)?.jerseyNumber : ''}</span>

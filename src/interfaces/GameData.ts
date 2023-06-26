@@ -33,6 +33,7 @@ export interface Goal {
     sec?: number
     strength?: string
     emptyNet?: boolean
+    showGoal?: boolean
 }
 
 export interface Scorer {
