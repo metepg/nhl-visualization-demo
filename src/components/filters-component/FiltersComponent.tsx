@@ -26,7 +26,7 @@ const FiltersComponent: React.FC<FiltersProps> = ({setSelectedTeam, filters, set
 
         // TODO: Should reset player names selection but doesnt
         if (filters.teamId !== selectedTeam?.id) {
-            const sortedPlayers = team?.roster.roster.sort((a, b) => Number(a.jerseyNumber) - Number(b.jerseyNumber));
+            const sortedPlayers = team?.roster?.roster.sort((a: PlayerInfo, b: PlayerInfo) => Number(a.jerseyNumber) - Number(b.jerseyNumber));
             setPlayers(sortedPlayers);
         }
     }, [selectedTeam, teams, filters, setSelectedTeam]);
