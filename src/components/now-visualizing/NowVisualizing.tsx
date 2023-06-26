@@ -1,6 +1,7 @@
 import React from 'react';
 import {Filters} from "../../interfaces/CustomData.ts";
 import styles from './NowVisualizing.module.css';
+import {PlayerInfo} from "../../interfaces/Teams.ts";
 
 interface NowVisualizingProps {
     filters: Filters
@@ -11,7 +12,7 @@ const NowVisualizing: React.FC<NowVisualizingProps> = ({filters}) => {
     const season = filters.season;
     const goaltypefor = filters.goaltypefor;
     const goaltypeagainst = filters.goaltypeagainst;
-    const selectedPlayer = team?.roster.roster.find((player): boolean => player.person.id === filters.player)
+    const selectedPlayer = team?.roster?.roster.find((player: PlayerInfo): boolean => player.person.id === filters.player)
     let playerName;
     if (!selectedPlayer) playerName = 'All players';
     else playerName = selectedPlayer?.person.fullName;

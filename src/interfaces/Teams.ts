@@ -6,20 +6,20 @@ export interface Root {
 export interface Team {
     id: number
     name: string
-    link: string
-    venue: Venue
+    link?: string
+    venue?: Venue
     abbreviation: string
     teamName: string
-    locationName: string
-    firstYearOfPlay: string
-    division: Division
-    conference: Conference
-    franchise: Franchise
-    roster: RosterObj
-    shortName: string
-    officialSiteUrl: string
-    franchiseId: number
-    active: boolean
+    locationName?: string
+    firstYearOfPlay?: string
+    division?: Division
+    conference?: Conference
+    franchise?: Franchise
+    roster?: RosterObj
+    shortName?: string
+    officialSiteUrl?: string
+    franchiseId?: number
+    active?: boolean
 }
 
 export interface Venue {

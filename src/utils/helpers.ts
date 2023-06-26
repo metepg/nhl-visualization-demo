@@ -1,5 +1,5 @@
-import {Goal, Periods} from "./interfaces/GameData.ts";
-import {Filters} from "./interfaces/CustomData.ts";
+import {Goal, Periods} from "../interfaces/GameData.ts";
+import {Filters} from "../interfaces/CustomData.ts";
 
 export const formatDate = (dateString: string): string => {
     const date: Date = new Date(dateString);
@@ -8,9 +8,9 @@ export const formatDate = (dateString: string): string => {
     return `${monthAbbreviation} ${day}`;
 }
 export const timeInSeconds = (minutes: number | undefined, seconds: number | undefined): number => {
-    if (!minutes || !seconds) return 0;
-    return minutes * 60 + seconds;
-}
+    if ((minutes === 0 && !seconds) || (!minutes && !seconds)) return 0;
+    return (minutes || 0) * 60 + (seconds || 0);
+};
 
 export const shortenGoalTypeName = (value: string | null | undefined): string => {
     if (!value) return '';
@@ -22,7 +22,7 @@ export const shortenGoalTypeName = (value: string | null | undefined): string =>
         emptynet: 'EN',
         gamewinning: 'GW'
     };
-    return shortened[value];
+    return shortened[value] || '';
 }
 
 export const groupGoalsByPeriod = (goals: Goal[]): Periods => {

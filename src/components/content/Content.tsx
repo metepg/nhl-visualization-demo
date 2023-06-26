@@ -5,7 +5,7 @@ import {Filters} from "../../interfaces/CustomData.ts";
 import Circle from "../circle/Circle.tsx";
 import Result from "../result/Result.tsx";
 import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
-import {filterGoals, formatDate, groupGoalsByPeriod} from "../../utils.ts";
+import {filterGoals, formatDate, groupGoalsByPeriod} from "../../utils/helpers.ts";
 
 
 interface ContentProps {
