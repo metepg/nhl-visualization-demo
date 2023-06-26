@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import './styles.css';
+import styles from './App.module.css';
 import ContentHeader from "./components/content-header/ContentHeader.tsx";
 import {Filters} from "./interfaces/CustomData.ts";
 import Content from "./components/content/Content.tsx";
@@ -70,10 +70,10 @@ const App: React.FC = () => {
 
     return (
         !teams ?
-            <div className='container'>
+            <div className={styles.container}>
                 <CircularProgress/>
             </div>
-            : <div className="content-wrapper">
+            : <div className={styles.contentWrapper}>
                 {/*Filters*/}
                 <FiltersComponent
                     selectedTeam={selectedTeam}
