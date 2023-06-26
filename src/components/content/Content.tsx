@@ -5,7 +5,7 @@ import {Filters} from "../../interfaces/CustomData.ts";
 import Circle from "../circle/Circle.tsx";
 import Result from "../result/Result.tsx";
 import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
-import {formatDate, shortenGoalTypeName} from "../../utils.ts";
+import {filterGoals, formatDate, groupGoalsByPeriod} from "../../utils.ts";
 
 
 interface ContentProps {
@@ -15,33 +15,10 @@ interface ContentProps {
 
 const Content: React.FC<ContentProps> = ({events, filters}) => {
     const [filteredGameEvents, setFilteredGameEvents] = useState<Goal[]>(events.goals);
-
-    // TODO: Make this better
-    const period1: Goal[] = filteredGameEvents.filter((goal: Goal): boolean => goal.period === '1');
-    const period2: Goal[] = filteredGameEvents.filter((goal: Goal): boolean => goal.period === '2');
-    const period3: Goal[] = filteredGameEvents.filter((goal: Goal): boolean => goal.period === '3');
-    const overtime: Goal[] = filteredGameEvents.filter((goal: Goal): boolean => goal.period === 'OT');
+    const {period1, period2, period3, overtime} = groupGoalsByPeriod(filteredGameEvents);
 
     useEffect(() => {
-        const filteredEvents: Goal[] = events.goals.filter((goal: Goal): boolean => {
-            // By player
-            if (filters.player !== 999 && filters.player !== goal.scorer.playerId) {
-                return false;
-            }
-
-            // Filter by goal type for
-            if (filters?.goaltypefor !== 'All goals' && goal.strength !== shortenGoalTypeName(filters.goaltypefor)) {
-                return false;
-            }
-
-            // Filter by goal type against
-            if (filters.goaltypeagainst !== 'All goals' && shortenGoalTypeName(filters.goaltypeagainst) === goal.strength) {
-                return false;
-            }
-
-            return true;
-        })
-        setFilteredGameEvents(filteredEvents);
+        setFilteredGameEvents(filterGoals(events.goals, filters));
     }, [events, filters])
 
     return (
