@@ -2,7 +2,7 @@ import React from 'react';
 import {Filters} from "../../interfaces/CustomData.ts";
 import styles from './Timeline.module.css'
 import {Goal} from "../../interfaces/GameData.ts";
-import {timeInSeconds} from "../../utils.ts";
+import {timeInSeconds} from "../../utils/helpers.ts";
 import {PlayerInfo} from "../../interfaces/Teams.ts";
 
 interface TimelineProps {
