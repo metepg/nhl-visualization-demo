@@ -16,3 +16,9 @@
     padding: 5px 20px;
     letter-spacing: 1px;
 }
+
+@media (max-width: 768px) {
+    .navbar {
+        width: 1080px;
+    }
+}
