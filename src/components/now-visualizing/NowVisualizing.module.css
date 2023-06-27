@@ -1,25 +1,55 @@
 .wrapper {
-    display: flex;
-    margin-bottom: 200px;
+    margin-bottom: 100px;
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    grid-gap: 5px;
+    grid-template-areas:
+    "left-side right-side"
+    ". circle-info"
+    ". circle-info";
 }
 
 .visualizeText {
+    grid-area: left-side;
     background-color: var(--red);
     color: var(--white);
-    width: 15%;
+    width: 100%;
     text-align: center;
     align-items: center;
     display: flex;
     justify-content: center;
 }
 
-.visualizingInfo p {
-   padding: 0 5px;
+.visualizingInfo {
+    grid-area: right-side;
+    border: 2px solid var(--dark-grey);
+    width: 100%;
+    padding: 0 10px;
 }
 
-.visualizingInfo {
-    margin-left: 5px;
+.circleInfo {
+    grid-area: circle-info;
+    background-color: var(--light-grey);
+    padding: 0 10px;
     border: 2px solid var(--dark-grey);
-    width: 85%;
-    padding: 0 5px;
+    width: 100%;
+}
+
+.circleContainer {
+    display: flex;
+    align-items: center;
+}
+
+.circleText {
+    margin-left: 10px;
+    letter-spacing: 1px;
+}
+
+.selectedTeamCircleContainer, .otherTeamCircleContainer {
+    display: flex;
+    align-items: center;
+}
+
+.otherTeamCircleContainer {
+    margin-left: 30px;
 }
