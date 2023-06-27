@@ -1,0 +1,18 @@
+.navbar {
+    width: 100vw;
+    height: 100px;
+    background-color: var(--black);
+    position: relative;
+}
+
+.topRight {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    margin: 0;
+    background-color: var(--red);
+    color: var(--white);
+    text-transform: uppercase;
+    padding: 5px 20px;
+    letter-spacing: 1px;
+}
