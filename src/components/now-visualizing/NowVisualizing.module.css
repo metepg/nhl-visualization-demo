@@ -63,23 +63,21 @@
     margin-left: 30px;
 }
 
-.customButton1, .customButton2 {
+.view1, .view2 {
     padding: 5px 10px;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
-    cursor: pointer;
     font-size: 12px;
 }
 
-.customButton1 {
+.view1 {
     background-color: var(--red);
     border: 2px solid var(--red);
     color: var(--white);
-    margin-right: 5px;
+    margin-right: 3px;
 }
 
-.customButton2 {
+.view2 {
     background-color: var(--white);
     border: 2px solid var(--dark-grey);
     color: var(--black);

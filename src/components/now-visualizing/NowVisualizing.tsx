@@ -45,8 +45,8 @@ const NowVisualizing: React.FC<NowVisualizingProps> = ({filters}) => {
             </div>
             <div className={styles.thirdRow}>
                 <div>
-                    <button className={styles.customButton1}>OVERVIEW</button>
-                    <button className={styles.customButton2}>GAME-SPECIFIC VIEW</button>
+                    <p className={styles.view1}>OVERVIEW</p>
+                    <p className={styles.view2}>GAME-SPECIFIC VIEW</p>
                 </div>
                 <div>
                     <span style={{marginRight: '10px', fontSize: '12px'}}>FULL LAYOUT</span>
