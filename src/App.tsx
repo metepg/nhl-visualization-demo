@@ -18,6 +18,7 @@ import {
 } from "./constants/defaultValues.ts";
 import {CircularProgress} from "@mui/material";
 import ChooseComponent from "./components/choose-component/ChooseComponent.tsx";
+import Navbar from "./components/navbar/Navbar.tsx";
 
 
 const App: React.FC = () => {
@@ -73,7 +74,10 @@ const App: React.FC = () => {
             <div className={styles.container}>
                 <CircularProgress/>
             </div>
-            : <div className={styles.contentWrapper}>
+            :
+           <div>
+               <Navbar />
+               <div className={styles.contentWrapper}>
 
                 {/*Choose to get started component*/}
                 <ChooseComponent />
@@ -94,10 +98,13 @@ const App: React.FC = () => {
 
                 {/*Game data with headers*/}
                 <ContentHeader/>
+            <div style={{marginBottom: '100px'}}>
                 {filteredData.map((game: FilteredGame) =>
                     <Content filters={filters} key={game.startTime} events={game}/>
                 )}
             </div>
+            </div>
+           </div>
     );
 };
 
