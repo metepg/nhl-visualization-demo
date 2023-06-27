@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import styles from './Content.module.css'
 import Timeline from "../timeline/Timeline.tsx";
 import {Filters} from "../../interfaces/CustomData.ts";
-import Circle from "../circle/Circle.tsx";
+import Shootout from "../shootout/Shootout.tsx";
 import Result from "../result/Result.tsx";
 import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
 import {filterGoals, formatDate, groupGoalsByPeriod} from "../../utils/helpers.ts";
@@ -51,7 +51,7 @@ const Content: React.FC<ContentProps> = ({events, filters}) => {
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Circle shootout={events.scores.shootout}></Circle>
+                    <Shootout shootout={events.scores.shootout}></Shootout>
                 </div>
             </div>
             <div className={styles.column}>

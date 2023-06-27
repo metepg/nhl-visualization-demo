@@ -83,7 +83,7 @@ const App: React.FC = () => {
                     goalType={GOAL_TYPE}
                     filters={filters}
                     teams={teams}/>
-                <hr/>
+                <hr style={{border: '1px solid var(--dark-grey)'}}/>
 
                 {/*Selected Filters text*/}
                 <NowVisualizing filters={filters}/>

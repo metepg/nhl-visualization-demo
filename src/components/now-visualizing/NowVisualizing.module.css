@@ -1,25 +1,86 @@
 .wrapper {
-    display: flex;
-    margin-bottom: 200px;
+    margin-bottom: 100px;
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    grid-gap: 5px;
+    grid-template-areas:
+    "first-row-left first-row-right"
+    ". second-row-right"
+    ". third-row-right";
 }
 
 .visualizeText {
+    grid-area: first-row-left;
     background-color: var(--red);
     color: var(--white);
-    width: 15%;
+    width: 100%;
     text-align: center;
     align-items: center;
     display: flex;
     justify-content: center;
 }
 
-.visualizingInfo p {
-   padding: 0 5px;
+.firstRow {
+    grid-area: first-row-right;
+    border: 2px solid var(--dark-grey);
+    width: 100%;
+    padding: 0 10px;
 }
 
-.visualizingInfo {
-    margin-left: 5px;
+.secondRow {
+    grid-area: second-row-right;
+    background-color: var(--light-grey);
+    padding: 0 10px;
     border: 2px solid var(--dark-grey);
-    width: 85%;
-    padding: 0 5px;
+    width: 100%;
+}
+
+.thirdRow {
+    grid-area: third-row-right;
+    height: 48px;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.circleContainer {
+    display: flex;
+    align-items: center;
+}
+
+.circleText {
+    margin-left: 10px;
+    letter-spacing: 1px;
+}
+
+.selectedTeamCircleContainer, .otherTeamCircleContainer {
+    display: flex;
+    align-items: center;
+}
+
+.otherTeamCircleContainer {
+    margin-left: 30px;
+}
+
+.customButton1, .customButton2 {
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.customButton1 {
+    background-color: var(--red);
+    border: 2px solid var(--red);
+    color: var(--white);
+    margin-right: 5px;
+}
+
+.customButton2 {
+    background-color: var(--white);
+    border: 2px solid var(--dark-grey);
+    color: var(--black);
 }

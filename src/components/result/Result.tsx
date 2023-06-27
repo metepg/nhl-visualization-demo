@@ -7,7 +7,7 @@ interface ResultProps {
     game: FilteredGame;
     filters: Filters
 }
-const Circle: React.FC<ResultProps> = ({ game, filters }) => {
+const Result: React.FC<ResultProps> = ({ game, filters }) => {
     const { home, away } = game.teams;
     const selectedTeamName = filters?.team?.abbreviation;
     const scores = game.scores;
@@ -42,4 +42,4 @@ const Circle: React.FC<ResultProps> = ({ game, filters }) => {
     );
 };
 
-export default Circle;
+export default Result;

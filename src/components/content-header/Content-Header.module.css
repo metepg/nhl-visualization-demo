@@ -1,9 +1,7 @@
 .container {
     display: grid;
-    width: 1060px;
-    /*grid-template-columns: 60px 75px 220px 220px 220px 55px 25px 75px 30px;*/
+    width: 1080px;
     grid-template-columns: 60px 75px 223px 223px 223px 58px 25px 62px 30px;
-    background-color: var(--white);
     gap: 10px;
     margin-bottom: 3px;
     padding: 0 10px;
