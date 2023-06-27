@@ -17,6 +17,7 @@ import {
     DEFAULT_TEAM_ID, GOAL_TYPE, SEASON
 } from "./constants/defaultValues.ts";
 import {CircularProgress} from "@mui/material";
+import ChooseComponent from "./components/choose-component/ChooseComponent.tsx";
 
 
 const App: React.FC = () => {
@@ -67,13 +68,16 @@ const App: React.FC = () => {
         }));
     }, [selectedTeam, teams, filters.teamId]);
 
-
     return (
         !teams ?
             <div className={styles.container}>
                 <CircularProgress/>
             </div>
             : <div className={styles.contentWrapper}>
+
+                {/*Choose to get started component*/}
+                <ChooseComponent />
+
                 {/*Filters*/}
                 <FiltersComponent
                     selectedTeam={selectedTeam}
