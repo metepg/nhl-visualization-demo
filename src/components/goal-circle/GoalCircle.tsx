@@ -6,7 +6,7 @@ interface GoalCircleProps {
     isSelectedTeam: boolean;
     customCircleStyles: any;
 }
-const Shootout: React.FC<GoalCircleProps> = ({textInside, isSelectedTeam, customCircleStyles}) => {
+const GoalCircle: React.FC<GoalCircleProps> = ({textInside, isSelectedTeam, customCircleStyles}) => {
     const defaultCircleStyle = {
         width: isSelectedTeam ? '25px' : '12.5px',
         height: isSelectedTeam ? '25px' : '12.5px',
@@ -27,4 +27,4 @@ const Shootout: React.FC<GoalCircleProps> = ({textInside, isSelectedTeam, custom
     );
 };
 
-export default Shootout;
+export default GoalCircle;

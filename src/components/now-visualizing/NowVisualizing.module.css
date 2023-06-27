@@ -4,13 +4,13 @@
     grid-template-columns: 160px 1fr;
     grid-gap: 5px;
     grid-template-areas:
-    "left-side right-side"
-    ". circle-info"
-    ". circle-info";
+    "first-row-left first-row-right"
+    ". second-row-right"
+    ". third-row-right";
 }
 
 .visualizeText {
-    grid-area: left-side;
+    grid-area: first-row-left;
     background-color: var(--red);
     color: var(--white);
     width: 100%;
@@ -20,19 +20,28 @@
     justify-content: center;
 }
 
-.visualizingInfo {
-    grid-area: right-side;
+.firstRow {
+    grid-area: first-row-right;
     border: 2px solid var(--dark-grey);
     width: 100%;
     padding: 0 10px;
 }
 
-.circleInfo {
-    grid-area: circle-info;
+.secondRow {
+    grid-area: second-row-right;
     background-color: var(--light-grey);
     padding: 0 10px;
     border: 2px solid var(--dark-grey);
     width: 100%;
+}
+
+.thirdRow {
+    grid-area: third-row-right;
+    height: 48px;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .circleContainer {
@@ -52,4 +61,26 @@
 
 .otherTeamCircleContainer {
     margin-left: 30px;
+}
+
+.customButton1, .customButton2 {
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.customButton1 {
+    background-color: var(--red);
+    border: 2px solid var(--red);
+    color: var(--white);
+    margin-right: 5px;
+}
+
+.customButton2 {
+    background-color: var(--white);
+    border: 2px solid var(--dark-grey);
+    color: var(--black);
 }
