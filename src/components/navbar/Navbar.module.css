@@ -1,5 +1,4 @@
 .navbar {
-    width: 100vw;
     height: 100px;
     background-color: var(--black);
     position: relative;
@@ -8,7 +7,7 @@
 .topRight {
     position: absolute;
     top: 0;
-    right: 15px;
+    right: 0;
     margin: 0;
     background-color: var(--red);
     color: var(--white);
