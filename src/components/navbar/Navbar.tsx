@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
             <nav className={styles.navbar}>
                 <p className={styles.topRight} >VISUALIZINGNHL.COM</p>
             </nav>
-            <hr style={{margin: 0, border: '7px solid var(--light-grey)'}}/>
+            <hr className={styles.hr} />
         </div>
     );
 };

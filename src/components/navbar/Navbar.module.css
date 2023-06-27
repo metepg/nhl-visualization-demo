@@ -17,8 +17,17 @@
     letter-spacing: 1px;
 }
 
+.hr {
+    margin: 0;
+    width: 100%;
+    border: 7px solid var(--light-grey);
+}
+
 @media (max-width: 768px) {
     .navbar {
         width: 1080px;
+    }
+    .hr {
+       width: 1080px;
     }
 }
