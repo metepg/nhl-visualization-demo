@@ -100,7 +100,7 @@ const App: React.FC = () => {
                 <ContentHeader/>
             <div style={{marginBottom: '100px'}}>
                 {filteredData.map((game: FilteredGame) =>
-                    <Content filters={filters} key={game.startTime} events={game}/>
+                    <Content filters={filters} key={game.startTime} game={game}/>
                 )}
             </div>
             </div>
