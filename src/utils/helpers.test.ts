@@ -1,4 +1,4 @@
-import {filterGoals, formatDate, groupGoalsByPeriod, shortenGoalTypeName, timeInSeconds} from "./helpers.ts";
+import {filterGoals, formatDate, groupGoalsByPeriod, goalTypeShort, timeInSeconds, goalTypeLong} from "./helpers.ts";
 import {Goal} from "../interfaces/GameData.ts";
 import {Filters} from "../interfaces/CustomData.ts";
 
@@ -39,24 +39,24 @@ describe('timeInSeconds', () => {
 });
 describe('shortenGoalTypeName', () => {
     it('returns an empty string when value is null', () => {
-        expect(shortenGoalTypeName(null)).toBe('');
+        expect(goalTypeShort(null)).toBe('');
     });
 
     it('returns an empty string when value is undefined', () => {
-        expect(shortenGoalTypeName(undefined)).toBe('');
+        expect(goalTypeShort(undefined)).toBe('');
     });
 
     it('returns the correct shortened goal type name when value is valid', () => {
-        expect(shortenGoalTypeName('AllGoals')).toBe('AG');
-        expect(shortenGoalTypeName('powerplay')).toBe('PPG');
-        expect(shortenGoalTypeName('ShorThanded')).toBe('SHG');
-        expect(shortenGoalTypeName('EMPTYNET')).toBe('EN');
-        expect(shortenGoalTypeName('gamewinning')).toBe('GW');
+        expect(goalTypeShort('AllGoals')).toBe('AG');
+        expect(goalTypeShort('powerplay')).toBe('PPG');
+        expect(goalTypeShort('ShorThanded')).toBe('SHG');
+        expect(goalTypeShort('EMPTYNET')).toBe('EN');
+        expect(goalTypeShort('gamewinning')).toBe('GW');
     });
 
     it('returns an empty string when the value does not match any known goal type', () => {
-        expect(shortenGoalTypeName('InvalidGoalType')).toBe('');
-        expect(shortenGoalTypeName('')).toBe('');
+        expect(goalTypeShort('InvalidGoalType')).toBe('');
+        expect(goalTypeShort('')).toBe('');
     });
 });
 
@@ -156,5 +156,38 @@ describe('filterGoals', () => {
         expect(filteredGoals[2].showGoal).toBe(true); // Player 2 matches the filter
         expect(filteredGoals[3].showGoal).toBe(true);
         expect(filteredGoals[4].showGoal).toBe(true);  // Player 2 matches the filter
+    });
+});
+
+describe('goalTypeLong', () => {
+    it('should return an empty string if the value is falsy', () => {
+        expect(goalTypeLong(null)).toBe('');
+        expect(goalTypeLong(undefined)).toBe('');
+        expect(goalTypeLong('')).toBe('');
+    });
+
+    it('should return the corresponding long goal type for valid input', () => {
+        const testData: [string, string][] = [
+            ['PPG', 'POWER-PLAY -GOAL'],
+            ['SHG', 'SHORT-HANDED -GOAL'],
+            ['EN', 'EMPTY NET'],
+            ['GW', 'GAME-WINNING -GOAL'],
+        ];
+
+        testData.forEach(([input, expected]) => {
+            expect(goalTypeLong(input)).toBe(expected);
+        });
+    });
+
+    it('should handle uppercase and lowercase goal types', () => {
+        expect(goalTypeLong('ppg')).toBe('POWER-PLAY -GOAL');
+        expect(goalTypeLong('shg')).toBe('SHORT-HANDED -GOAL');
+        expect(goalTypeLong('en')).toBe('EMPTY NET');
+        expect(goalTypeLong('gw')).toBe('GAME-WINNING -GOAL');
+    });
+
+    it('should return an empty string for an unknown goal type', () => {
+        expect(goalTypeLong('XYZ')).toBe('');
+        expect(goalTypeLong('ABC')).toBe('');
     });
 });

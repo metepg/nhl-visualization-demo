@@ -1,4 +1,4 @@
-import {Goal, Periods} from "../interfaces/GameData.ts";
+import {Goal, Periods, Scores} from "../interfaces/GameData.ts";
 import {Filters} from "../interfaces/CustomData.ts";
 
 export const formatDate = (dateString: string): string => {
@@ -12,7 +12,7 @@ export const timeInSeconds = (minutes: number | undefined, seconds: number | und
     return (minutes || 0) * 60 + (seconds || 0);
 };
 
-export const shortenGoalTypeName = (value: string | null | undefined): string => {
+export const goalTypeShort = (value: string | null | undefined): string => {
     if (!value) return '';
     value = value?.toLowerCase().replace(/[^a-z]/g, '');
     const shortened: { [key: string]: string } = {
@@ -23,6 +23,17 @@ export const shortenGoalTypeName = (value: string | null | undefined): string =>
         gamewinning: 'GW'
     };
     return shortened[value] || '';
+}
+
+export const goalTypeLong = (value: string | null | undefined): string => {
+    if (!value) return '';
+    const long: { [key: string]: string } = {
+        PPG: 'POWER-PLAY -GOAL',
+        SHG: 'SHORT-HANDED -GOAL',
+        EN: 'EMPTY NET',
+        GW: 'GAME-WINNING -GOAL'
+    };
+    return long[value?.toString().toUpperCase()] || '';
 }
 
 export const groupGoalsByPeriod = (goals: Goal[]): Periods => {
@@ -44,10 +55,11 @@ export const groupGoalsByPeriod = (goals: Goal[]): Periods => {
     return periods;
 }
 
+
 export const filterGoals = (goals: Goal[], filters: Filters) => {
     const selectedTeam: string | undefined = filters.team?.abbreviation;
-    const goalTypeAgainst: string = shortenGoalTypeName(filters.goaltypeagainst);
-    const goalTypeFor: string = shortenGoalTypeName(filters.goaltypefor);
+    const goalTypeAgainst: string = goalTypeShort(filters.goaltypeagainst);
+    const goalTypeFor: string = goalTypeShort(filters.goaltypefor);
     return goals.map((goal: Goal): Goal => {
         const isPlayerSelected: boolean = filters.player === 999 || filters.player === goal.scorer.playerId;
         const goalTypeSelectedTeam: boolean = filters.goaltypefor === 'All goals' || goalTypeFor === goal.strength;
@@ -61,4 +73,35 @@ export const filterGoals = (goals: Goal[], filters: Filters) => {
                 (!isSelectedTeamsGoal && goalTypeOtherTeam)
         };
     });
+};
+
+export const extractWinnerData = (data: Scores): string | null => {
+    let highestGoals = 0;
+    let winner = null;
+
+    for (const team in data) {
+        if (team !== "overtime" && team !== "shootout") {
+            const goals = data[team] as number | undefined;
+
+            if (typeof goals === 'number' && goals > highestGoals) {
+                highestGoals = goals;
+                winner = team;
+            }
+        }
+    }
+    return winner;
+};
+
+export const getAssistLastNames = (goal: Goal): string[] => {
+    const assistNames: string[] = [];
+
+    if (goal.assists) {
+        for (const assist of goal.assists) {
+            const playerLastName = assist.player.split(' ')[1];
+            const assistName = `${playerLastName} (${assist.seasonTotal})`;
+            assistNames.push(assistName);
+        }
+    }
+
+    return assistNames;
 };

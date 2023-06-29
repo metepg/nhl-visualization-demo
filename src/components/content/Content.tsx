@@ -9,54 +9,54 @@ import {filterGoals, formatDate, groupGoalsByPeriod} from "../../utils/helpers.t
 
 
 interface ContentProps {
-    events: FilteredGame;
+    game: FilteredGame;
     filters: Filters;
 }
 
-const Content: React.FC<ContentProps> = ({events, filters}) => {
-    const [filteredGameEvents, setFilteredGameEvents] = useState<Goal[]>(events.goals);
+const Content: React.FC<ContentProps> = ({game, filters}) => {
+    const [filteredGameEvents, setFilteredGameEvents] = useState<Goal[]>(game.goals);
     const {period1, period2, period3, overtime} = groupGoalsByPeriod(filteredGameEvents);
 
     useEffect(() => {
-        setFilteredGameEvents(filterGoals(events.goals, filters));
-    }, [events, filters])
+        setFilteredGameEvents(filterGoals(game.goals, filters));
+    }, [game, filters])
 
     return (
         <div className={styles.container}>
             <div className={styles.column}>
-                <div className={styles.content}>{formatDate(events.startTime)}</div>
+                <div className={styles.content}>{formatDate(game.startTime)}</div>
             </div>
             <div className={styles.column}>
-                <div className={styles.content}>{`${events.teams.home.abbreviation}-${events.teams.away.abbreviation}`}</div>
+                <div className={styles.content}>{`${game.teams.home.abbreviation}-${game.teams.away.abbreviation}`}</div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline goals={period1} filters={filters}/>
+                    <Timeline goals={period1} filters={filters} game={game}/>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline goals={period2} filters={filters}/>
+                    <Timeline goals={period2} filters={filters} game={game}/>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline goals={period3} filters={filters}/>
+                    <Timeline goals={period3} filters={filters} game={game}/>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline goals={overtime} filters={filters} shootout={true}/>
+                    <Timeline goals={overtime} filters={filters} shootout={true} game={game}/>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Shootout shootout={events.scores.shootout}></Shootout>
+                    <Shootout shootout={game.scores.shootout}></Shootout>
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Result game={events} filters={filters}/>
+                    <Result game={game} filters={filters}/>
                 </div>
             </div>
             <div className={styles.column}>

@@ -1,18 +1,19 @@
 import React from 'react';
 import {Filters} from "../../interfaces/CustomData.ts";
 import styles from './Timeline.module.css'
-import {Goal} from "../../interfaces/GameData.ts";
+import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
 import {timeInSeconds} from "../../utils/helpers.ts";
 import {PlayerInfo} from "../../interfaces/Teams.ts";
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 
 interface TimelineProps {
+    game: FilteredGame;
     filters: Filters
     goals: Goal[];
     shootout?: boolean;
 }
 
-const Timeline: React.FC<TimelineProps> = ({goals, shootout, filters}) => {
+const Timeline: React.FC<TimelineProps> = ({goals, shootout, filters, game}) => {
     const getCirclePosition = (goalTime: number): string => {
         const minutes = 20;
         const periodDurationInSeconds: number = minutes * 60;
@@ -47,7 +48,15 @@ const Timeline: React.FC<TimelineProps> = ({goals, shootout, filters}) => {
                     : 'var(--filtered-other-team)'
         };
         return (
-            <GoalCircle key={index} textInside={scorer} isSelectedTeam={isSelectedTeam} customCircleStyles={circleStyle} />
+            <GoalCircle
+                customCircleStyles={circleStyle}
+                filters={filters}
+                game={game}
+                goalInfo={goal}
+                isSelectedTeam={isSelectedTeam}
+                key={index}
+                textInside={scorer}
+            />
         )
     })
 
