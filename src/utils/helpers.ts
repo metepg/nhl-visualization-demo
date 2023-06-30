@@ -1,4 +1,4 @@
-import {Goal, Periods, Scores} from "../interfaces/GameData.ts";
+import {Goal, Periods, Scores, Teams} from "../interfaces/GameData.ts";
 import {Filters} from "../interfaces/CustomData.ts";
 
 export const formatDate = (dateString: string): string => {
@@ -104,4 +104,43 @@ export const getAssistLastNames = (goal: Goal): string[] => {
     }
 
     return assistNames;
+};
+
+export const sortGoals = (goals: Goal[]): Goal[] => {
+    return goals.sort((a: Goal, b: Goal): number => {
+        const periodA = parseInt(a.period);
+        const periodB = parseInt(b.period);
+
+        if (periodA < periodB) return -1;
+        if (periodA > periodB) return 1;
+
+        const minA = a.min || 0;
+        const secA = a.sec || 0;
+        const minB = b.min || 0;
+        const secB = b.sec || 0;
+
+        if (minA > minB) return 1;
+        if (minA < minB) return -1;
+        return secA > secB ? 1 : -1;
+    });
+}
+export const addCurrentScores = (goals?: Goal[], teams?: Teams): Goal[] => {
+    if (!goals || !teams) return [];
+    const {home, away} = teams;
+    const sortedGoals = sortGoals(goals);
+    let homeScore = 0;
+    let awayScore = 0;
+    let currentGoal = 0;
+
+    return sortedGoals.map((goal: Goal) => {
+        if (goal.team === home.abbreviation) {
+            goal.homeScore = ++homeScore;
+            goal.awayScore = awayScore;
+        } else if (goal.team === away.abbreviation) {
+            goal.homeScore = homeScore;
+            goal.awayScore = ++awayScore;
+        }
+        goal.currentGoal = ++currentGoal;
+        return goal;
+    });
 };

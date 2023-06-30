@@ -34,6 +34,9 @@ export interface Goal {
     strength?: string
     emptyNet?: boolean
     showGoal?: boolean
+    homeScore?: number;
+    awayScore?: number;
+    currentGoal?: number;
 }
 
 export interface Scorer {

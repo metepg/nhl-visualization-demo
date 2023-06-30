@@ -1,24 +1,22 @@
 import React from 'react';
-import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
+import {FilteredGame, Goal, Teams} from "../../interfaces/GameData.ts";
 import styles from './GoalInfoDialog.module.css';
-import {extractWinnerData, getAssistLastNames, goalTypeLong} from "../../utils/helpers.ts";
+import {getAssistLastNames, goalTypeLong} from "../../utils/helpers.ts";
 import {Filters} from "../../interfaces/CustomData.ts";
 
 interface GoalInfoProps {
     filters?: Filters;
     game?: FilteredGame;
     goalInfo?: Goal;
+    teams?: Teams;
 }
 
-const GoalInfoDialog: React.FC<GoalInfoProps> = ({goalInfo, game}) => {
-    if (!goalInfo || !game) return null;
-    const {teams, scores} = game;
+const GoalInfoDialog: React.FC<GoalInfoProps> = ({goalInfo, teams}) => {
+    if (!goalInfo || !teams) return null;
     const {home, away} = teams;
-    const winner = extractWinnerData(scores);
     const goalType: string = goalInfo.strength
         ? goalTypeLong(goalInfo.strength)
         : 'GOAL';
-
 
     // TODO: Change these
     type period = {
@@ -39,9 +37,9 @@ const GoalInfoDialog: React.FC<GoalInfoProps> = ({goalInfo, game}) => {
                 <div className={styles.goalTypeWrapper}>
                     <div style={{backgroundColor: 'var(--red)', color: 'var(--white)', borderRight: '1px solid var(--black)'}}>
                         <p>
-                           <label style={{fontWeight: winner === home.abbreviation ? 'bold' : 'normal'}}>{home.abbreviation} {scores[home.abbreviation]}</label>
+                           <label style={{fontWeight: goalInfo.team === home.abbreviation ? 'bold' : 'normal'}}>{home.abbreviation} {goalInfo.homeScore}</label>
                             &nbsp;-&nbsp;
-                            <label style={{fontWeight: winner === away.abbreviation ? 'bold' : 'normal'}}>{away.abbreviation} {scores[away.abbreviation]}</label>
+                            <label style={{fontWeight: goalInfo.team === away.abbreviation ? 'bold' : 'normal'}}>{away.abbreviation} {goalInfo.awayScore}</label>
                         </p>
                     </div>
                     <div style={{backgroundColor: 'var(--light-grey)'}}>
