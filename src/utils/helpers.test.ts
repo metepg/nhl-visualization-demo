@@ -1,5 +1,13 @@
-import {filterGoals, formatDate, groupGoalsByPeriod, goalTypeShort, timeInSeconds, goalTypeLong} from "./helpers.ts";
-import {Goal} from "../interfaces/GameData.ts";
+import {
+    filterGoals,
+    formatDate,
+    groupGoalsByPeriod,
+    goalTypeShort,
+    timeInSeconds,
+    goalTypeLong,
+    sortGoals, addCurrentScores
+} from "./helpers.ts";
+import {Goal, Teams} from "../interfaces/GameData.ts";
 import {Filters} from "../interfaces/CustomData.ts";
 
 describe('formatDate', () => {
@@ -189,5 +197,125 @@ describe('goalTypeLong', () => {
     it('should return an empty string for an unknown goal type', () => {
         expect(goalTypeLong('XYZ')).toBe('');
         expect(goalTypeLong('ABC')).toBe('');
+    });
+});
+
+describe('sortGoals', () => {
+    it('should sort goals in ascending order based on period, min, and sec', () => {
+        const goals = [
+            { team: 'Team A', period: '2', min: 30, sec: 0, scorer: { player: 'Player 1', playerId: 1 } },
+            { team: 'Team B', period: '1', min: 45, sec: 10, scorer: { player: 'Player 2', playerId: 2 } },
+            { team: 'Team C', period: '3', min: 0, sec: 30, scorer: { player: 'Player 3', playerId: 3 } },
+        ];
+
+        const sortedGoals = sortGoals(goals);
+
+        expect(sortedGoals).toEqual([
+            { team: 'Team B', period: '1', min: 45, sec: 10, scorer: { player: 'Player 2', playerId: 2 } },
+            { team: 'Team A', period: '2', min: 30, sec: 0, scorer: { player: 'Player 1', playerId: 1 } },
+            { team: 'Team C', period: '3', min: 0, sec: 30, scorer: { player: 'Player 3', playerId: 3 } },
+        ]);
+    });
+
+    it('should handle goals with missing min and sec values', () => {
+        const goals = [
+            { team: 'Team A', period: '2', min: 30, scorer: { player: 'Player 1', playerId: 1 } },
+            { team: 'Team B', period: '1', sec: 10, scorer: { player: 'Player 2', playerId: 2 } },
+            { team: 'Team C', period: '3', scorer: { player: 'Player 3', playerId: 3 } },
+        ];
+
+        const sortedGoals = sortGoals(goals);
+
+        expect(sortedGoals).toEqual([
+            { team: 'Team B', period: '1', sec: 10, scorer: { player: 'Player 2', playerId: 2 } },
+            { team: 'Team A', period: '2', min: 30, scorer: { player: 'Player 1', playerId: 1 } },
+            { team: 'Team C', period: '3', scorer: { player: 'Player 3', playerId: 3 } },
+        ]);
+    });
+});
+
+describe('addCurrentScores', () => {
+    it('should add current scores to goals based on team abbreviations', () => {
+        const goals = [
+            { team: 'ANA', period: '1', min: 10, sec: 30, scorer: { player: 'Player 1', playerId: 1 } },
+            { team: 'ANA', period: '2', min: 5, sec: 45, scorer: { player: 'Player 2', playerId: 2 } },
+            { team: 'LAK', period: '2', min: 15, sec: 20, scorer: { player: 'Player 3', playerId: 3 } },
+        ];
+
+        const teams: Teams = {
+            home: {
+                abbreviation: 'ANA',
+                id: 1,
+                locationName: 'Anaheim',
+                shortName: 'Ducks',
+                teamName: 'Anaheim Ducks',
+            },
+            away: {
+                abbreviation: 'LAK',
+                id: 2,
+                locationName: 'Los Angeles',
+                shortName: 'Kings',
+                teamName: 'Los Angeles Kings',
+            },
+        };
+
+        const scoredGoals: Goal[] = addCurrentScores(goals, teams);
+
+        expect(scoredGoals).toEqual([
+            {
+                team: 'ANA',
+                period: '1',
+                min: 10,
+                sec: 30,
+                scorer: { player: 'Player 1', playerId: 1 },
+                homeScore: 1,
+                awayScore: 0,
+                currentGoal: 1,
+            },
+            {
+                team: 'ANA',
+                period: '2',
+                min: 5,
+                sec: 45,
+                scorer: { player: 'Player 2', playerId: 2 },
+                homeScore: 2,
+                awayScore: 0,
+                currentGoal: 2,
+            },
+            {
+                team: 'LAK',
+                period: '2',
+                min: 15,
+                sec: 20,
+                scorer: { player: 'Player 3', playerId: 3 },
+                homeScore: 2,
+                awayScore: 1,
+                currentGoal: 3,
+            },
+        ]);
+    });
+
+    it('should handle empty goals or teams arrays', () => {
+        const goals: Goal[] = [];
+        const teams: Teams = {
+            home: {
+                abbreviation: 'ANA',
+                id: 1,
+                locationName: 'Anaheim',
+                shortName: 'Ducks',
+                teamName: 'Anaheim Ducks',
+            },
+            away: {
+                abbreviation: 'LAK',
+                id: 2,
+                locationName: 'Los Angeles',
+                shortName: 'Kings',
+                teamName: 'Los Angeles Kings',
+            },
+        };
+
+        const scoredGoals: Goal[] = addCurrentScores(goals, teams);
+
+        expect(scoredGoals).toEqual([]);
     });
 });
