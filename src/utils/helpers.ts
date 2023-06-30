@@ -91,7 +91,8 @@ export const getAssistLastNames = (goal: Goal): string[] => {
 
 export const sortGoals = (goals: Goal[]): Goal[] => {
     return goals.sort((a: Goal, b: Goal): number => {
-        if (a.period || b.period) return a.period ? 1 : -1;
+        if (a.period === 'OT') return 1;
+        if (b.period === 'OT') return -1;
 
         const periodA = parseInt(a.period);
         const periodB = parseInt(b.period);
