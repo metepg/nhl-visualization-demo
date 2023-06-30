@@ -1,4 +1,4 @@
-import {Goal, Periods, Scores, Teams} from "../interfaces/GameData.ts";
+import {Goal, Periods, Teams} from "../interfaces/GameData.ts";
 import {Filters} from "../interfaces/CustomData.ts";
 
 export const formatDate = (dateString: string): string => {
@@ -75,23 +75,6 @@ export const filterGoals = (goals: Goal[], filters: Filters) => {
     });
 };
 
-export const extractWinnerData = (data: Scores): string | null => {
-    let highestGoals = 0;
-    let winner = null;
-
-    for (const team in data) {
-        if (team !== "overtime" && team !== "shootout") {
-            const goals = data[team] as number | undefined;
-
-            if (typeof goals === 'number' && goals > highestGoals) {
-                highestGoals = goals;
-                winner = team;
-            }
-        }
-    }
-    return winner;
-};
-
 export const getAssistLastNames = (goal: Goal): string[] => {
     const assistNames: string[] = [];
 
@@ -108,6 +91,9 @@ export const getAssistLastNames = (goal: Goal): string[] => {
 
 export const sortGoals = (goals: Goal[]): Goal[] => {
     return goals.sort((a: Goal, b: Goal): number => {
+        if (a.period === 'OT') return 1;
+        if (b.period === 'OT') return -1;
+
         const periodA = parseInt(a.period);
         const periodB = parseInt(b.period);
 

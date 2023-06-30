@@ -24,9 +24,10 @@ const GoalInfoDialog: React.FC<GoalInfoProps> = ({goalInfo, teams}) => {
     };
     const {period} = goalInfo;
     const p: period = {
-        1: '1st',
-        2: '2nd',
-        3: '3rd'
+        1: '1st period',
+        2: '2nd period',
+        3: '3rd period',
+        OT: 'Overtime'
     }
 
     const assists: string = getAssistLastNames(goalInfo).join(', ');
@@ -53,7 +54,7 @@ const GoalInfoDialog: React.FC<GoalInfoProps> = ({goalInfo, teams}) => {
                     </div>
                 </div>
                 <div className={styles.timeLineWrapper}>
-                    <p>{goalTime} &nbsp; | &nbsp; {p[period]} period</p>
+                    <p>{goalTime} &nbsp; | &nbsp; {p[period]}</p>
                     <a href="https://www.youtube.com" target="_blank">
                         <div className={styles.playButton}></div>
                     </a>
