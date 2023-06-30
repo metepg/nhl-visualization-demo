@@ -33,7 +33,7 @@ const GoalCircle: React.FC<GoalCircleProps> = ({textInside, isSelectedTeam, cust
             style={customCircleStyles ?? defaultCircleStyle}
         >
             <span className={styles.eventText}>{textInside}</span>
-            {showElement && <GoalInfoDialog goalInfo={goalInfo} game={game} filters={filters} />}
+            {showElement && <GoalInfoDialog goalInfo={goalInfo} game={game} filters={filters} teams={game?.teams} />}
         </div>
     );
 };

@@ -5,7 +5,7 @@ import {Filters} from "../../interfaces/CustomData.ts";
 import Shootout from "../shootout/Shootout.tsx";
 import Result from "../result/Result.tsx";
 import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
-import {filterGoals, formatDate, groupGoalsByPeriod} from "../../utils/helpers.ts";
+import {addCurrentScores, filterGoals, formatDate, groupGoalsByPeriod} from "../../utils/helpers.ts";
 
 
 interface ContentProps {
@@ -21,6 +21,7 @@ const Content: React.FC<ContentProps> = ({game, filters}) => {
         setFilteredGameEvents(filterGoals(game.goals, filters));
     }, [game, filters])
 
+    const gameWithAddedGoalData = {...game, goals: addCurrentScores(game.goals, game.teams)}
     return (
         <div className={styles.container}>
             <div className={styles.column}>
@@ -31,22 +32,22 @@ const Content: React.FC<ContentProps> = ({game, filters}) => {
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline goals={period1} filters={filters} game={game}/>
+                    <Timeline goals={period1} filters={filters} game={gameWithAddedGoalData} />
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline goals={period2} filters={filters} game={game}/>
+                    <Timeline goals={period2} filters={filters} game={gameWithAddedGoalData} />
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline goals={period3} filters={filters} game={game}/>
+                    <Timeline goals={period3} filters={filters} game={gameWithAddedGoalData} />
                 </div>
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <Timeline goals={overtime} filters={filters} shootout={true} game={game}/>
+                    <Timeline goals={overtime} filters={filters} shootout={true} game={gameWithAddedGoalData} />
                 </div>
             </div>
             <div className={styles.column}>
