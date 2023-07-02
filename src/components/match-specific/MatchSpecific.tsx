@@ -12,16 +12,12 @@ interface MatchSpecificProps {
     goalsByPeriod: Periods;
     filters: Filters;
 }
+
 const MatchSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filters}) => {
     const [open, setOpen] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     useEffect(() => {
         if (open) document.body.classList.add(styles.noScroll);
@@ -30,18 +26,21 @@ const MatchSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filte
 
     if (!game || !goalsByPeriod) return null;
     const {period1, period2, period3, overtime} = goalsByPeriod;
-    const home = `${game.teams.home.locationName} ${game.teams.home.teamName}`;
-    const away = `${game.teams.away.locationName} ${game.teams.away.teamName}`;
-    const {scores} = game;
-    const winner: string = Object.keys(scores).reduce((maxKey: string, key: string): string => {
-        if ((scores[key] as number | boolean) && (scores[key] as number | boolean) > (scores[maxKey] as number | boolean)) return key;
-        else return maxKey;
-    });
-    console.log(winner)
+    const {home, away} = game.teams;
+    const homeTeamFullName = `${home.locationName} ${game.teams.home.teamName}`;
+    const awayTeamFullName = `${away.locationName} ${game.teams.away.teamName}`;
+    const homeIsSelectedTeam: boolean = filters?.team?.abbreviation === home.abbreviation;
+    const awayIsSelectedTeam: boolean = filters?.team?.abbreviation === away.abbreviation;
 
     return (
         <>
-            <button style={{backgroundColor: 'var(--white)', color: 'var(--black)', border: '1px solid var(--dark-grey)', cursor: 'pointer'}} onClick={handleClickOpen}>V</button>
+            <button style={{
+                backgroundColor: 'var(--white)',
+                color: 'var(--black)',
+                border: '1px solid var(--dark-grey)',
+                cursor: 'pointer'
+            }} onClick={handleOpen}>V
+            </button>
             {!open ? null : (
                 <div className={styles.dialogStyles}>
                     <div className={styles.dialogContentStyles}>
@@ -49,9 +48,15 @@ const MatchSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filte
                             <div className={styles.matchHeader}>
                                 <label className={styles.label}>{formatDate(game.startTime)}</label>
                                 <h2>
-                                    <label style={{color: winner === game.teams.home.abbreviation ? 'var(--red)' : 'var(--black)'}}>{home}</label>
-                                    <label style={{textTransform: 'lowercase', fontWeight: 'normal', margin: '0 2px'}}> vs </label>
-                                    <label style={{color: winner === game.teams.away.abbreviation ? 'var(--red)' : 'var(--black)'}}>{away}</label>
+                                    <label
+                                        style={{color: homeIsSelectedTeam ? 'var(--red)' : 'var(--black)'}}>{homeTeamFullName}</label>
+                                    <label style={{
+                                        textTransform: 'lowercase',
+                                        fontWeight: 'normal',
+                                        margin: '0 2px'
+                                    }}>vs</label>
+                                    <label
+                                        style={{color: awayIsSelectedTeam ? 'var(--red)' : 'var(--black)'}}>{awayTeamFullName}</label>
                                 </h2>
                             </div>
                             <div className={styles.closeBtnWrapper}>
@@ -73,25 +78,25 @@ const MatchSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filte
                             <div className={styles.periodWrapper}>
                                 <p className={styles.periodLabel}>1st period</p>
                                 <div className={styles.timelineWrapper}>
-                                    <Timeline game={game} goals={period1} filters={filters} />
+                                    <Timeline game={game} goals={period1} filters={filters}/>
                                 </div>
                             </div>
                             <div className={styles.periodWrapper}>
                                 <p className={styles.periodLabel}>2nd period</p>
                                 <div className={styles.timelineWrapper}>
-                                    <Timeline game={game} goals={period2} filters={filters} />
+                                    <Timeline game={game} goals={period2} filters={filters}/>
                                 </div>
                             </div>
                             <div className={styles.periodWrapper}>
                                 <p className={styles.periodLabel}>3rd period</p>
                                 <div className={styles.timelineWrapper}>
-                                    <Timeline game={game} goals={period3} filters={filters} />
+                                    <Timeline game={game} goals={period3} filters={filters}/>
                                 </div>
                             </div>
                             <div className={`${styles.periodWrapper} ${styles.overtimeWrapper}`}>
                                 <p className={styles.periodLabel}>Overtime</p>
                                 <div className={styles.timelineWrapper}>
-                                    <Timeline game={game} goals={overtime} filters={filters} />
+                                    <Timeline game={game} goals={overtime} filters={filters}/>
                                 </div>
                             </div>
                         </div>
