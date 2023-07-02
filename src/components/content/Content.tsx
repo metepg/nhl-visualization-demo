@@ -6,7 +6,7 @@ import Shootout from "../shootout/Shootout.tsx";
 import Result from "../result/Result.tsx";
 import {FilteredGame, Goal, Periods} from "../../interfaces/GameData.ts";
 import {addCurrentScores, filterGoals, formatDate, groupGoalsByPeriod} from "../../utils/helpers.ts";
-import MatchSpecific from "../match-specific/MatchSpecific.tsx";
+import GameSpecific from "../game-specific/GameSpecific.tsx";
 
 
 interface ContentProps {
@@ -65,7 +65,7 @@ const Content: React.FC<ContentProps> = ({game, filters}) => {
             </div>
             <div className={styles.column}>
                 <div className={styles.content}>
-                    <MatchSpecific game={gameWithAddedGoalData} filters={filters} goalsByPeriod={goalsByPeriod} />
+                    <GameSpecific game={gameWithAddedGoalData} filters={filters} goalsByPeriod={goalsByPeriod} />
                 </div>
             </div>
         </div>

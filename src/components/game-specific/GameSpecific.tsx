@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import styles from './MatchSpecific.module.css';
+import styles from './GameSpecific.module.css';
 import {IconButton, Theme} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Timeline from "../timeline/Timeline.tsx";
@@ -13,7 +13,7 @@ interface MatchSpecificProps {
     filters: Filters;
 }
 
-const MatchSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filters}) => {
+const GameSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filters}) => {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
@@ -107,4 +107,4 @@ const MatchSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filte
     );
 };
 
-export default MatchSpecific;
+export default GameSpecific;
