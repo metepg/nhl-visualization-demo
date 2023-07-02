@@ -20,6 +20,19 @@ const GameSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filter
     const handleClose = () => setOpen(false);
 
     useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setOpen(false);
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
+    useEffect(() => {
         if (open) document.body.classList.add(styles.noScroll);
         else document.body.classList.remove(styles.noScroll);
     }, [open]);
@@ -54,7 +67,7 @@ const GameSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filter
                                         textTransform: 'lowercase',
                                         fontWeight: 'normal',
                                         margin: '0 2px'
-                                    }}>vs</label>
+                                    }}> vs </label>
                                     <label
                                         style={{color: awayIsSelectedTeam ? 'var(--red)' : 'var(--black)'}}>{awayTeamFullName}</label>
                                 </h2>
