@@ -4,8 +4,7 @@
     align-items: center;
     justify-content: center;
     height: 50px;
-    width: 100%;
-    margin: 0 auto;
+    width: 95%;
 }
 
 .timelineLine {
@@ -13,4 +12,5 @@
     height: 5px;
     background-color: var(--dark-grey);
     z-index: 1;
+    width: 100%;
 }

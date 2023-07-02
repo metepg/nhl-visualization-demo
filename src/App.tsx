@@ -75,36 +75,36 @@ const App: React.FC = () => {
                 <CircularProgress/>
             </div>
             :
-           <div>
-               <Navbar />
-               <div className={styles.contentWrapper}>
+            <div>
+                <Navbar/>
+                <div className={styles.contentWrapper}>
 
-                {/*Choose to get started component*/}
-                <ChooseComponent />
+                    {/*Choose to get started component*/}
+                    <ChooseComponent/>
 
-                {/*Filters*/}
-                <FiltersComponent
-                    selectedTeam={selectedTeam}
-                    setFilters={setFilters}
-                    setSelectedTeam={setSelectedTeam}
-                    season={SEASON}
-                    goalType={GOAL_TYPE}
-                    filters={filters}
-                    teams={teams}/>
-                <hr style={{border: '1px solid var(--dark-grey)'}}/>
+                    {/*Filters*/}
+                    <FiltersComponent
+                        selectedTeam={selectedTeam}
+                        setFilters={setFilters}
+                        setSelectedTeam={setSelectedTeam}
+                        season={SEASON}
+                        goalType={GOAL_TYPE}
+                        filters={filters}
+                        teams={teams}/>
+                    <hr style={{border: '1px solid var(--dark-grey)'}}/>
 
-                {/*Selected Filters text*/}
-                <NowVisualizing filters={filters}/>
+                    {/*Selected Filters text*/}
+                    <NowVisualizing filters={filters}/>
 
-                {/*Game data with headers*/}
-                <ContentHeader/>
-            <div style={{marginBottom: '100px'}}>
-                {filteredData.map((game: FilteredGame) =>
-                    <Content filters={filters} key={game.startTime} game={game}/>
-                )}
+                    {/*Game data with headers*/}
+                    <ContentHeader/>
+                    <div style={{marginBottom: '100px'}}>
+                        {filteredData.map((game: FilteredGame) =>
+                            <Content filters={filters} key={game.startTime} game={game}/>
+                        )}
+                    </div>
+                </div>
             </div>
-            </div>
-           </div>
     );
 };
 

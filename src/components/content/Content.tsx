@@ -4,8 +4,9 @@ import Timeline from "../timeline/Timeline.tsx";
 import {Filters} from "../../interfaces/CustomData.ts";
 import Shootout from "../shootout/Shootout.tsx";
 import Result from "../result/Result.tsx";
-import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
+import {FilteredGame, Goal, Periods} from "../../interfaces/GameData.ts";
 import {addCurrentScores, filterGoals, formatDate, groupGoalsByPeriod} from "../../utils/helpers.ts";
+import MatchSpecific from "../match-specific/MatchSpecific.tsx";
 
 
 interface ContentProps {
@@ -15,7 +16,8 @@ interface ContentProps {
 
 const Content: React.FC<ContentProps> = ({game, filters}) => {
     const [filteredGameEvents, setFilteredGameEvents] = useState<Goal[]>(game.goals);
-    const {period1, period2, period3, overtime} = groupGoalsByPeriod(filteredGameEvents);
+    const goalsByPeriod: Periods = groupGoalsByPeriod(filteredGameEvents);
+    const {period1, period2, period3, overtime} = goalsByPeriod;
 
     useEffect(() => {
         setFilteredGameEvents(filterGoals(game.goals, filters));
@@ -23,6 +25,7 @@ const Content: React.FC<ContentProps> = ({game, filters}) => {
 
     const gameWithAddedGoalData = {...game, goals: addCurrentScores(game.goals, game.teams)}
     return (
+        <>
         <div className={styles.container}>
             <div className={styles.column}>
                 <div className={styles.content}>{formatDate(game.startTime)}</div>
@@ -61,9 +64,12 @@ const Content: React.FC<ContentProps> = ({game, filters}) => {
                 </div>
             </div>
             <div className={styles.column}>
-                <div className={styles.content}>V</div>
+                <div className={styles.content}>
+                    <MatchSpecific game={gameWithAddedGoalData} filters={filters} goalsByPeriod={goalsByPeriod} />
+                </div>
             </div>
         </div>
+        </>
     )
 }
 
