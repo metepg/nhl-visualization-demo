@@ -69,7 +69,6 @@ body.no-scroll {
 .dialogBodyStyles {
     display: grid;
     grid-template-columns: 120px 800px;
-    grid-row-gap: 10px;
     margin-top: 10px;
     align-items: center;
 }
