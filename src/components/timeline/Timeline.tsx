@@ -13,7 +13,7 @@ interface TimelineProps {
     shootout?: boolean;
 }
 
-const Timeline: React.FC<TimelineProps> = ({goals, shootout, filters, game}) => {
+const Timeline: React.FC<TimelineProps> = ({goals, filters, game}) => {
     const getCirclePosition = (goalTime: number): string => {
         const minutes = 20;
         const periodDurationInSeconds: number = minutes * 60;
@@ -63,7 +63,7 @@ const Timeline: React.FC<TimelineProps> = ({goals, shootout, filters, game}) => 
     return (
         <div className={styles.wrapper}>
             {goalEvent}
-            <div className={styles.timelineLine} style={{width: shootout ? '53px' : '212px'}}/>
+            <div className={styles.timelineLine} />
         </div>
     );
 };

@@ -1,0 +1,96 @@
+* {
+    font-size: 14px;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+.dialogHeaderStyles {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.matchHeader {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dialogHeaderStyles h2 {
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+.closeBtnWrapper {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.closeBtnWrapper label {
+    font-size: 12px;
+}
+
+.closeButton {
+    margin-left: 10px;
+    border: 2px solid var(--dark-grey);
+}
+
+.label {
+    font-size: 12px;
+    background-color: var(--white);
+    z-index: 1;
+    text-align: left;
+}
+.dialogStyles {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Light-colored background with opacity */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialogContentStyles {
+    position: relative;
+    width: 1080px;
+    height: 370px;
+    background-color: var(--white);
+    border-top: 1px solid var(--black);
+    border-bottom: 1px solid var(--black);
+    padding: 30px 0;
+}
+
+.dialogBodyStyles {
+    display: grid;
+    grid-template-columns: 120px 800px;
+    grid-row-gap: 10px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.overtimeWrapper {
+    grid-template-columns: 80px 200px;
+}
+
+.periodWrapper {
+    display: contents;
+}
+
+.periodLabel {
+    width: 100%;
+    font-weight: bold;
+}
+
+.timelineWrapper {
+    width: 100%;
+}
+
+.overtimeWrapper .timelineWrapper {
+    width: 200px;
+}
