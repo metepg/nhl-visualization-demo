@@ -34,9 +34,10 @@ const MatchSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filte
     const away = `${game.teams.away.locationName} ${game.teams.away.teamName}`;
     const {scores} = game;
     const winner: string = Object.keys(scores).reduce((maxKey: string, key: string): string => {
-        if (!(scores[key] as number | boolean) && (scores[key] as number | boolean) > (scores[maxKey] as number | boolean)) return key;
+        if ((scores[key] as number | boolean) && (scores[key] as number | boolean) > (scores[maxKey] as number | boolean)) return key;
         else return maxKey;
     });
+    console.log(winner)
 
     return (
         <>
