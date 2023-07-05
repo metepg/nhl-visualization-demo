@@ -22,20 +22,6 @@ body.no-scroll {
     margin-top: 5px;
     text-transform: uppercase;
 }
-.closeBtnWrapper {
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-}
-
-.closeBtnWrapper label {
-    font-size: var(--font-size-small);
-}
-
-.closeButton {
-    margin-left: 10px;
-    border: 2px solid var(--dark-grey);
-}
 
 .label {
     font-size: var(--font-size-small);
