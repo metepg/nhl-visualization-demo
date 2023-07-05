@@ -2,32 +2,28 @@ import React from 'react';
 import {Filters} from "../../interfaces/CustomData.ts";
 import styles from './Timeline.module.css'
 import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
-import {timeInSeconds} from "../../utils/helpers.ts";
+import {getCirclePosition} from "../../utils/helpers.ts";
 import {PlayerInfo} from "../../interfaces/Teams.ts";
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 
 interface TimelineProps {
-    game: FilteredGame;
-    filters: Filters
     goals: Goal[];
-    shootout?: boolean;
+    filters: Filters;
+    game: FilteredGame;
 }
 
-const Timeline: React.FC<TimelineProps> = ({goals, filters, game}) => {
-    const getCirclePosition = (goalTime: number): string => {
-        const minutes = 20;
-        const periodDurationInSeconds: number = minutes * 60;
-        const circlePosition: number = goalTime / periodDurationInSeconds * 100;
-        return circlePosition.toString();
-    };
-
-    const goalEvent = goals.map((goal: Goal, index: number) => {
+const Timeline: React.FC<TimelineProps> = ({ goals, filters, game }) => {
+    const goalEvents = goals.map((goal: Goal, index: number) => {
+        const periodInMinutes = goal.period === 'OT' ? 5 : 20;
         const isSelectedTeam: boolean = goal.team === filters?.team?.abbreviation;
-        const filterMatched: boolean = goal.showGoal ?? false;
-        const scorer: string | number = isSelectedTeam ? filters?.team?.roster?.roster
-            .find((player: PlayerInfo): boolean => player.person.id === goal.scorer.playerId)?.jerseyNumber ?? '' : ''
+        const showGoal: boolean = goal.showGoal ?? false;
+        const scorer: string = isSelectedTeam && filters?.team?.roster
+            ? filters.team.roster.roster.find(
+                (player: PlayerInfo): boolean => player.person.id === goal.scorer.playerId)?.jerseyNumber ?? '99'
+            : '';
+
         const circleStyle = {
-            left: `${getCirclePosition(timeInSeconds(goal.min, goal.sec))}%`,
+            left: getCirclePosition(periodInMinutes, goal.min, goal.sec),
             width: isSelectedTeam ? '25px' : '12.5px',
             height: isSelectedTeam ? '25px' : '12.5px',
             position: 'absolute',
@@ -38,15 +34,16 @@ const Timeline: React.FC<TimelineProps> = ({goals, filters, game}) => {
             border: '1px solid var(--white)',
             zIndex: '2',
             fontSize: 'var(--font-size-small)',
-            fontWeight: "normal",
+            fontWeight: 'normal',
             backgroundColor: isSelectedTeam
-                ? filterMatched
+                ? showGoal
                     ? 'var(--red)'
                     : 'var(--filtered-selected-team)'
-                : filterMatched
+                : showGoal
                     ? 'var(--black)'
-                    : 'var(--filtered-other-team)'
+                    : 'var(--filtered-other-team)',
         };
+
         return (
             <GoalCircle
                 customCircleStyles={circleStyle}
@@ -57,12 +54,12 @@ const Timeline: React.FC<TimelineProps> = ({goals, filters, game}) => {
                 key={index}
                 jerseyNumber={scorer}
             />
-        )
-    })
+        );
+    });
 
     return (
         <div className={styles.wrapper}>
-            {goalEvent}
+            {goalEvents}
             <div className={styles.timelineLine} />
         </div>
     );

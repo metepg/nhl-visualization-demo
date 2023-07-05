@@ -7,10 +7,17 @@ export const formatDate = (dateString: string): string => {
     const day: number = date.getDate();
     return `${monthAbbreviation} ${day}`;
 }
-export const timeInSeconds = (minutes: number | undefined, seconds: number | undefined): number => {
-    if ((minutes === 0 && !seconds) || (!minutes && !seconds)) return 0;
-    return (minutes || 0) * 60 + (seconds || 0);
+
+export const getCirclePosition = (periodInMinutes = 20, goalMinutes = 0, goalSeconds = 0): string => {
+    const goalTime: number = goalTimeInSeconds(goalMinutes, goalSeconds);
+    const periodDurationInSeconds: number = periodInMinutes * 60;
+    const circlePosition: number = Math.floor((goalTime / periodDurationInSeconds) * 100);
+    return `${circlePosition}%`;
 };
+
+export const goalTimeInSeconds = (minutes = 0, seconds = 0) => {
+    return minutes * 60 + seconds;
+}
 
 export const goalTypeShort = (value: string | null | undefined): string => {
     if (!value) return '';
@@ -91,42 +98,34 @@ export const getAssistLastNames = (goal: Goal): string[] => {
 
 export const sortGoals = (goals: Goal[]): Goal[] => {
     return goals.sort((a: Goal, b: Goal): number => {
-        if (a.period === 'OT') return 1;
-        if (b.period === 'OT') return -1;
+        const periodMap: { [key: string]: number } = {
+            '1': 1,
+            '2': 2,
+            '3': 3,
+            'OT': 4,
+        };
+        const periodA: number = periodMap[a.period];
+        const periodB: number = periodMap[b.period];
+        const goalTimeA: number = goalTimeInSeconds(a.min, a.sec);
+        const goalTimeB: number = goalTimeInSeconds(b.min, b.sec);
 
-        const periodA = parseInt(a.period);
-        const periodB = parseInt(b.period);
-
-        if (periodA < periodB) return -1;
-        if (periodA > periodB) return 1;
-
-        const minA = a.min || 0;
-        const secA = a.sec || 0;
-        const minB = b.min || 0;
-        const secB = b.sec || 0;
-
-        if (minA > minB) return 1;
-        if (minA < minB) return -1;
-        return secA > secB ? 1 : -1;
+        return periodA - periodB || goalTimeA - goalTimeB;
     });
 }
 export const addCurrentScores = (goals?: Goal[], teams?: Teams): Goal[] => {
     if (!goals || !teams) return [];
-    const {home, away} = teams;
     const sortedGoals = sortGoals(goals);
     let homeScore = 0;
     let awayScore = 0;
-    let currentGoal = 0;
 
-    return sortedGoals.map((goal: Goal) => {
-        if (goal.team === home.abbreviation) {
-            goal.homeScore = ++homeScore;
-            goal.awayScore = awayScore;
-        } else if (goal.team === away.abbreviation) {
-            goal.homeScore = homeScore;
-            goal.awayScore = ++awayScore;
-        }
-        goal.currentGoal = ++currentGoal;
+    return sortedGoals.map((goal: Goal, index: number) => {
+        const { team } = goal;
+        const isHomeTeam: boolean = team === teams.home.abbreviation;
+        const isAwayTeam: boolean = team === teams.away.abbreviation;
+
+        goal.homeScore = isHomeTeam ? ++homeScore : homeScore;
+        goal.awayScore = isAwayTeam ? ++awayScore : awayScore;
+        goal.currentGoal = index + 1;
         return goal;
     });
 };
