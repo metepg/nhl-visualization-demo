@@ -15,6 +15,7 @@
     display: grid;
     grid-template-columns: 130px 1fr;
     background-color: lightblue;
+    text-align: center;
 }
 
 .goalTypeWrapper div {
