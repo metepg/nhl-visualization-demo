@@ -8,16 +8,16 @@ interface GoalCircleProps {
     filters?: Filters;
     game?: FilteredGame;
     goalInfo?: Goal;
-    textInside: string | number;
+    jerseyNumber: string | number;
     isSelectedTeam: boolean;
     customCircleStyles: any;
 }
-const GoalCircle: React.FC<GoalCircleProps> = ({textInside, isSelectedTeam, customCircleStyles, goalInfo, game, filters}) => {
+const GoalCircle: React.FC<GoalCircleProps> = ({jerseyNumber, isSelectedTeam, customCircleStyles, goalInfo, game, filters}) => {
     const [showElement, setShowElement] = useState<boolean>(false);
     const defaultCircleStyle = {
         width: isSelectedTeam ? '25px' : '12.5px',
         height: isSelectedTeam ? '25px' : '12.5px',
-        fontSize: '14px',
+        fontSize: 'var(--font-size-normal)',
         fontWeight: "normal",
         backgroundColor: isSelectedTeam
                 ? 'var(--red)'
@@ -39,7 +39,7 @@ const GoalCircle: React.FC<GoalCircleProps> = ({textInside, isSelectedTeam, cust
             // TODO: Remove inline styles to css
             style={customCircleStyles ?? defaultCircleStyle}
         >
-            <span className={styles.eventText}>{textInside}</span>
+            <span className={styles.eventText}>{jerseyNumber}</span>
             {showElement && <GoalInfoDialog goalInfo={goalInfo} game={game} filters={filters} teams={game?.teams} />}
         </div>
     );

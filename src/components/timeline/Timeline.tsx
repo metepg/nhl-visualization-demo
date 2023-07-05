@@ -37,7 +37,7 @@ const Timeline: React.FC<TimelineProps> = ({goals, filters, game}) => {
             alignItems: 'center',
             border: '1px solid var(--white)',
             zIndex: '2',
-            fontSize: '12px',
+            fontSize: 'var(--font-size-small)',
             fontWeight: "normal",
             backgroundColor: isSelectedTeam
                 ? filterMatched
@@ -55,7 +55,7 @@ const Timeline: React.FC<TimelineProps> = ({goals, filters, game}) => {
                 goalInfo={goal}
                 isSelectedTeam={isSelectedTeam}
                 key={index}
-                textInside={scorer}
+                jerseyNumber={scorer}
             />
         )
     })

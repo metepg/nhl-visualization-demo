@@ -34,11 +34,11 @@ const NowVisualizing: React.FC<NowVisualizingProps> = ({filters}) => {
             <div className={styles.secondRow}>
                 <div className={styles.circleContainer}>
                     <div className={styles.selectedTeamCircleContainer}>
-                        <GoalCircle textInside={'x'} isSelectedTeam={true} customCircleStyles={null}/>
+                        <GoalCircle jerseyNumber={'x'} isSelectedTeam={true} customCircleStyles={null}/>
                         <p className={styles.circleText}>Goals for (w/player number)</p>
                     </div>
                     <div className={styles.otherTeamCircleContainer}>
-                        <GoalCircle textInside={''} isSelectedTeam={false} customCircleStyles={null} />
+                        <GoalCircle jerseyNumber={''} isSelectedTeam={false} customCircleStyles={null} />
                         <p className={styles.circleText}>Goals against</p>
                     </div>
                 </div>
@@ -49,9 +49,9 @@ const NowVisualizing: React.FC<NowVisualizingProps> = ({filters}) => {
                     <p className={styles.view2}>GAME-SPECIFIC VIEW</p>
                 </div>
                 <div>
-                    <span style={{marginRight: '10px', fontSize: '12px'}}>FULL LAYOUT</span>
+                    <span style={{marginRight: '10px', fontSize: 'var(--font-size-small)'}}>FULL LAYOUT</span>
                     <ToggleSwitch/>
-                    <span style={{marginLeft: '10px', fontSize: '12px'}}>MINIMIZED</span>
+                    <span style={{marginLeft: '10px', fontSize: 'var(--font-size-small)'}}>MINIMIZED</span>
                 </div>
             </div>
         </div>
