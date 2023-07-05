@@ -1,75 +1,46 @@
-import React, {useEffect, useState} from "react";
-import styles from './Content.module.css'
-import Timeline from "../timeline/Timeline.tsx";
+import React from "react";
 import {Filters} from "../../interfaces/CustomData.ts";
-import Shootout from "../shootout/Shootout.tsx";
-import Result from "../result/Result.tsx";
-import {FilteredGame, Goal, Periods} from "../../interfaces/GameData.ts";
-import {addCurrentScores, filterGoals, formatDate, groupGoalsByPeriod} from "../../utils/helpers.ts";
-import GameSpecific from "../game-specific/GameSpecific.tsx";
+import {FilteredGame} from "../../interfaces/GameData.ts";
+import {Table, TableBody, tableCellClasses, TableContainer, TableHead, TableRow} from "@mui/material";
+import TableBodyContent from "./table-body-content/TableBodyContent.tsx";
+import TableHeaders from "./table-headers/TableHeaders.tsx";
 
 
 interface ContentProps {
-    game: FilteredGame;
+    games: FilteredGame[];
     filters: Filters;
 }
 
-const Content: React.FC<ContentProps> = ({game, filters}) => {
-    const [filteredGameEvents, setFilteredGameEvents] = useState<Goal[]>(game.goals);
-    const goalsByPeriod: Periods = groupGoalsByPeriod(filteredGameEvents);
-    const {period1, period2, period3, overtime} = goalsByPeriod;
 
-    useEffect(() => {
-        setFilteredGameEvents(filterGoals(game.goals, filters));
-    }, [game, filters])
+const Content: React.FC<ContentProps> = ({games, filters}) => {
+    const tableHeaderStyles = {
+        [`& .${tableCellClasses.root}`]: {
+            borderBottom: "1px solid var(--black)",
+                padding: '5px 0',
+                fontSize: '14px'
+        }};
 
-    const gameWithAddedGoalData = {...game, goals: addCurrentScores(game.goals, game.teams)}
+    const tableBodyStyles = {
+        [`& .${tableCellClasses.root}`]: {
+            borderBottom: "none",
+            padding: '0 5px',
+            cursor: 'pointer',
+        }
+    };
+
     return (
-        <>
-        <div className={styles.container}>
-            <div className={styles.column}>
-                <div className={styles.content}>{formatDate(game.startTime)}</div>
-            </div>
-            <div className={styles.column}>
-                <div className={styles.content}>{`${game.teams.home.abbreviation}-${game.teams.away.abbreviation}`}</div>
-            </div>
-            <div className={styles.column}>
-                <div className={styles.content}>
-                    <Timeline goals={period1} filters={filters} game={gameWithAddedGoalData} />
-                </div>
-            </div>
-            <div className={styles.column}>
-                <div className={styles.content}>
-                    <Timeline goals={period2} filters={filters} game={gameWithAddedGoalData} />
-                </div>
-            </div>
-            <div className={styles.column}>
-                <div className={styles.content}>
-                    <Timeline goals={period3} filters={filters} game={gameWithAddedGoalData} />
-                </div>
-            </div>
-            <div className={styles.column}>
-                <div className={styles.content}>
-                    <Timeline goals={overtime} filters={filters} shootout={true} game={gameWithAddedGoalData} />
-                </div>
-            </div>
-            <div className={styles.column}>
-                <div className={styles.content}>
-                    <Shootout shootout={game.scores.shootout}></Shootout>
-                </div>
-            </div>
-            <div className={styles.column}>
-                <div className={styles.content}>
-                    <Result game={game} filters={filters}/>
-                </div>
-            </div>
-            <div className={styles.column}>
-                <div className={styles.content}>
-                    <GameSpecific game={gameWithAddedGoalData} filters={filters} goalsByPeriod={goalsByPeriod} />
-                </div>
-            </div>
-        </div>
-        </>
+        <TableContainer sx={{overflowX: 'unset'}}>
+            <Table aria-label="collapsible table" >
+                <TableHead>
+                    <TableRow sx={tableHeaderStyles}>
+                        <TableHeaders />
+                    </TableRow>
+                </TableHead>
+                <TableBody sx={tableBodyStyles}>
+                    <TableBodyContent games={games} filters={filters}/>
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }
 

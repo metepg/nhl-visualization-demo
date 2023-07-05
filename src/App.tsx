@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import styles from './App.module.css';
-import ContentHeader from "./components/content-header/ContentHeader.tsx";
 import {Filters} from "./interfaces/CustomData.ts";
 import Content from "./components/content/Content.tsx";
 import FiltersComponent from "./components/filters-component/FiltersComponent.tsx";
@@ -14,7 +13,9 @@ import {
     DEFAULT_GOAL_TYPE_FOR,
     DEFAULT_PLAYER,
     DEFAULT_SEASON,
-    DEFAULT_TEAM_ID, GOAL_TYPE, SEASON
+    DEFAULT_TEAM_ID,
+    GOAL_TYPE,
+    SEASON
 } from "./constants/defaultValues.ts";
 import {CircularProgress} from "@mui/material";
 import ChooseComponent from "./components/choose-component/ChooseComponent.tsx";
@@ -31,28 +32,25 @@ const App: React.FC = () => {
         goaltypefor: DEFAULT_GOAL_TYPE_FOR,
         goaltypeagainst: DEFAULT_GOAL_TYPE_AGAINST
     });
-    const [filteredData, setFilteredData] = useState<FilteredGame[]>([]);
+    const [selectedTeamGames, setSelectedTeamGames] = useState<FilteredGame[]>([]);
     const [selectedTeam, setSelectedTeam] = useState<Team | undefined>();
+    const isLoading = !teams;
 
     useEffect(() => {
         (async () => {
-            try {
-                const teamDataResponse = await getTeamData();
-                const teamsSortedAlphabetically = teamDataResponse.data.teams
-                    .sort((a: Team, b: Team) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
+            const teams: Team[] = await getTeamData();
+            const teamsSortedAlphabetically: Team[] = teams
+                .sort((a: Team, b: Team) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
 
-                setTeams(teamsSortedAlphabetically);
-                setFilters({
-                    team: teamsSortedAlphabetically[5],
-                    teamId: DEFAULT_TEAM_ID,
-                    player: DEFAULT_PLAYER,
-                    season: DEFAULT_SEASON,
-                    goaltypefor: DEFAULT_GOAL_TYPE_FOR,
-                    goaltypeagainst: DEFAULT_GOAL_TYPE_AGAINST
-                })
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
+            setTeams(teamsSortedAlphabetically);
+            setFilters({
+                team: teamsSortedAlphabetically[5],
+                teamId: DEFAULT_TEAM_ID,
+                player: DEFAULT_PLAYER,
+                season: DEFAULT_SEASON,
+                goaltypefor: DEFAULT_GOAL_TYPE_FOR,
+                goaltypeagainst: DEFAULT_GOAL_TYPE_AGAINST
+            })
         })();
     }, []);
 
@@ -61,7 +59,7 @@ const App: React.FC = () => {
         const gameData: FilteredGame[] = getGameDataById(filters.teamId);
 
         setSelectedTeam(team);
-        setFilteredData(gameData);
+        setSelectedTeamGames(gameData);
 
         setFilters(prevFilters => ({
             ...prevFilters,
@@ -70,7 +68,7 @@ const App: React.FC = () => {
     }, [selectedTeam, teams, filters.teamId]);
 
     return (
-        !teams ?
+        isLoading ?
             <div className={styles.container}>
                 <CircularProgress/>
             </div>
@@ -97,11 +95,8 @@ const App: React.FC = () => {
                     <NowVisualizing filters={filters}/>
 
                     {/*Game data with headers*/}
-                    <ContentHeader/>
-                    <div style={{marginBottom: '100px'}}>
-                        {filteredData.map((game: FilteredGame) =>
-                            <Content filters={filters} key={game.startTime} game={game}/>
-                        )}
+                    <div style={{marginBottom: '400px'}}>
+                        <Content games={selectedTeamGames} filters={filters}/>
                     </div>
                 </div>
             </div>
