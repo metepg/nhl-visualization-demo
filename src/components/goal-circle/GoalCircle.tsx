@@ -24,11 +24,18 @@ const GoalCircle: React.FC<GoalCircleProps> = ({textInside, isSelectedTeam, cust
                 : 'var(--black)'
     };
 
+    function handleHover(event: React.MouseEvent<HTMLDivElement>, value: boolean | null): void {
+        event.stopPropagation();
+        if (value === null) return;
+        setShowElement(value);
+    }
+
     return (
         <div
             className={styles.circle}
-            onMouseEnter={() => setShowElement(true)}
-            onMouseLeave={() => setShowElement(false)}
+            onMouseEnter={(e) => handleHover(e, true)}
+            onMouseLeave={(e) => handleHover(e, false)}
+            onClick={(e) => handleHover(e, null)}
             // TODO: Remove inline styles to css
             style={customCircleStyles ?? defaultCircleStyle}
         >
