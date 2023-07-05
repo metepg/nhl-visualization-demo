@@ -39,12 +39,9 @@ const App: React.FC = () => {
     useEffect(() => {
         (async () => {
             const teams: Team[] = await getTeamData();
-            const teamsSortedAlphabetically: Team[] = teams
-                .sort((a: Team, b: Team) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
-
-            setTeams(teamsSortedAlphabetically);
+            setTeams(teams);
             setFilters({
-                team: teamsSortedAlphabetically[5],
+                team: teams[5],
                 teamId: DEFAULT_TEAM_ID,
                 player: DEFAULT_PLAYER,
                 season: DEFAULT_SEASON,
@@ -88,7 +85,8 @@ const App: React.FC = () => {
                         season={SEASON}
                         goalType={GOAL_TYPE}
                         filters={filters}
-                        teams={teams}/>
+                        teams={teams}
+                    />
                     <hr style={{border: '1px solid var(--dark-grey)'}}/>
 
                     {/*Selected Filters text*/}

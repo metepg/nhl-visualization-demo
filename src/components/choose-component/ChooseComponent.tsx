@@ -24,8 +24,8 @@ const ChooseComponent: React.FC = () => {
             </div>
             <hr/>
             <div className={styles.buttonContainer}>
-                <button className={styles.button1}>BY TEAM</button>
-                <button className={styles.button2}>BY DATE</button>
+                <button className={styles.teamButton}>BY TEAM</button>
+                <button className={styles.dateButton}>BY DATE</button>
             </div>
         </>
     );
