@@ -17,7 +17,7 @@ const Content: React.FC<ContentProps> = ({games, filters}) => {
         [`& .${tableCellClasses.root}`]: {
             borderBottom: "1px solid var(--black)",
                 padding: '5px 0',
-                fontSize: '14px'
+                fontSize: 'var(--font-size-normal)'
         }};
 
     const tableBodyStyles = {

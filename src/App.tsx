@@ -56,10 +56,10 @@ const App: React.FC = () => {
 
     useEffect(() => {
         const team: Team | undefined = teams?.find((t: Team): boolean => t.id === filters.teamId);
-        const gameData: FilteredGame[] = getGameDataById(filters.teamId);
+        const gamesByTeam: FilteredGame[] = getGameDataById(filters.teamId);
 
         setSelectedTeam(team);
-        setSelectedTeamGames(gameData);
+        setSelectedTeamGames(gamesByTeam);
 
         setFilters(prevFilters => ({
             ...prevFilters,

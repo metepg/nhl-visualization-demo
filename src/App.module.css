@@ -6,8 +6,8 @@
     --light-grey: #ECEEF2;
     --filtered-selected-team: #FBDDE1;
     --filtered-other-team: #DEDEDE;
-    font-weight: 500;
-    font-size: 14px;
+    --font-size-small: 12px;
+    --font-size-normal: 14px;
 }
 
 .contentWrapper {

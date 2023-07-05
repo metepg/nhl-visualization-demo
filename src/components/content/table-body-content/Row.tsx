@@ -27,14 +27,14 @@ const Row: React.FC<RowProps> = ({game}) => {
     return(
     <React.Fragment key={game.date}>
         <TableRow onClick={() => setOpen(!open)} sx={tableRowStyles}>
-            <TableCell align="center" width="60px" sx={{fontSize: '14px'}}>{game.date}</TableCell>
-            <TableCell align="center" width="75px" sx={{fontSize: '14px'}}>{game.game}</TableCell>
-            <TableCell align="center" width="223px" sx={{fontSize: '14px'}}>{game.period1}</TableCell>
-            <TableCell align="center" width="223px" sx={{fontSize: '14px'}}>{game.period2}</TableCell>
-            <TableCell align="center" width="223px" sx={{fontSize: '14px'}}>{game.period3}</TableCell>
-            <TableCell align="center" width="58px" sx={{fontSize: '14px'}}>{game.OT}</TableCell>
-            <TableCell align="center" width="25px" sx={{fontSize: '14px'}}>{game.SO}</TableCell>
-            <TableCell align="center" width="62px" sx={{fontSize: '14px'}}>{game.result}</TableCell>
+            <TableCell align="center" width="60px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.date}</TableCell>
+            <TableCell align="center" width="75px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.game}</TableCell>
+            <TableCell align="center" width="223px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.period1}</TableCell>
+            <TableCell align="center" width="223px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.period2}</TableCell>
+            <TableCell align="center" width="223px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.period3}</TableCell>
+            <TableCell align="center" width="58px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.OT}</TableCell>
+            <TableCell align="center" width="25px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.SO}</TableCell>
+            <TableCell align="center" width="62px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.result}</TableCell>
 
             {/*This is the last column expand button*/}
             <TableCell align="center" width="30px">

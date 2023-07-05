@@ -1,5 +1,5 @@
 * {
-    font-size: 14px;
+    font-size: var(--font-size-normal);
 }
 
 body.no-scroll {
@@ -29,7 +29,7 @@ body.no-scroll {
 }
 
 .closeBtnWrapper label {
-    font-size: 12px;
+    font-size: var(--font-size-small);
 }
 
 .closeButton {
@@ -38,7 +38,7 @@ body.no-scroll {
 }
 
 .label {
-    font-size: 12px;
+    font-size: var(--font-size-small);
     background-color: var(--white);
     z-index: 1;
     text-align: left;
