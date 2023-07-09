@@ -8,7 +8,7 @@ const ChooseComponent: React.FC = () => {
     };
 
     return (
-        <>
+        <section>
             <h1>Choose to get started</h1>
             <hr/>
             <div className={styles.statsSelectionContainer}>
@@ -27,7 +27,7 @@ const ChooseComponent: React.FC = () => {
                 <button className={styles.teamButton}>BY TEAM</button>
                 <button className={styles.dateButton}>BY DATE</button>
             </div>
-        </>
+        </section>
     );
 };
 
