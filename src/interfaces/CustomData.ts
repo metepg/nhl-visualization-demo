@@ -15,12 +15,11 @@ interface GameData {
 }
 
 interface Filters {
-    team?: Team | null;
-    teamId?: number | null;
-    player?: number | null;
-    season?: string | null;
-    goaltypefor?: string | null;
-    goaltypeagainst?: string | null;
+    team: Team;
+    player: number;
+    season: string;
+    goaltypefor: string;
+    goaltypeagainst: string;
 }
 
 interface Team2 {
