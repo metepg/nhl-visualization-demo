@@ -5,11 +5,11 @@ import {PlayerInfo} from "../../interfaces/Teams.ts";
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 import ToggleSwitch from "../toggle-switch/ToggleSwitch.tsx";
 
-interface NowVisualizingProps {
+interface Props {
     filters: Filters
 }
 
-const NowVisualizing: React.FC<NowVisualizingProps> = ({filters}) => {
+const NowVisualizing: React.FC<Props> = ({filters}) => {
     const team = filters?.team;
     const season = filters.season;
     const goaltypefor = filters.goaltypefor;

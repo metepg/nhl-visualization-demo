@@ -6,13 +6,13 @@ import {getCirclePosition} from "../../utils/helpers.ts";
 import {PlayerInfo} from "../../interfaces/Teams.ts";
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 
-interface TimelineProps {
+interface Props {
     goals: Goal[];
     filters: Filters;
     game: FilteredGame;
 }
 
-const Timeline: React.FC<TimelineProps> = ({ goals, filters, game }) => {
+const Timeline: React.FC<Props> = ({ goals, filters, game }) => {
     const goalEvents = goals.map((goal: Goal, index: number) => {
         const periodInMinutes = goal.period === 'OT' ? 5 : 20;
         const isSelectedTeam: boolean = goal.team === filters?.team?.abbreviation;

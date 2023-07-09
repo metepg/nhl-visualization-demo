@@ -20,12 +20,12 @@ interface TableRowValues {
     expandedContent: ReactElement
 }
 
-interface TableRowProps {
+interface Props {
     filters: Filters;
     games: Game[];
 }
 
-const TableBodyContent: React.FC<TableRowProps> = ({games, filters}) => {
+const TableBodyContent: React.FC<Props> = ({games, filters}) => {
     const tableBodyContent: TableRowValues[] = games.map((game: FilteredGame): TableRowValues => {
         const {goals, teams, scores} = game;
         const filteredGoals = filterGoals(goals, filters);

@@ -14,10 +14,10 @@ interface TableRowValues {
     result: ReactElement,
     expandedContent: ReactElement
 }
-interface RowProps {
+interface Props {
     game: TableRowValues;
 }
-const Row: React.FC<RowProps> = ({game}) => {
+const Row: React.FC<Props> = ({game}) => {
     const [open, setOpen] = useState(false);
     const tableRowStyles = {
         '&:hover': {
