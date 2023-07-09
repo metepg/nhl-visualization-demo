@@ -13,7 +13,6 @@ import {
     DEFAULT_GOAL_TYPE_FOR,
     DEFAULT_PLAYER,
     DEFAULT_SEASON,
-    DEFAULT_TEAM_ID,
     GOAL_TYPE,
     SEASON
 } from "./constants/defaultValues.ts";
@@ -23,54 +22,34 @@ import Navbar from "./components/navbar/Navbar.tsx";
 
 
 const App: React.FC = () => {
-    const [teams, setTeams] = useState<Team[]>();
+    const [teams, setTeams] = useState<Team[]>([]);
+    const defaultTeam = teams?.[5];
     const [filters, setFilters] = useState<Filters>({
-        team: null,
-        teamId: DEFAULT_TEAM_ID,
+        team: defaultTeam,
         player: DEFAULT_PLAYER,
         season: DEFAULT_SEASON,
         goaltypefor: DEFAULT_GOAL_TYPE_FOR,
         goaltypeagainst: DEFAULT_GOAL_TYPE_AGAINST
     });
-    const [selectedTeamGames, setSelectedTeamGames] = useState<FilteredGame[]>([]);
-    const [selectedTeam, setSelectedTeam] = useState<Team | undefined>();
-    const isLoading = !teams;
+    const selectedTeam: Team | undefined = teams?.find((team: Team): boolean => team.id === filters?.team?.id);
+    const selectedTeamGames: FilteredGame[] = getGameDataById(selectedTeam?.id);
 
     useEffect(() => {
         (async () => {
+            console.log("hcek")
             const teams: Team[] = await getTeamData();
             setTeams(teams);
-            setFilters({
-                team: teams[5],
-                teamId: DEFAULT_TEAM_ID,
-                player: DEFAULT_PLAYER,
-                season: DEFAULT_SEASON,
-                goaltypefor: DEFAULT_GOAL_TYPE_FOR,
-                goaltypeagainst: DEFAULT_GOAL_TYPE_AGAINST
-            })
         })();
     }, []);
 
     useEffect(() => {
-        const team: Team | undefined = teams?.find((t: Team): boolean => t.id === filters.teamId);
-        const gamesByTeam: FilteredGame[] = getGameDataById(filters.teamId);
-
-        setSelectedTeam(team);
-        setSelectedTeamGames(gamesByTeam);
-
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            team: selectedTeam ?? prevFilters.team
-        }));
-    }, [selectedTeam, teams, filters.teamId]);
+        setFilters((prevFilters: Filters): Filters => ({...prevFilters, team: filters.team || defaultTeam}));
+    }, [defaultTeam, teams, filters.team]);
 
     return (
-        isLoading ?
-            <div className={styles.container}>
-                <CircularProgress/>
-            </div>
-            :
-            <div>
+        !filters.team
+            ? <div className={styles.container}><CircularProgress/></div>
+            : <div>
                 <Navbar/>
                 <div className={styles.contentWrapper}>
 
@@ -79,9 +58,7 @@ const App: React.FC = () => {
 
                     {/*Filters*/}
                     <FiltersComponent
-                        selectedTeam={selectedTeam}
                         setFilters={setFilters}
-                        setSelectedTeam={setSelectedTeam}
                         season={SEASON}
                         goalType={GOAL_TYPE}
                         filters={filters}
