@@ -20,14 +20,14 @@
     justify-content: center;
 }
 
-.firstRow {
+.selectedFilters {
     grid-area: first-row-right;
     border: 2px solid var(--dark-grey);
     width: 100%;
     padding: 0 10px;
 }
 
-.secondRow {
+.infoText {
     grid-area: second-row-right;
     background-color: var(--light-grey);
     padding: 0 10px;
@@ -35,7 +35,7 @@
     width: 100%;
 }
 
-.thirdRow {
+.selectedView {
     grid-area: third-row-right;
     height: 48px;
     align-items: center;
@@ -63,22 +63,27 @@
     margin-left: 30px;
 }
 
-.view1, .view2 {
+.overview, .gameSpecificView {
     padding: 5px 10px;
     text-align: center;
     display: inline-block;
     font-size: var(--font-size-small);
 }
 
-.view1 {
+.overview {
     background-color: var(--red);
     border: 2px solid var(--red);
     color: var(--white);
     margin-right: 3px;
 }
 
-.view2 {
+.gameSpecificView {
     background-color: var(--white);
     border: 2px solid var(--dark-grey);
     color: var(--black);
+}
+
+.selectedOptions {
+   text-transform: uppercase;
+    padding-right: 10px;
 }
