@@ -10,12 +10,7 @@
     --font-size-normal: 14px;
 }
 
-.contentWrapper {
-    width: 1080px;
-    margin: 0 auto;
-}
-
-.container {
+.loadingIconContainer {
     display: flex;
     justify-content: center;
     align-items: center;
