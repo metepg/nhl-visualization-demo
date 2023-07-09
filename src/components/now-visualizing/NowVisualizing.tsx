@@ -15,9 +15,7 @@ const NowVisualizing: React.FC<NowVisualizingProps> = ({filters}) => {
     const goaltypefor = filters.goaltypefor;
     const goaltypeagainst = filters.goaltypeagainst;
     const selectedPlayer = team?.roster?.roster.find((player: PlayerInfo): boolean => player.person.id === filters.player)
-    let playerName;
-    if (!selectedPlayer) playerName = 'All players';
-    else playerName = selectedPlayer?.person.fullName;
+    const playerName = !selectedPlayer ? 'All players' : selectedPlayer.person.fullName;
 
     return (
         <div className={styles.wrapper}>
