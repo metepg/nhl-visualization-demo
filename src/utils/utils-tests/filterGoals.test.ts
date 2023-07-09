@@ -1,7 +1,7 @@
 import {Goal} from "../../interfaces/GameData.ts";
 import {Filters} from "../../interfaces/CustomData.ts";
 import {filterGoals} from "../helpers.ts";
-import {DEFAULT_SEASON} from "../../constants/defaultValues.ts";
+import {SEASON} from "../../constants/defaultValues.ts";
 
 describe('filterGoals', () => {
     it('sets filtered property to true for all goals when filters dont apply', () => {
@@ -22,7 +22,7 @@ describe('filterGoals', () => {
             goaltypefor: 'All goals',
             goaltypeagainst: 'All goals',
             player: 999,
-            season: DEFAULT_SEASON
+            season: SEASON[0]
         };
 
         const filteredGoals: Goal[] = filterGoals(goals, filters);
@@ -50,7 +50,7 @@ describe('filterGoals', () => {
             goaltypefor: 'All goals',
             goaltypeagainst: 'All goals',
             player: 2,
-            season: DEFAULT_SEASON
+            season: SEASON[0]
         };
 
         const filteredGoals: Goal[] = filterGoals(goals, filters);

@@ -9,10 +9,7 @@ import {getGameDataById} from "./services/gameDataService.ts";
 import {FilteredGame} from "./interfaces/GameData.ts";
 import NowVisualizing from "./components/now-visualizing/NowVisualizing.tsx";
 import {
-    DEFAULT_GOAL_TYPE_AGAINST,
-    DEFAULT_GOAL_TYPE_FOR,
-    DEFAULT_PLAYER,
-    DEFAULT_SEASON,
+    DEFAULT_FILTERS,
     GOAL_TYPE,
     SEASON
 } from "./constants/defaultValues.ts";
@@ -23,19 +20,12 @@ import Navbar from "./components/navbar/Navbar.tsx";
 
 const App: React.FC = () => {
     const [teams, setTeams] = useState<Team[]>([]);
-    const defaultTeam = teams?.[5];
-    const [filters, setFilters] = useState<Filters>({
-        team: defaultTeam,
-        player: DEFAULT_PLAYER,
-        season: DEFAULT_SEASON,
-        goaltypefor: DEFAULT_GOAL_TYPE_FOR,
-        goaltypeagainst: DEFAULT_GOAL_TYPE_AGAINST
-    });
-    const selectedTeam: Team | undefined = teams?.find((team: Team): boolean => team.id === filters?.team?.id);
-    const selectedTeamGames: FilteredGame[] = getGameDataById(selectedTeam?.id);
+    const defaultTeam: Team = teams?.[5];
+    const [filters, setFilters] = useState<Filters>({...DEFAULT_FILTERS, team: defaultTeam});
+    const selectedTeamGames: FilteredGame[] = getGameDataById(filters.team?.id);
 
     useEffect(() => {
-        (async () => {
+        (async (): Promise<void> => {
             const teams: Team[] = await getTeamData();
             setTeams(teams);
         })();

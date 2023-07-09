@@ -15,7 +15,7 @@ interface GameData {
 }
 
 interface Filters {
-    team: Team;
+    team: Team | null;
     player: number;
     season: string;
     goaltypefor: string;
