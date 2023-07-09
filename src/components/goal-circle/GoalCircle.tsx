@@ -4,7 +4,7 @@ import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
 import GoalInfoDialog from "../goal-info-prompt/GoalInfoDialog.tsx";
 import {Filters} from "../../interfaces/CustomData.ts";
 
-interface GoalCircleProps {
+interface Props {
     filters?: Filters;
     game?: FilteredGame;
     goalInfo?: Goal;
@@ -12,7 +12,7 @@ interface GoalCircleProps {
     isSelectedTeam: boolean;
     customCircleStyles: any;
 }
-const GoalCircle: React.FC<GoalCircleProps> = ({jerseyNumber, isSelectedTeam, customCircleStyles, goalInfo, game, filters}) => {
+const GoalCircle: React.FC<Props> = ({jerseyNumber, isSelectedTeam, customCircleStyles, goalInfo, game, filters}) => {
     const [showElement, setShowElement] = useState<boolean>(false);
     const defaultCircleStyle = {
         width: isSelectedTeam ? '25px' : '12.5px',

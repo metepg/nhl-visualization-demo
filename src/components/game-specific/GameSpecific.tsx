@@ -5,13 +5,13 @@ import {Game, Periods} from "../../interfaces/GameData.ts";
 import {Filters} from "../../interfaces/CustomData.ts";
 import {formatDate} from "../../utils/helpers.ts";
 
-interface MatchSpecificProps {
+interface Props {
     game: Game;
     goalsByPeriod: Periods;
     filters: Filters;
 }
 
-const GameSpecific: React.FC<MatchSpecificProps> = ({game, goalsByPeriod, filters}) => {
+const GameSpecific: React.FC<Props> = ({game, goalsByPeriod, filters}) => {
 
     if (!game || !goalsByPeriod) return null;
     const {period1, period2, period3, overtime} = goalsByPeriod;

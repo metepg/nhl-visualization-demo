@@ -3,11 +3,11 @@ import styles from './Result.module.css'
 import {FilteredGame} from "../../interfaces/GameData.ts";
 import {Filters} from "../../interfaces/CustomData.ts";
 
-interface ResultProps {
+interface Props {
     game: FilteredGame;
     filters: Filters
 }
-const Result: React.FC<ResultProps> = ({ game, filters }) => {
+const Result: React.FC<Props> = ({ game, filters }) => {
     const { home, away } = game.teams;
     const selectedTeamName = filters?.team?.abbreviation;
     const scores = game.scores;

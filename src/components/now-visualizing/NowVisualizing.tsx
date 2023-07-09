@@ -5,19 +5,17 @@ import {PlayerInfo} from "../../interfaces/Teams.ts";
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 import ToggleSwitch from "../toggle-switch/ToggleSwitch.tsx";
 
-interface NowVisualizingProps {
+interface Props {
     filters: Filters
 }
 
-const NowVisualizing: React.FC<NowVisualizingProps> = ({filters}) => {
+const NowVisualizing: React.FC<Props> = ({filters}) => {
     const team = filters?.team;
     const season = filters.season;
     const goaltypefor = filters.goaltypefor;
     const goaltypeagainst = filters.goaltypeagainst;
     const selectedPlayer = team?.roster?.roster.find((player: PlayerInfo): boolean => player.person.id === filters.player)
-    let playerName;
-    if (!selectedPlayer) playerName = 'All players';
-    else playerName = selectedPlayer?.person.fullName;
+    const playerName = !selectedPlayer ? 'All players' : selectedPlayer.person.fullName;
 
     return (
         <div className={styles.wrapper}>

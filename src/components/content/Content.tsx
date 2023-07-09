@@ -6,13 +6,12 @@ import TableBodyContent from "./table-body-content/TableBodyContent.tsx";
 import TableHeaders from "./table-headers/TableHeaders.tsx";
 
 
-interface ContentProps {
+interface Props {
     games: FilteredGame[];
     filters: Filters;
 }
 
-
-const Content: React.FC<ContentProps> = ({games, filters}) => {
+const Content: React.FC<Props> = ({games, filters}) => {
     const tableHeaderStyles = {
         [`& .${tableCellClasses.root}`]: {
             borderBottom: "1px solid var(--black)",
