@@ -36,7 +36,6 @@ const App: React.FC = () => {
 
     useEffect(() => {
         (async () => {
-            console.log("hcek")
             const teams: Team[] = await getTeamData();
             setTeams(teams);
         })();
