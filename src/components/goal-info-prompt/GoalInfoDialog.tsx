@@ -12,7 +12,7 @@ interface Props {
 }
 
 const GoalInfoDialog: React.FC<Props> = ({goalInfo, teams}) => {
-    if (!goalInfo || !teams) return null;
+    if (!goalInfo?.currentGoal || !teams) return null;
     const {home, away} = teams;
     const goalType: string = goalInfo.strength
         ? goalTypeLong(goalInfo.strength)
@@ -32,7 +32,6 @@ const GoalInfoDialog: React.FC<Props> = ({goalInfo, teams}) => {
 
     const assists: string = getAssistLastNames(goalInfo).join(', ');
     const goalTime = `${goalInfo.min}:${goalInfo.sec}`;
-    console.log(goalInfo)
 
         return (
             <div className={styles.overlay}>
