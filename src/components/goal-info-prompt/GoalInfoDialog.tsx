@@ -1,19 +1,16 @@
 import React from 'react';
-import {FilteredGame, Goal, Teams} from "../../interfaces/GameData.ts";
+import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
 import styles from './GoalInfoDialog.module.css';
 import {getAssistLastNames, goalTypeLong} from "../../utils/helpers.ts";
-import {Filters} from "../../interfaces/CustomData.ts";
 
 interface Props {
-    filters?: Filters;
     game?: FilteredGame;
     goalInfo?: Goal;
-    teams?: Teams;
 }
 
-const GoalInfoDialog: React.FC<Props> = ({goalInfo, teams}) => {
-    if (!goalInfo || !teams) return null;
-    const {home, away} = teams;
+const GoalInfoDialog: React.FC<Props> = ({goalInfo, game}) => {
+    if (!goalInfo || !game) return null;
+    const {home, away} = game.teams;
     const goalType: string = goalInfo.strength
         ? goalTypeLong(goalInfo.strength)
         : 'GOAL';

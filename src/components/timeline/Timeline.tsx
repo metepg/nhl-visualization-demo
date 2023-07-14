@@ -47,7 +47,6 @@ const Timeline: React.FC<Props> = ({ goals, filters, game }) => {
         return (
             <GoalCircle
                 customCircleStyles={circleStyle}
-                filters={filters}
                 game={game}
                 goalInfo={goal}
                 isSelectedTeam={isSelectedTeam}

@@ -26,8 +26,6 @@ interface Props {
 }
 
 const TableBodyContent: React.FC<Props> = ({games, filters}) => {
-    console.log(games)
-    console.log(filters)
     const tableBodyContent: TableRowValues[] = games.map((game: FilteredGame): TableRowValues => {
         const {goals, teams, scores} = game;
         const filteredGoals = filterGoals(goals, filters);
