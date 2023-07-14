@@ -27,9 +27,10 @@ interface Props {
 
 const TableBodyContent: React.FC<Props> = ({games, filters}) => {
     const tableBodyContent: TableRowValues[] = games.map((game: FilteredGame): TableRowValues => {
-        const {goals, teams, scores} = game;
-        const filteredGoals = filterGoals(goals, filters);
-        const gameWithAddedGoalData = {...game, goals: addCurrentScores(goals, teams)}
+        const {teams, scores} = game;
+        const gameWithAddedGoalData = {...game, goals: addCurrentScores(game.goals, teams)}
+        console.log(addCurrentScores(game.goals, teams))
+        const filteredGoals = filterGoals(gameWithAddedGoalData.goals, filters);
         const goalsByPeriod: Periods = groupGoalsByPeriod(filteredGoals);
         const {period1, period2, period3, overtime} = goalsByPeriod;
 
@@ -42,7 +43,7 @@ const TableBodyContent: React.FC<Props> = ({games, filters}) => {
             OT: <Timeline goals={overtime} filters={filters} game={gameWithAddedGoalData}/>,
             SO: <Shootout shootout={scores.shootout}/>,
             result: <Result game={game} filters={filters}/>,
-            expandedContent: <GameSpecific game={game} goalsByPeriod={goalsByPeriod} filters={filters}/>
+            expandedContent: <GameSpecific game={gameWithAddedGoalData} goalsByPeriod={goalsByPeriod} filters={filters}/>
         }
     });
 
