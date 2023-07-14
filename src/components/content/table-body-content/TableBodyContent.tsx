@@ -1,5 +1,5 @@
 import React, {ReactElement} from "react";
-import {FilteredGame, Game, Periods} from "../../../interfaces/GameData.ts";
+import {FilteredGame, Game, Goal, Periods} from "../../../interfaces/GameData.ts";
 import GameSpecific from "../../game-specific/GameSpecific.tsx";
 import {addCurrentScores, filterGoals, formatDate, groupGoalsByPeriod} from "../../../utils/helpers.ts";
 import Timeline from "../../timeline/Timeline.tsx";
@@ -26,24 +26,23 @@ interface Props {
 }
 
 const TableBodyContent: React.FC<Props> = ({games, filters}) => {
-    const tableBodyContent: TableRowValues[] = games.map((game: FilteredGame): TableRowValues => {
-        const {teams, scores} = game;
-        const gameWithAddedGoalData = {...game, goals: addCurrentScores(game.goals, teams)}
-        console.log(addCurrentScores(game.goals, teams))
-        const filteredGoals = filterGoals(gameWithAddedGoalData.goals, filters);
+    const tableBodyContent: TableRowValues[] = games.map((filteredGame: FilteredGame): TableRowValues => {
+        const game = {...filteredGame, goals: addCurrentScores(filteredGame.goals, filteredGame.teams)}
+        const {scores} = game;
+        const filteredGoals: Goal[] = filterGoals(game.goals, filters);
         const goalsByPeriod: Periods = groupGoalsByPeriod(filteredGoals);
         const {period1, period2, period3, overtime} = goalsByPeriod;
 
         return {
             date: formatDate(game.startTime),
             game: `${game.teams.home.abbreviation}-${game.teams.away.abbreviation}`,
-            period1: <Timeline goals={period1} filters={filters} game={gameWithAddedGoalData}/>,
-            period2: <Timeline goals={period2} filters={filters} game={gameWithAddedGoalData}/>,
-            period3: <Timeline goals={period3} filters={filters} game={gameWithAddedGoalData}/>,
-            OT: <Timeline goals={overtime} filters={filters} game={gameWithAddedGoalData}/>,
+            period1: <Timeline goals={period1} filters={filters} game={game}/>,
+            period2: <Timeline goals={period2} filters={filters} game={game}/>,
+            period3: <Timeline goals={period3} filters={filters} game={game}/>,
+            OT: <Timeline goals={overtime} filters={filters} game={game}/>,
             SO: <Shootout shootout={scores.shootout}/>,
             result: <Result game={game} filters={filters}/>,
-            expandedContent: <GameSpecific game={gameWithAddedGoalData} goalsByPeriod={goalsByPeriod} filters={filters}/>
+            expandedContent: <GameSpecific game={game} goalsByPeriod={goalsByPeriod} filters={filters}/>
         }
     });
 
