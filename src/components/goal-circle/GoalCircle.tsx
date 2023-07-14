@@ -11,7 +11,6 @@ interface Props {
     customCircleStyles: any;
 }
 const GoalCircle: React.FC<Props> = ({jerseyNumber, isSelectedTeam, customCircleStyles, goalInfo, game}) => {
-    console.log(game?.goals)
     const [showElement, setShowElement] = useState<boolean>(false);
     const defaultCircleStyle = {
         width: isSelectedTeam ? '25px' : '12.5px',
@@ -29,6 +28,7 @@ const GoalCircle: React.FC<Props> = ({jerseyNumber, isSelectedTeam, customCircle
         setShowElement(value);
     }
 
+    if (!game?.goals) return null;
     return (
         <div
             className={styles.circle}

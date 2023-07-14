@@ -32,7 +32,6 @@ const TableBodyContent: React.FC<Props> = ({games, filters}) => {
         const gameWithAddedGoalData = {...game, goals: addCurrentScores(goals, teams)}
         const goalsByPeriod: Periods = groupGoalsByPeriod(filteredGoals);
         const {period1, period2, period3, overtime} = goalsByPeriod;
-        console.log(gameWithAddedGoalData)
 
         return {
             date: formatDate(game.startTime),

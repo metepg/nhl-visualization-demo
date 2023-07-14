@@ -29,7 +29,6 @@ const GoalInfoDialog: React.FC<Props> = ({goalInfo, game}) => {
 
     const assists: string = getAssistLastNames(goalInfo).join(', ');
     const goalTime = `${goalInfo.min}:${goalInfo.sec}`;
-    console.log(goalInfo)
 
         return (
             <div className={styles.overlay}>
