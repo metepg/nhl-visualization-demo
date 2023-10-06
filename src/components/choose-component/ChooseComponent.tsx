@@ -8,8 +8,8 @@ const ChooseComponent: React.FC = () => {
     };
 
     return (
-        <section>
-            <h1>Choose to get started</h1>
+        <section className={styles.chooseContentStyles}>
+            <h1>Choose team to get started</h1>
             <hr/>
             <div className={styles.statsSelectionContainer}>
                 <button

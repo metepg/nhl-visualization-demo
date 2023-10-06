@@ -23,7 +23,12 @@ const Row: React.FC<Props> = ({game}) => {
         '&:hover': {
             backgroundColor: 'var(--light-grey)'
         }
+
+
+
+        
     };
+
     return(
     <React.Fragment key={game.date}>
         <TableRow onClick={() => setOpen(!open)} sx={tableRowStyles}>

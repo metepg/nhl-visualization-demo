@@ -1,4 +1,5 @@
 import React, {Dispatch, SetStateAction} from 'react';
+import styles from './FiltersComponent.module.css';
 import {Autocomplete, Stack, TextField} from "@mui/material";
 import {Filters} from "../../interfaces/CustomData.ts";
 import {PlayerInfo, Team} from "../../interfaces/Teams.ts";
@@ -58,24 +59,25 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
 
     return (
         <section>
-            <Stack direction="row" justifyContent="space-evenly" spacing={1} mb={20}>
-                {selectOptions.map((filterOption) => (
-                    <Stack key={filterOption.key} sx={{width: 1060}} direction="column">
-                        <p style={{textAlign: 'center', fontWeight: 'bold'}}>{filterOption.label}</p>
-                        <Autocomplete
-                            disablePortal
-                            disableClearable
-                            getOptionLabel={(value: OptionValue) => getOptionLabel(filterOption.key, value)}
-                            // Set Carolina as default team
-                            defaultValue={filterOption.key === 'team' ? filterOption.options?.[5] : filterOption.options?.[0]}
-                            options={filterOption.options ?? []}
-                            onChange={(_, value: OptionValue) => handleChange(filterOption.key, value)}
-                            sx={{width: filterOption.width}}
-                            renderInput={(params) => <TextField {...params} label="Select"/>}
-                        />
-                    </Stack>
-                ))}
-            </Stack>
+                <Stack className={styles.filterContentStyles} direction="row" justifyContent="space-evenly" spacing={1} mb={20}>
+                    {selectOptions.map((filterOption) => (
+                        <Stack key={filterOption.key} sx={{width: 1060}} direction="column">
+                            <p style={{textAlign: 'center', fontWeight: 'bold'}}>{filterOption.label}</p>
+                            <Autocomplete
+                                disablePortal
+                                disableClearable
+                                getOptionLabel={(value: OptionValue) => getOptionLabel(filterOption.key, value)}
+                                // Set Carolina as default team
+                                defaultValue={filterOption.key === 'team' ? filterOption.options?.[5] : filterOption.options?.[0]}
+                                options={filterOption.options ?? []}
+                                onChange={(_, value: OptionValue) => handleChange(filterOption.key, value)}
+                                sx={{width: filterOption.width}}
+                                renderInput={(params) => <TextField {...params} label="Select"/>}
+                            />
+                        </Stack>
+                    ))}
+                </Stack>
+              
         </section>
     );
 };

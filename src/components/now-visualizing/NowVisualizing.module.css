@@ -1,5 +1,5 @@
 .wrapper {
-    margin-bottom: 50px;
+    margin-bottom: 10px;
     display: grid;
     grid-template-columns: 160px 1fr;
     grid-gap: 5px;
@@ -68,6 +68,14 @@
     text-align: center;
     display: inline-block;
     font-size: var(--font-size-small);
+}
+
+.switch{
+    display: none !important;
+}
+
+.view {
+    display: none !important;
 }
 
 .overview {
