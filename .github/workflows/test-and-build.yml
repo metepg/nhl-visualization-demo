@@ -4,7 +4,7 @@ name: Run tests and build
 on:
   # Runs on Pull requests
   pull_request:
-    branches: 'master'
+    branches: 'dev'
 
 jobs:
   build-and-test:
