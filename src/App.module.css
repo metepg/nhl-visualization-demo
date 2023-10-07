@@ -17,3 +17,7 @@
     height: 100vh;
     letter-spacing: 1px;
 }
+
+body {
+    background-color: red;
+}
