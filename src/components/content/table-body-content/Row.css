@@ -5,3 +5,8 @@
 .test:active {
     background-color: #ECEEF2 !important;
 }
+
+.tableRowStyles {
+    font-weight: 700;
+    font-size: normal;
+}

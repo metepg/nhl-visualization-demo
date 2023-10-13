@@ -12,6 +12,7 @@ h1 {
     font-size: var(--font-size-normal);
     padding: 10px 20px;
     text-transform: uppercase;
+    font-weight: 400;
 }
 
 .buttonContainer {

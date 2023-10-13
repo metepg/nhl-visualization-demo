@@ -56,9 +56,13 @@ body.no-scroll {
     display: contents;
 }
 
+.matchHeader h2 {
+    font-weight: normal;
+}
+
 .periodLabel {
     width: 100%;
-    font-weight: bold;
+    font-weight: normal;
     text-align: end;
     padding-right: 10px;
 }

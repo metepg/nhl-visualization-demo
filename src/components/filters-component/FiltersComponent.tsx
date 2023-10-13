@@ -61,8 +61,8 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
         <section>
                 <Stack className={styles.filterContentStyles} direction="row" justifyContent="space-evenly" spacing={1} mb={20}>
                     {selectOptions.map((filterOption) => (
-                        <Stack key={filterOption.key} sx={{width: 1060}} direction="column">
-                            <p style={{textAlign: 'center', fontWeight: 'bold'}}>{filterOption.label}</p>
+                        <Stack className={styles.filterTeamStyles} key={filterOption.key} sx={{width: 1060}} direction="column">
+                            <p style={{textAlign: 'center', fontWeight: 'normal', textTransform: 'uppercase'}}>{filterOption.label}</p>
                             <Autocomplete
                                 disablePortal
                                 disableClearable
@@ -72,7 +72,7 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
                                 options={filterOption.options ?? []}
                                 onChange={(_, value: OptionValue) => handleChange(filterOption.key, value)}
                                 sx={{width: filterOption.width}}
-                                renderInput={(params) => <TextField {...params} label="Select"/>}
+                                renderInput={(params) => <TextField {...params} label=""/>}
                             />
                         </Stack>
                     ))}
