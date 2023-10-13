@@ -8,7 +8,7 @@ interface Props {
     goalInfo?: Goal;
 }
 
-const GoalInfoDialog: React.FC<Props> = ({goalInfo, game}) => {
+const GoalInfoDialog: React.FC<Props> = ({goalInfo, game, isSelectedTeam}) => {
     if (!goalInfo || !game) return null;
     const {home, away} = game.teams;
     const goalType: string = goalInfo.strength
@@ -33,14 +33,14 @@ const GoalInfoDialog: React.FC<Props> = ({goalInfo, game}) => {
         return (
             <div className={styles.overlay}>
                 <div className={styles.goalTypeWrapper}>
-                    <div style={{backgroundColor: 'var(--red)', color: 'var(--white)', borderRight: '1px solid var(--black)'}}>
+                    <div className={styles.scoreInfo} style={{backgroundColor: goalInfo.team === home.abbreviation ? 'var(--black)' : 'var(--red)', color: 'var(--white)', borderRight: '1px solid var(--black)'}}>
                         <p>
                            <label style={{fontWeight: goalInfo.team === home.abbreviation ? 'bold' : 'normal'}}>{home.abbreviation} {goalInfo.homeScore}</label>
                             &nbsp;-&nbsp;
                             <label style={{fontWeight: goalInfo.team === away.abbreviation ? 'bold' : 'normal'}}>{away.abbreviation} {goalInfo.awayScore}</label>
                         </p>
                     </div>
-                    <div style={{backgroundColor: 'var(--light-grey)'}}>
+                    <div className={styles.goalTypeInfo} style={{backgroundColor: 'var(--light-grey)'}}>
                         <p style={{color: 'var(--black)', fontWeight: "bold"}}>{goalType}</p>
                     </div>
                 </div>

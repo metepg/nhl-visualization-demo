@@ -22,7 +22,13 @@ const Row: React.FC<Props> = ({game}) => {
     const tableRowStyles = {
         '&:hover': {
             backgroundColor: 'var(--light-grey)'
-        }
+        },
+        '&.Mui-selected:hover': {
+             backgroundColor: 'var(--light-grey)'
+        },
+         '&.Mui-selected': {
+             backgroundColor: 'var(--light-grey)'
+        },
 
 
 
@@ -31,7 +37,7 @@ const Row: React.FC<Props> = ({game}) => {
 
     return(
     <React.Fragment key={game.date}>
-        <TableRow onClick={() => setOpen(!open)} sx={tableRowStyles}>
+        <TableRow selected={open} onClick={() => setOpen(!open)} sx={tableRowStyles}>
             <TableCell align="center" width="60px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.date}</TableCell>
             <TableCell align="center" width="75px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.game}</TableCell>
             <TableCell align="center" width="223px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.period1}</TableCell>
