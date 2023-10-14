@@ -10,9 +10,12 @@ interface Props {
     goals: Goal[];
     filters: Filters;
     game: FilteredGame;
+    selectedRowDate?: boolean;
+    isHoveredRow?: boolean;
 }
 
-const Timeline: React.FC<Props> = ({ goals, filters, game }) => {
+const Timeline: React.FC<Props> = ({ goals, filters, game, selectedRowDate, isHoveredRow }) => {
+    const isRowSelected = selectedRowDate;
     const goalEvents = goals.map((goal: Goal, index: number) => {
         const periodInMinutes = goal.period === 'OT' ? 5 : 20;
         const isSelectedTeam: boolean = goal.team === filters?.team?.abbreviation;
@@ -59,7 +62,7 @@ const Timeline: React.FC<Props> = ({ goals, filters, game }) => {
     return (
         <div className={styles.wrapper}>
             {goalEvents}
-            <div className={styles.timelineLine} />
+            <div className={`${styles.timelineLine} ${isRowSelected || isHoveredRow ? styles.timelineActive : ''}`} />
         </div>
     );
 };

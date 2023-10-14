@@ -14,3 +14,7 @@
     z-index: 1;
     width: 100%;
 }
+
+.timelineActive {
+    background-color: var(--dark-grey);
+}

@@ -33,7 +33,7 @@ const NowVisualizing: React.FC<Props> = ({filters}) => {
             <div className={styles.infoText}>
                 <div className={styles.circleContainer}>
                     <div className={styles.selectedTeamCircleContainer}>
-                        <GoalCircle jerseyNumber={'x'} isSelectedTeam={true} customCircleStyles={null}/>
+                        <GoalCircle jerseyNumber={'X'} isSelectedTeam={true} customCircleStyles={null}/>
                         <p className={styles.circleText}>Goals for (w/player number)</p>
                     </div>
                     <div className={styles.otherTeamCircleContainer}>
