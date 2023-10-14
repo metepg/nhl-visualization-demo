@@ -1,5 +1,5 @@
 import {Box, Collapse, IconButton, TableCell, TableRow} from "@mui/material";
-import React, {ReactElement, useState} from "react";
+import React, {ReactElement} from "react";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
@@ -16,9 +16,11 @@ interface TableRowValues {
 }
 interface Props {
     game: TableRowValues;
+    selected: boolean;
+    onClick: () => void;
+    setHoveredRow: (date: string, value: boolean) => void;
 }
-const Row: React.FC<Props> = ({game}) => {
-    const [open, setOpen] = useState(false);
+const Row: React.FC<Props> = ({game, onClick, selected, setHoveredRow}) => {
     const tableRowStyles = {
         '&:hover': {
             backgroundColor: 'var(--light-grey)'
@@ -37,7 +39,13 @@ const Row: React.FC<Props> = ({game}) => {
 
     return(
     <React.Fragment key={game.date}>
-        <TableRow selected={open} onClick={() => setOpen(!open)} sx={tableRowStyles}>
+        <TableRow
+            selected={selected}
+            onClick={onClick}
+            sx={tableRowStyles}
+            onMouseLeave={() => setHoveredRow(game.date, false)}
+            onMouseEnter={() => setHoveredRow(game.date, true)}
+        >
             <TableCell align="center" width="60px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.date}</TableCell>
             <TableCell align="center" width="75px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.game}</TableCell>
             <TableCell align="center" width="223px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.period1}</TableCell>
@@ -52,16 +60,16 @@ const Row: React.FC<Props> = ({game}) => {
                 <IconButton
                     aria-label="expand row"
                     size="small"
-                    onClick={() => setOpen(!open)}
+                    onClick={onClick}
                     sx={{borderRadius: '0', border: '1px solid var(--black)', padding: 0}}
                 >
-                    {open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
+                    {selected ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
                 </IconButton>
             </TableCell>
         </TableRow>
         <TableRow>
             <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
-                <Collapse in={open} timeout="auto" unmountOnExit>
+                <Collapse in={selected} timeout="auto" unmountOnExit>
                     <Box sx={{margin: 1}}>
                         {game.expandedContent}
                     </Box>

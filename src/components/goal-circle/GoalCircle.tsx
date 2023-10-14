@@ -28,7 +28,8 @@ const GoalCircle: React.FC<Props> = ({jerseyNumber, isSelectedTeam, customCircle
         setShowElement(value);
     }
 
-    if (game?.goals.length === 0 || !game?.goals) return null;
+    // Remove this if time to test if works normally without
+    if (game?.goals.length === 0 && !game?.goals && jerseyNumber !== 'X' && !jerseyNumber) return null;
     return (
         <div
             className={styles.circle}
