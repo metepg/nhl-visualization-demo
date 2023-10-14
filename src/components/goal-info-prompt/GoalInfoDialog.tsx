@@ -6,6 +6,7 @@ import {getAssistLastNames, goalTypeLong} from "../../utils/helpers.ts";
 interface Props {
     game?: FilteredGame;
     goalInfo?: Goal;
+    isSelectedTeam: boolean;
 }
 
 const GoalInfoDialog: React.FC<Props> = ({goalInfo, game, isSelectedTeam}) => {
@@ -33,7 +34,7 @@ const GoalInfoDialog: React.FC<Props> = ({goalInfo, game, isSelectedTeam}) => {
         return (
             <div className={styles.overlay}>
                 <div className={styles.goalTypeWrapper}>
-                    <div className={styles.scoreInfo} style={{backgroundColor: goalInfo.team === home.abbreviation ? 'var(--black)' : 'var(--red)', color: 'var(--white)', borderRight: '1px solid var(--black)'}}>
+                    <div className={styles.scoreInfo} style={{backgroundColor: isSelectedTeam ? 'var(--red)' : 'var(--black)', color: 'var(--white)', borderRight: '1px solid var(--black)'}}>
                         <p>
                            <label style={{fontWeight: goalInfo.team === home.abbreviation ? 'bold' : 'normal'}}>{home.abbreviation} {goalInfo.homeScore}</label>
                             &nbsp;-&nbsp;
