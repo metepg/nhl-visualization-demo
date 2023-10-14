@@ -31,7 +31,7 @@ const MainContent: React.FC<Props> = ({teams}) => {
                         filters={filters}
                         teams={teams}
                     />
-                    <hr style={{border: '1px solid var(--dark-grey)'}}/>
+                    <hr style={{borderTop: '1px solid var(--dark-grey)'}}/>
                     <NowVisualizing filters={filters}/>
                     <section style={{marginBottom: '400px'}}>
                         <Content games={selectedTeamGames} filters={filters}/>

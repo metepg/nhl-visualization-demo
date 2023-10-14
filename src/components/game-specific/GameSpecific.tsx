@@ -33,7 +33,7 @@ const GameSpecific: React.FC<Props> = ({game, goalsByPeriod, filters}) => {
                                     style={{color: homeIsSelectedTeam ? 'var(--red)' : 'var(--black)'}}>{homeTeamFullName}</label>
                                 <label style={{
                                     textTransform: 'lowercase',
-                                    fontWeight: 'normal',
+                                    fontWeight: '400',
                                     margin: '0 2px'
                                 }}> vs </label>
                                 <label

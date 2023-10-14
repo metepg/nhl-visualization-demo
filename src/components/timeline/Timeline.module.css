@@ -10,7 +10,7 @@
 .timelineLine {
     border-radius: 3px;
     height: 5px;
-    background-color: var(--dark-grey);
+    background-color: var(--light-grey);
     z-index: 1;
     width: 100%;
 }

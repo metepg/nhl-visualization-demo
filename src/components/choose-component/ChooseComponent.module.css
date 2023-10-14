@@ -1,8 +1,10 @@
 
+
 h1 {
     text-align: center;
     width: 270px;
-    margin: 25px auto;
+    margin: 70px auto 50px auto;
+     /* margin: 25px auto; */
     color: var(--white);
     background-color: var(--red);
     border: 1px solid var(--red);
@@ -10,13 +12,15 @@ h1 {
     font-size: var(--font-size-normal);
     padding: 10px 20px;
     text-transform: uppercase;
+    font-weight: 400;
 }
 
 .buttonContainer {
-    display: flex;
+     /* display: flex; */
     justify-content: center;
     margin-top: 20px;
     margin-bottom: 60px;
+    display: none;
 }
 .teamButton, .dateButton {
     padding: 5px 10px;
@@ -41,13 +45,19 @@ h1 {
 }
 
 .statsSelectionContainer {
-    display: flex;
+    display: none;
+    /* display: flex; */
     justify-content: center;
     margin: 20px 0;
 }
 
 hr {
     border: 1px solid var(--light-grey);
+}
+
+.chooseContentStyles hr {
+    border: 1px solid var(--light-grey);
+    display: none;
 }
 
 .underlineBtn {

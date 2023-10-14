@@ -43,11 +43,11 @@ const NowVisualizing: React.FC<Props> = ({filters}) => {
                 </div>
             </div>
             <div className={styles.selectedView}>
-                <div>
+                <div className={styles.view}>
                     <p className={styles.overview}>OVERVIEW</p>
                     <p className={styles.gameSpecificView}>GAME-SPECIFIC VIEW</p>
                 </div>
-                <div>
+                <div className={styles.switch}>
                     <span style={{marginRight: '10px', fontSize: 'var(--font-size-small)'}}>FULL LAYOUT</span>
                     <ToggleSwitch/>
                     <span style={{marginLeft: '10px', fontSize: 'var(--font-size-small)'}}>MINIMIZED</span>

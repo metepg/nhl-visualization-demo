@@ -1,0 +1,12 @@
+.test:hover {
+    background-color: #ECEEF2 !important;
+}
+
+.test:active {
+    background-color: #ECEEF2 !important;
+}
+
+.tableRowStyles {
+    font-weight: 700;
+    font-size: normal;
+}

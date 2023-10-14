@@ -39,7 +39,7 @@ const GoalCircle: React.FC<Props> = ({jerseyNumber, isSelectedTeam, customCircle
             style={customCircleStyles ?? defaultCircleStyle}
         >
             <span className={styles.eventText}>{jerseyNumber}</span>
-            {showElement && <GoalInfoDialog game={game} goalInfo={goalInfo} />}
+            {showElement && <GoalInfoDialog game={game} goalInfo={goalInfo} isSelectedTeam={isSelectedTeam} />}
         </div>
     );
 };
