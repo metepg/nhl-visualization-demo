@@ -10,7 +10,7 @@ import Row from "./Row.tsx";
 
 interface TableRowValues {
     date: string;
-    game: string;
+    teams: ReactElement;
     period1: ReactElement,
     period2: ReactElement,
     period3: ReactElement,
@@ -44,21 +44,26 @@ const TableBodyContent: React.FC<Props> = ({games, filters}) => {
 
     const tableBodyContent: TableRowValues[] = games.map((filteredGame: FilteredGame): TableRowValues => {
         const game = { ...filteredGame, goals: addCurrentScores(filteredGame.goals, filteredGame.teams) };
-        const { scores } = game;
         const filteredGoals: Goal[] = filterGoals(game.goals, filters);
         const goalsByPeriod: Periods = groupGoalsByPeriod(filteredGoals);
         const date: string = formatDate(game.startTime);
         const isSelectedGame: boolean = selectedRows.includes(date);
         const isHovered: boolean = date === hoveredRow;
-
+        const isSelectedTeam = filters.team?.abbreviation === game.teams.home.abbreviation;
+        const teams =
+            <>
+                <span style={{ color: isSelectedTeam ? 'var(--red)' : 'var(--black)' }}>{game.teams.home.abbreviation}</span>
+                {' - '}
+                <span style={{ color: isSelectedTeam ? 'var(--black)' : 'var(--red)' }}>{game.teams.away.abbreviation}</span>
+            </>
         return {
             date,
-            game: `${game.teams.home.abbreviation} - ${game.teams.away.abbreviation}`,
+            teams,
             period1: <Timeline goals={goalsByPeriod.period1} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
             period2: <Timeline goals={goalsByPeriod.period2} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
             period3: <Timeline goals={goalsByPeriod.period3} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
             OT: <Timeline goals={goalsByPeriod.overtime} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
-            SO: <Shootout shootout={scores.shootout} />,
+            SO: <Shootout game={game} filters={filters} />,
             result: <Result game={game} filters={filters} />,
             expandedContent: <GameSpecific game={game} goalsByPeriod={goalsByPeriod} filters={filters} />,
         };

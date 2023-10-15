@@ -1,4 +1,4 @@
-import {Goal, Periods, Teams} from "../interfaces/GameData.ts";
+import {Game, Goal, Periods, Teams} from "../interfaces/GameData.ts";
 import {Filters} from "../interfaces/CustomData.ts";
 
 export const formatDate = (dateString: string): string => {
@@ -129,3 +129,17 @@ export const addCurrentScores = (goals?: Goal[], teams?: Teams): Goal[] => {
         return goal;
     });
 };
+
+export const getWinnerFromGameStats = (game: Game, selectedTeamName: string | undefined): string | null => {
+    const scores = game.scores;
+    if (!selectedTeamName) return null;
+
+    const opposingTeamName = Object.keys(scores).find(name => name !== selectedTeamName);
+    if (!opposingTeamName) return null;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return scores[selectedTeamName] > scores[opposingTeamName]
+        ? selectedTeamName
+        : opposingTeamName;
+}

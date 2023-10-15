@@ -31,6 +31,8 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
         {label: 'Goals against', key: 'goaltypeagainst', options: goalType, width: 160}
     ];
 
+    const disabledOptions: string[] = ['Post-Season 2022-23', 'Game-winning', 'Empty-net'];
+
     // Event handler for filter changes
     function filterEvents(key: string, value: OptionValue | undefined): void {
         const updatedFilters: Filters = {...filters, [key]: value};
@@ -73,6 +75,9 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
                                 onChange={(_, value: OptionValue) => handleChange(filterOption.key, value)}
                                 sx={{width: filterOption.width}}
                                 renderInput={(params) => <TextField {...params} label=""/>}
+                                getOptionDisabled={(option: OptionValue): boolean => {
+                                    return typeof option === 'string' && disabledOptions.includes(option);
+                                }}
                             />
                         </Stack>
                     ))}
