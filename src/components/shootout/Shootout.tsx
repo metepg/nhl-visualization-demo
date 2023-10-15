@@ -13,14 +13,18 @@ const Shootout: React.FC<Props> = ({game, filters}) => {
     const selectedTeamName = filters.team?.abbreviation;
     const gameWinner= getWinnerFromGameStats(game, selectedTeamName);
     const selectedTeamIsWinner = selectedTeamName === gameWinner;
+    const shootoutStyles = {
+        backgroundColor: isShootout
+            ? selectedTeamIsWinner
+                ? 'var(--red)'
+                : 'var(--black)'
+            : 'var(--white)',
+        border: '1px solid var(--light-grey)'
+    }
 
     return (
         <div className={styles.container}>
-            <div className={styles.circle} style={{backgroundColor: isShootout
-                    ? selectedTeamIsWinner
-                        ? 'var(--red)'
-                        : 'var(--black)'
-                    : 'var(--light-grey)'}}>
+            <div className={styles.circle} style={shootoutStyles}>
             </div>
         </div>
     );
