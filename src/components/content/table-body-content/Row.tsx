@@ -5,7 +5,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 interface TableRowValues {
     date: string;
-    game: string;
+    teams: ReactElement;
     period1: ReactElement,
     period2: ReactElement,
     period3: ReactElement,
@@ -47,7 +47,7 @@ const Row: React.FC<Props> = ({game, onClick, selected, setHoveredRow}) => {
             onMouseEnter={() => setHoveredRow(game.date, true)}
         >
             <TableCell align="center" width="60px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.date}</TableCell>
-            <TableCell align="center" width="75px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.game}</TableCell>
+            <TableCell align="center" width="81px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.teams}</TableCell>
             <TableCell align="center" width="223px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.period1}</TableCell>
             <TableCell align="center" width="223px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.period2}</TableCell>
             <TableCell align="center" width="223px" sx={{fontSize: 'var(--font-size-normal)'}}>{game.period3}</TableCell>
@@ -60,7 +60,6 @@ const Row: React.FC<Props> = ({game, onClick, selected, setHoveredRow}) => {
                 <IconButton
                     aria-label="expand row"
                     size="small"
-                    onClick={onClick}
                     sx={{borderRadius: '0', border: '1px solid var(--black)', padding: 0}}
                 >
                     {selected ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
