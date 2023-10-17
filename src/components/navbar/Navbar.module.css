@@ -23,6 +23,57 @@
     border: 7px solid var(--light-grey);
 }
 
+.brandContent {
+    max-width: 1080px;
+    margin: auto;
+    height: 60px;
+
+}
+
+.logoArea {
+    width: 80px;
+    height: 80px;
+    margin-left: 0px;
+    background-image: url('/Users/mikkoairikka/nhl-visualization-demo/src/components/navbar/logo.svg');
+    top: 10px;
+    position: relative;
+    float: left;
+    
+}
+
+.nameArea {
+    width: auto;
+    height: 80px;
+    position: relative;
+    float: left;
+    color: var(--white);
+    top: 40px;
+    margin-left: 20px;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    
+}
+
+.sloganArea {
+    width: auto;
+    height: 80px;
+    position: relative;
+    float: left;
+    color: var(--white);
+    top: 41px;
+    margin-left: 11px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.redColor {
+    color: var(--red);
+    margin-left: 2px;
+}
+
 @media (max-width: 768px) {
     .navbar {
         width: 1080px;
