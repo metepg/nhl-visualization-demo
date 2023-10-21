@@ -33,8 +33,8 @@
 .logoArea {
     width: 80px;
     height: 80px;
-    margin-left: 0px;
-    background-image: url('/Users/mikkoairikka/nhl-visualization-demo/src/components/navbar/logo.svg');
+    margin-left: 0;
+    background-image: url('/src/components/navbar/logo.svg');
     top: 10px;
     position: relative;
     float: left;
