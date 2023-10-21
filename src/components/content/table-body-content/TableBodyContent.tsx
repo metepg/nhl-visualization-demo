@@ -63,7 +63,7 @@ const TableBodyContent: React.FC<Props> = ({filteredGame, filters}) => {
             period2: <Timeline goals={goalsByPeriod.period2} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
             period3: <Timeline goals={goalsByPeriod.period3} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
             OT: <Timeline goals={goalsByPeriod.overtime} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
-            SO: <Shootout game={game} filters={filters} />,
+            SO: <Shootout showAll={false} game={game} filters={filters} />,
             result: <Result game={game} filters={filters} />,
             expandedContent: <GameSpecific game={game} goalsByPeriod={goalsByPeriod} filters={filters} />,
         };
