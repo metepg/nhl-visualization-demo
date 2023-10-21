@@ -1,5 +1,5 @@
 import React, {ReactElement, useState} from "react";
-import {FilteredGame, Game, Goal, Periods} from "../../../interfaces/GameData.ts";
+import {FilteredGame, Goal, Periods} from "../../../interfaces/GameData.ts";
 import GameSpecific from "../../game-specific/GameSpecific.tsx";
 import {addCurrentScores, filterGoals, formatDate, groupGoalsByPeriod} from "../../../utils/helpers.ts";
 import Timeline from "../../timeline/Timeline.tsx";
@@ -22,10 +22,10 @@ interface TableRowValues {
 
 interface Props {
     filters: Filters;
-    games: Game[];
+    filteredGame: FilteredGame;
 }
 
-const TableBodyContent: React.FC<Props> = ({games, filters}) => {
+const TableBodyContent: React.FC<Props> = ({filteredGame, filters}) => {
     const [selectedRows, setSelectedRows] = useState<string[]>([]);
     const [hoveredRow, setHoveredRow] = useState<string>();
 
@@ -42,7 +42,7 @@ const TableBodyContent: React.FC<Props> = ({games, filters}) => {
         setHoveredRow(isHovered ? date : '');
     };
 
-    const tableBodyContent: TableRowValues[] = games.map((filteredGame: FilteredGame): TableRowValues => {
+    const getGameData = (filteredGame: FilteredGame) => {
         const game = { ...filteredGame, goals: addCurrentScores(filteredGame.goals, filteredGame.teams) };
         const filteredGoals: Goal[] = filterGoals(game.goals, filters);
         const goalsByPeriod: Periods = groupGoalsByPeriod(filteredGoals);
@@ -67,20 +67,19 @@ const TableBodyContent: React.FC<Props> = ({games, filters}) => {
             result: <Result game={game} filters={filters} />,
             expandedContent: <GameSpecific game={game} goalsByPeriod={goalsByPeriod} filters={filters} />,
         };
-    });
+    }
 
+    const rowValues: TableRowValues = getGameData(filteredGame);
 
-    const TABLE_ROWS = tableBodyContent.map((game: TableRowValues) => (
+    return (
         <Row
-            key={game.date}
-            game={game}
-            selected={selectedRows.includes(game.date)}
-            onClick={() => handleRowClick(game.date)}
+            key={rowValues.date}
+            game={rowValues}
+            selected={selectedRows.includes(rowValues.date)}
+            onClick={() => handleRowClick(rowValues.date)}
             setHoveredRow={handleRowHover}
         />
-    ));
-
-    return (TABLE_ROWS);
+    );
 }
 
 export default TableBodyContent;
