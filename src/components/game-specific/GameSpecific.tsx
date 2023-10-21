@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './GameSpecific.module.css';
 import Timeline from "../timeline/Timeline.tsx";
-import {Game, Periods} from "../../interfaces/GameData.ts";
+import {Game, Goal, Periods} from "../../interfaces/GameData.ts";
 import {Filters} from "../../interfaces/CustomData.ts";
 import {formatDate} from "../../utils/helpers.ts";
+import Shootout from "../shootout/Shootout.tsx";
 
 interface Props {
     game: Game;
@@ -66,6 +67,14 @@ const GameSpecific: React.FC<Props> = ({game, goalsByPeriod, filters}) => {
                                 <Timeline game={game} goals={overtime} filters={filters}/>
                             </div>
                         </div>
+                        {game.goals.filter((goal: Goal) => goal.period === 'SO').length > 0
+                            ? <div className={`${styles.periodWrapper} ${styles.overtimeWrapper}`}>
+                                <p className={styles.periodLabel}>Shootout</p>
+                                <div style={{display: 'flex', justifyContent: "start"}}>
+                                    <Shootout showAll={true} game={game} filters={filters} />
+                                </div>
+                            </div>
+                            : null}
                     </div>
                 </div>
             </div>
