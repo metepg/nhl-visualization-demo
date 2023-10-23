@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
                     </div>
                     <div className={styles.nameArea}><span className={styles.whiteColor}>VISUALIZING</span><span className={styles.redColor}>NHL</span>
                     </div>
-                    <div className={styles.sloganArea}> | NHL Stats on a Timeline
+                    <div className={styles.sloganArea}> | Hockey Stats at One Glance
                     </div>
                 </div>
                 <p className={styles.topRight}>VISUALIZINGNHL.COM</p>
