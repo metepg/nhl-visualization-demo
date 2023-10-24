@@ -4,7 +4,7 @@
 
 .overlay {
     position: absolute;
-    width: 300px;
+    width: max-content;
     color: var(--white);
     border: 1px solid var(--black);
     bottom: 31px;
@@ -37,7 +37,7 @@
     height: 60px;
     color: var(--black);
     border-bottom: 1px solid var(--black);
-    padding: 8px 8px 8px 20px;
+    padding: 8px 20px 8px 20px;
 }
 
 .goalInfoTextWrapper {

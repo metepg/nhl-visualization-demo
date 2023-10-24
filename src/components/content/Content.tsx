@@ -13,7 +13,7 @@ interface Props {
 
 const Content: React.FC<Props> = ({games, filters}) => {
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const visibleGames = rowsPerPage > 0
         ? games.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
         : games;
@@ -46,7 +46,7 @@ const Content: React.FC<Props> = ({games, filters}) => {
 
     return (
         <div>
-            <TablePagination
+            <TablePagination 
                 rowsPerPageOptions={[5,10, 100]}
                 component="div"
                 count={games.length}
