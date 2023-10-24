@@ -9,6 +9,7 @@
     border: 1px solid var(--black);
     bottom: 31px;
     background-color: var(--white);
+    min-width: 300px;
 }
 
 .goalTypeWrapper {
