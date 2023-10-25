@@ -9,20 +9,61 @@ const ChooseComponent: React.FC = () => {
 
     return (
         <section className={styles.chooseContentStyles}>
-            <h1>Choose team to get started</h1>
-            <hr/>
-            <div className={styles.statsSelectionContainer}>
-                <button
-                    style={{marginRight: '15px'}}
-                    className={`${styles.underlineBtn} ${selected === 'gameStats' ? styles.selected : ''}`}
-                    onClick={() => handleButtonClick('gameStats')}>GAME STATS
-                </button>
-                <button
-                    className={`${styles.underlineBtn} ${selected === 'playerStats' ? styles.selected : ''}`}
-                    onClick={() => handleButtonClick('playerStats')}>PLAYER & TEAM STATS
-                </button>
+            <div className={styles.introContainer}>
+                <div className={styles.introBox}>
+                    <div className={styles.firstRow}>
+                        <div className={styles.circle}>
+                            <div className={styles.number}>1</div>
+                        </div>
+                    </div>
+                    <div className={styles.secondRow}>Choose
+                    </div>
+                    <div className={styles.thirdRow}>Your Team<br></br>Your Players<br></br>Your Timeline
+                    </div>
+                    <div className={styles.fourthRow}>Your preference
+                    </div>
+                </div>
+                <div className={styles.introBox}>
+                    <div className={styles.firstRow}>
+                        <div className={styles.circle}>
+                            <div className={styles.number}>2</div>
+                        </div>
+                    </div>
+                    <div className={styles.secondRow}>Explore
+                    </div>
+                    <div className={styles.thirdRow}>Goals & Assists<br></br>Face-offs & Penalties<br></br>Shots, Blocks & Saves<br></br>Wins & Losses
+                    </div>
+                    <div className={styles.fourthRow}>Stats in their context
+                    </div>
+                </div>
+                <div className={styles.introBox}>
+                    <div className={styles.firstRow}>
+                        <div className={styles.circle}>
+                            <div className={styles.number}>3</div>
+                        </div>
+                    </div>
+                    <div className={styles.secondRow}>Discover
+                    </div>
+                    <div className={styles.thirdRow}>Thrilling Details<br></br>Unexpected Trends<br></br>The Big Picture
+                    </div>
+                    <div className={styles.fourthRow}>Better Insights
+                    </div>
+                </div>
             </div>
-            <hr/>
+                <h1>Choose team to get started</h1>
+                <hr/>
+                <div className={styles.statsSelectionContainer}>
+                    <button
+                        style={{marginRight: '15px'}}
+                        className={`${styles.underlineBtn} ${selected === 'gameStats' ? styles.selected : ''}`}
+                        onClick={() => handleButtonClick('gameStats')}>GAME STATS
+                    </button>
+                    <button
+                        className={`${styles.underlineBtn} ${selected === 'playerStats' ? styles.selected : ''}`}
+                        onClick={() => handleButtonClick('playerStats')}>PLAYER & TEAM STATS
+                    </button>
+                </div>
+                <hr/>
             <div className={styles.buttonContainer}>
                 <button className={styles.teamButton}>BY TEAM</button>
                 <button className={styles.dateButton}>BY DATE</button>
