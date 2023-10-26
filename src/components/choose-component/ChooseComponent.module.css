@@ -184,3 +184,40 @@ hr {
     font-weight: bold;
 }
 
+.introDivider {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    margin-top: 30px;
+}
+
+.line {
+    width: 42%;
+    display: inline;
+    height: 1px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    margin-top: 10px;
+}
+
+.dividerText {
+    width: 16%;
+    display: inline;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 0px 10px 0px 10px;
+}
+
+.arrow {
+    
+    transform: translateX(-50%) rotate(225deg);
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border: 1.1px solid rgba(0, 0, 0, 0.25);
+    border-bottom: none;
+    border-right: none;
+    z-index: 2;
+    margin-left: 50%;
+    margin-right: 50%;
+    
+}

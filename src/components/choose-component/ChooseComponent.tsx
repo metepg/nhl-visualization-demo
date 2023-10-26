@@ -50,6 +50,14 @@ const ChooseComponent: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <div className={styles.introDivider}>
+                    <div className={styles.line}></div>
+                    <div className={styles.dividerText}>At One Glance
+                        <div className={styles.arrow}></div>
+                    </div>
+                    <div className={styles.line}></div>
+                    
+            </div>
                 <h1>Choose team to get started</h1>
                 <hr/>
                 <div className={styles.statsSelectionContainer}>
