@@ -9,6 +9,10 @@ const ChooseComponent: React.FC = () => {
 
     return (
         <section className={styles.chooseContentStyles}>
+            <div className={styles.headerContainer}>
+                    <div className={styles.headerRow1}>VISUALIZING<span className={styles.red}>NHL</span></div>
+                    <div className={styles.headerRow2}>Datavisualization Service for NHL Hockey Stats </div>
+                </div>
             <div className={styles.introContainer}>
                 <div className={styles.introBox}>
                     <div className={styles.firstRow}>

@@ -112,6 +112,33 @@ hr {
     left: -10px;
 }
 
+.headerContainer {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 25px;
+}
+
+.headerRow1 {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.red {
+    color: var(--red);
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.headerRow2 {
+    font-size: 21px;
+    font-weight: normal;
+    text-align: center;
+}
+
 .introBox {
     width: 33.3%;
     min-height: 300px;
