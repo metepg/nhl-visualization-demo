@@ -103,13 +103,15 @@ export const sortGoals = (goals: Goal[]): Goal[] => {
             '2': 2,
             '3': 3,
             'OT': 4,
+            'SO': 5,
         };
         const periodA: number = periodMap[a.period];
         const periodB: number = periodMap[b.period];
         const goalTimeA: number = goalTimeInSeconds(a.min, a.sec);
         const goalTimeB: number = goalTimeInSeconds(b.min, b.sec);
 
-        return periodA - periodB || goalTimeA - goalTimeB;
+        // Sort by period and time, with shootout goals last
+        return periodA - periodB || goalTimeA - goalTimeB || (a.period === 'SO' ? 1 : -1);
     });
 }
 export const addCurrentScores = (goals?: Goal[], teams?: Teams): Goal[] => {
