@@ -1,13 +1,27 @@
-import {PlayerInfo} from "../interfaces/Teams.ts";
+import {Player} from "../interfaces/Teams.ts";
 import {Filters} from "../interfaces/CustomData.ts";
 
 export const GOAL_TYPE: string[] = ['All goals', 'Power-play', 'Short-handed', 'Empty-net', 'Game-winning'];
 export const SEASON: string[] = ['Regular Season 2022-23', 'Post-Season 2022-23'];
-export const ALL_PLAYERS_OBJECT: PlayerInfo = {
-    person: {id: 999, fullName: 'All players',  link: ''},
-    position: {code: '', type: '', abbreviation: '', name: ''},
-    jerseyNumber: '999'
+
+export const ALL_PLAYERS_OBJECT: Player = {
+    id: 999,
+    headshot: '',
+    firstName: { default: 'All' },
+    lastName: { default: 'Players' },
+    sweaterNumber: 999,
+    positionCode: '',
+    shootsCatches: '',
+    heightInInches: 0,
+    weightInPounds: 0,
+    heightInCentimeters: 0,
+    weightInKilograms: 0,
+    birthDate: '',
+    birthCity: { default: '' },
+    birthCountry: '',
+    // Optional fields like birthStateProvince can be omitted if they're not required
 };
+
 export const DEFAULT_FILTERS: Filters = {
     team: null,
     player: 999, // Value for all players

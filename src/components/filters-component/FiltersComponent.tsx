@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction} from 'react';
 import styles from './FiltersComponent.module.css';
 import {Autocomplete, Stack, TextField} from "@mui/material";
 import {Filters} from "../../interfaces/CustomData.ts";
-import {PlayerInfo, Team} from "../../interfaces/Teams.ts";
+import {Player, Team} from "../../interfaces/Teams.ts";
 import {ALL_PLAYERS_OBJECT} from "../../constants/defaultValues.ts";
 
 interface Props {
@@ -11,17 +11,17 @@ interface Props {
     season: string[];
     selectedTeam?: Team;
     setFilters: Dispatch<SetStateAction<Filters>>;
-    teams: Team[] | undefined;
+    teams: Team[];
+    players: Player[];
+    fetchPlayers: (teamName: string) => Promise<void>
 }
 
-type OptionValue = Team | PlayerInfo | string | number;
+type OptionValue = Team | Player | string | number;
 
-const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, goalType}) => {
+const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, goalType, players, fetchPlayers}) => {
     // Sort players by jersey number and set option 'All players' as first
-    const sortedPlayers: PlayerInfo[] | undefined = filters.team?.roster?.roster.sort((a: PlayerInfo, b: PlayerInfo) => Number(a.jerseyNumber) - Number(b.jerseyNumber));
-    const playerOptions: PlayerInfo[] = sortedPlayers
-        ? [ALL_PLAYERS_OBJECT].concat(sortedPlayers)
-        : [ALL_PLAYERS_OBJECT];
+    const playerOptions: Player[] = [ALL_PLAYERS_OBJECT].concat(players);
+    console.log(players)
 
     const selectOptions = [
         {label: 'Team', key: 'team', options: teams, width: 240},
@@ -40,21 +40,27 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
     }
 
     // Option 'All players' has jersey number 999. This removes it
-    function getPlayerLabel(player: PlayerInfo): string {
-        const value = `${player.jerseyNumber || ''} ${player.person.fullName}`;
+    function getPlayerLabel(player: Player): string {
+        const value = `${player.sweaterNumber || ''} ${player?.firstName.default} ${player?.lastName.default}`;
         return value.replace(/999/g, '').trim();
     }
 
     function getOptionLabel(filterKey: string, value: OptionValue): string {
-        if (filterKey === 'team') return (value as Team).name;
-        if (filterKey === 'player') return getPlayerLabel(value as PlayerInfo);
+        if (filterKey === 'team') return (value as Team).fullName;
+        if (filterKey === 'player') return getPlayerLabel(value as Player);
         return String(value);
     }
 
-    function handleChange(filterKey: string, value: OptionValue,) {
-        if (filterKey === 'team') return filterEvents(filterKey, value as Team);
-        if (filterKey === 'player') return filterEvents(filterKey, (value as PlayerInfo).person.id);
-        return filterEvents(filterKey, value);
+    function handleChange(filterKey: string, value: OptionValue) {
+        let eventValue = value;
+
+        if (typeof value === 'object' && 'franchiseId' in value) {
+            void fetchPlayers(value.rawTricode);
+        } else if (typeof value === 'object' && 'sweaterNumber' in value) {
+            eventValue = (value as Player).id;
+        }
+
+        return filterEvents(filterKey, eventValue);
     }
 
     if (!filters.team) return null;
@@ -70,7 +76,8 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
                                 disableClearable
                                 getOptionLabel={(value: OptionValue) => getOptionLabel(filterOption.key, value)}
                                 // Set Carolina as default team
-                                defaultValue={filterOption.key === 'team' ? filterOption.options?.[5] : filterOption.options?.[0]}
+                                // defaultValue={filterOption.key === 'team' ? filterOption.options?.[0] : filterOption.options?.[0]}
+                                defaultValue={filterOption.options?.[0]}
                                 options={filterOption.options ?? []}
                                 onChange={(_, value: OptionValue) => handleChange(filterOption.key, value)}
                                 sx={{width: filterOption.width}}

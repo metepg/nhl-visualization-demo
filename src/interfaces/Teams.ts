@@ -5,22 +5,49 @@ export interface Root {
 
 export interface Team {
     id: number
-    name: string
-    link?: string
-    venue?: Venue
-    abbreviation: string
-    teamName: string
-    locationName?: string
-    firstYearOfPlay?: string
-    division?: Division
-    conference?: Conference
-    franchise?: Franchise
-    roster?: RosterObj
-    shortName?: string
-    officialSiteUrl?: string
-    franchiseId?: number
-    active?: boolean
+    franchiseId: number
+    fullName: string;
+    leagueId: number;
+    rawTricode: string;
+    triCode: string;
 }
+
+export type Player = {
+    id: number;
+    headshot: string;
+    firstName: {
+        default: string;
+        [key: string]: string;
+    };
+    lastName: {
+        default: string;
+        [key: string]: string;
+    };
+    sweaterNumber: number;
+    positionCode: string;
+    shootsCatches: string;
+    heightInInches: number;
+    weightInPounds: number;
+    heightInCentimeters: number;
+    weightInKilograms: number;
+    birthDate: string;
+    birthCity: {
+        default: string;
+        [key: string]: string;
+    };
+    birthCountry: string;
+    birthStateProvince?: {
+        default: string;
+        [key: string]: string;
+    };
+};
+
+export type Roster = {
+    forwards: Player[];
+    defensemen: Player[];
+    goalies: Player[];
+};
+
 
 export interface Venue {
     name: string

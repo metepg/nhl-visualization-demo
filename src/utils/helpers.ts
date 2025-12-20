@@ -64,7 +64,7 @@ export const groupGoalsByPeriod = (goals: Goal[]): Periods => {
 
 
 export const filterGoals = (goals: Goal[], filters: Filters) => {
-    const selectedTeam: string | undefined = filters.team?.abbreviation;
+    const selectedTeam: string | undefined = filters.team?.triCode;
     const goalTypeAgainst: string = goalTypeShort(filters.goaltypeagainst);
     const goalTypeFor: string = goalTypeShort(filters.goaltypefor);
     return goals.map((goal: Goal): Goal => {

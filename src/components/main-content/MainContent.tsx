@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styles from './MainContent.module.css';
-import {Team} from "../../interfaces/Teams.ts";
+import {Player, Team} from "../../interfaces/Teams.ts";
 import {DEFAULT_FILTERS, GOAL_TYPE, SEASON} from "../../constants/defaultValues.ts";
 import {Filters} from "../../interfaces/CustomData.ts";
 import {FilteredGame} from "../../interfaces/GameData.ts";
@@ -13,9 +13,11 @@ import Content from "../content/Content.tsx";
 
 interface Props {
     teams: Team[];
+    players: Player[];
+    fetchPlayers: (teamName: string) => Promise<void>
 }
-const MainContent: React.FC<Props> = ({teams}) => {
-    const defaultTeam: Team = teams[5]; // Carolina Hurricanes
+const MainContent: React.FC<Props> = ({teams, players, fetchPlayers}) => {
+    const defaultTeam: Team = teams[0];
     const [filters, setFilters] = useState<Filters>({...DEFAULT_FILTERS, team: defaultTeam});
     const selectedTeamGames: FilteredGame[] = getGameDataById(filters.team?.id);
 
@@ -30,6 +32,8 @@ const MainContent: React.FC<Props> = ({teams}) => {
                         goalType={GOAL_TYPE}
                         filters={filters}
                         teams={teams}
+                        players={players}
+                        fetchPlayers={fetchPlayers}
                     />
                     <hr style={{borderTop: '1px solid var(--dark-grey)'}}/>
                     <NowVisualizing filters={filters}/>
