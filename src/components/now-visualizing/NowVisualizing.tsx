@@ -1,21 +1,23 @@
 import React from 'react';
 import {Filters} from "../../models/CustomData.ts";
 import styles from './NowVisualizing.module.css';
-import {PlayerInfo, Team} from "../../models/Teams.ts";
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 import ToggleSwitch from "../toggle-switch/ToggleSwitch.tsx";
+import { Player } from "../../models/liiga/Player.ts";
+import { Team } from "../../models/liiga/Team.ts";
 
 interface Props {
-    filters: Filters
+  filters: Filters
+  players: Player[]
 }
 
-const NowVisualizing: React.FC<Props> = ({filters}) => {
+const NowVisualizing: React.FC<Props> = ({filters, players}) => {
     const team: Team | null = filters?.team;
     const season: string = filters.season;
     const goaltypefor: string = filters.goaltypefor;
     const goaltypeagainst: string = filters.goaltypeagainst;
-    const selectedPlayer: PlayerInfo | undefined = team?.roster?.roster.find((player: PlayerInfo): boolean => player.person.id === filters.player)
-    const playerName: string = !selectedPlayer ? 'All players' : selectedPlayer.person.fullName;
+    const selectedPlayer: Player | undefined = players.find((player: Player): boolean => player.id === filters.player.id)
+    const playerName: string = !selectedPlayer ? 'All players' : `${selectedPlayer.firstName} ${selectedPlayer.lastName}`;
     const selectedFilters = [team?.name, playerName, season, `${goaltypefor} FOR`, `${goaltypeagainst} AGAINST`];
 
     return (

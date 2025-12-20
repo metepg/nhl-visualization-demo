@@ -1,4 +1,5 @@
 import { Team } from "./liiga/Team.ts";
+import { Player } from "./liiga/Player.ts";
 
 interface GameEvent {
     player?: number;
@@ -15,11 +16,11 @@ interface GameData {
 }
 
 interface Filters {
-    team: Team | null;
-    player: number;
-    season: string;
-    goaltypefor: string;
-    goaltypeagainst: string;
+  team: Team;
+  player: Player;
+  season: string;
+  goaltypefor: string;
+  goaltypeagainst: string;
 }
 
 interface Team2 {
