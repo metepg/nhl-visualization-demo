@@ -1,7 +1,7 @@
 import React from 'react';
-import {Filters} from "../../interfaces/CustomData.ts";
+import {Filters} from "../../models/CustomData.ts";
 import styles from './NowVisualizing.module.css';
-import {PlayerInfo, Team} from "../../interfaces/Teams.ts";
+import {PlayerInfo, Team} from "../../models/Teams.ts";
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 import ToggleSwitch from "../toggle-switch/ToggleSwitch.tsx";
 

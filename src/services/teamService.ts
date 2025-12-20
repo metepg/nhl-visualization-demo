@@ -1,12 +1,13 @@
-import axios, {AxiosResponse} from "axios";
-import {Team} from "../interfaces/Teams.ts";
+import teams from '../../teamData.json';
+import { AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from 'axios';
+import { TeamResponse } from "../models/Teams.ts";
 
-const url = "https://statsapi.web.nhl.com/api/v1";
-export const getTeamData = async (): Promise<Team[]> => {
-    try {
-        const response: AxiosResponse = await axios.get(`${url}/teams?expand=team.roster`);
-        return response.data.teams.sort((a: Team, b: Team) => a.name.toUpperCase().localeCompare(b.name.toUpperCase()));
-    } catch (error) {
-        throw new Error('Error fetching team data: ' + error);
-    }
+export const getTeamData=async (): Promise<AxiosResponse<TeamResponse>> => {
+  return {
+    data: teams,
+    status: HttpStatusCode.Ok.valueOf(),
+    statusText: 'OK',
+    headers: {},
+    config: {} as InternalAxiosRequestConfig,
+  };
 };

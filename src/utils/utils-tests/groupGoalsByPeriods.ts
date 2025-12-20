@@ -1,4 +1,4 @@
-import {Goal} from "../../interfaces/GameData.ts";
+import {Goal} from "../../models/GameData.ts";
 import {groupGoalsByPeriod} from "../helpers.ts";
 
 describe('groupGoalsByPeriod', () => {

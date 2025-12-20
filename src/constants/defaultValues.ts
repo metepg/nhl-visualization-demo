@@ -1,6 +1,7 @@
-import {PlayerInfo} from "../interfaces/Teams.ts";
-import {Filters} from "../interfaces/CustomData.ts";
+import {PlayerInfo} from "../models/Teams.ts";
+import {Filters} from "../models/CustomData.ts";
 
+export const API_V2_URL = "https://www.liiga.fi/api/v2";
 export const GOAL_TYPE: string[] = ['All goals', 'Power-play', 'Short-handed', 'Empty-net', 'Game-winning'];
 export const SEASON: string[] = ['Regular Season 2022-23', 'Post-Season 2022-23'];
 export const ALL_PLAYERS_OBJECT: PlayerInfo = {

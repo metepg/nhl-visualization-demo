@@ -1,4 +1,4 @@
-import {GamesJSON} from "./interfaces/GameData.ts";
+import {GamesJSON} from "./models/GameData.ts";
 // https://nhl-score-api.herokuapp.com/api/scores?startDate=2022-03-01&endDate=2022-03-15
 // &
 // https://nhl-score-api.herokuapp.com/api/scores?startDate=2022-03-16&endDate=2022-03-31

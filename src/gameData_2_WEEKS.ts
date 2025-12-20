@@ -1,7 +1,7 @@
 // 20231021084133
 // https://nhl-score-api.herokuapp.com/api/scores?startDate=2023-03-01&endDate=2023-03-16
 
-import {GamesJSON} from "./interfaces/GameData.ts";
+import {GamesJSON} from "./models/GameData.ts";
 
 export const demoGamesData: GamesJSON = [
     {

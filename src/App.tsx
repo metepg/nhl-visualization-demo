@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from './App.module.css';
 import {getTeamData} from "./services/teamService.ts";
-import {Team} from "./interfaces/Teams.ts";
+import {Team} from "./models/Teams.ts";
 import {CircularProgress} from "@mui/material";
 import MainContent from "./components/main-content/MainContent.tsx";
 

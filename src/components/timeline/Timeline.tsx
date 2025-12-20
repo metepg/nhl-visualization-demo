@@ -1,9 +1,9 @@
 import React from 'react';
-import {Filters} from "../../interfaces/CustomData.ts";
+import {Filters} from "../../models/CustomData.ts";
 import styles from './Timeline.module.css'
-import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
+import {FilteredGame, Goal} from "../../models/GameData.ts";
 import {getCirclePosition} from "../../utils/helpers.ts";
-import {PlayerInfo} from "../../interfaces/Teams.ts";
+import {PlayerInfo} from "../../models/Teams.ts";
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 
 interface Props {

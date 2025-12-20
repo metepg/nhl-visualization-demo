@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import styles from './MainContent.module.css';
-import {Team} from "../../interfaces/Teams.ts";
+import {Team} from "../../models/Teams.ts";
 import {DEFAULT_FILTERS, GOAL_TYPE, SEASON} from "../../constants/defaultValues.ts";
-import {Filters} from "../../interfaces/CustomData.ts";
-import {FilteredGame} from "../../interfaces/GameData.ts";
+import {Filters} from "../../models/CustomData.ts";
+import {FilteredGame} from "../../models/GameData.ts";
 import {getGameDataById} from "../../services/gameDataService.ts";
 import Navbar from "../navbar/Navbar.tsx";
 import ChooseComponent from "../choose-component/ChooseComponent.tsx";

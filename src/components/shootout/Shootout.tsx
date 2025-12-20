@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Shootout.module.css'
-import {Game} from "../../interfaces/GameData.ts";
-import {Filters} from "../../interfaces/CustomData.ts";
+import {Game} from "../../models/GameData.ts";
+import {Filters} from "../../models/CustomData.ts";
 import {getWinnerFromGameStats} from "../../utils/helpers.ts";
 
 interface Props {

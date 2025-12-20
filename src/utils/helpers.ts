@@ -1,5 +1,5 @@
-import {Game, Goal, Periods, Teams} from "../interfaces/GameData.ts";
-import {Filters} from "../interfaces/CustomData.ts";
+import {Game, Goal, Periods, Teams} from "../models/GameData.ts";
+import {Filters} from "../models/CustomData.ts";
 
 export const formatDate = (dateString: string): string => {
     const date: Date = new Date(dateString);

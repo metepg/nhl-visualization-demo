@@ -1,8 +1,8 @@
 import React, {Dispatch, SetStateAction} from 'react';
 import styles from './FiltersComponent.module.css';
 import {Autocomplete, Stack, TextField} from "@mui/material";
-import {Filters} from "../../interfaces/CustomData.ts";
-import {PlayerInfo, Team} from "../../interfaces/Teams.ts";
+import {Filters} from "../../models/CustomData.ts";
+import {PlayerInfo, Team} from "../../models/Teams.ts";
 import {ALL_PLAYERS_OBJECT} from "../../constants/defaultValues.ts";
 
 interface Props {

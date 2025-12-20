@@ -1,4 +1,4 @@
-import {Teams} from "../../../interfaces/GameData.ts";
+import {Teams} from "../../../models/GameData.ts";
 
 export const mockedTeams: Teams = {
     home: {

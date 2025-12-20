@@ -1,5 +1,5 @@
-import {Goal} from "../../interfaces/GameData.ts";
-import {Filters} from "../../interfaces/CustomData.ts";
+import {Goal} from "../../models/GameData.ts";
+import {Filters} from "../../models/CustomData.ts";
 import {filterGoals} from "../helpers.ts";
 import {SEASON} from "../../constants/defaultValues.ts";
 

@@ -1,5 +1,5 @@
 import {sortGoals} from "../helpers.ts";
-import {Goal} from "../../interfaces/GameData.ts";
+import {Goal} from "../../models/GameData.ts";
 
 
 describe('sortGoals', () => {

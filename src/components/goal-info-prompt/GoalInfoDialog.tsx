@@ -1,5 +1,5 @@
 import React from 'react';
-import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
+import {FilteredGame, Goal} from "../../models/GameData.ts";
 import styles from './GoalInfoDialog.module.css';
 import {getAssistLastNames, goalTypeLong} from "../../utils/helpers.ts";
 

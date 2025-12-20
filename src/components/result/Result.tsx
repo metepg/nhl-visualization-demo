@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Result.module.css'
-import {FilteredGame} from "../../interfaces/GameData.ts";
-import {Filters} from "../../interfaces/CustomData.ts";
+import {FilteredGame} from "../../models/GameData.ts";
+import {Filters} from "../../models/CustomData.ts";
 import {getWinnerFromGameStats} from "../../utils/helpers.ts";
 
 interface Props {

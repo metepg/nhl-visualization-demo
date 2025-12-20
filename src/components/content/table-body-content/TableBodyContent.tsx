@@ -1,11 +1,11 @@
 import React, {ReactElement, useState} from "react";
-import {FilteredGame, Goal, Periods} from "../../../interfaces/GameData.ts";
+import {FilteredGame, Goal, Periods} from "../../../models/GameData.ts";
 import GameSpecific from "../../game-specific/GameSpecific.tsx";
 import {addCurrentScores, filterGoals, formatDate, groupGoalsByPeriod} from "../../../utils/helpers.ts";
 import Timeline from "../../timeline/Timeline.tsx";
 import Shootout from "../../shootout/Shootout.tsx";
 import Result from "../../result/Result.tsx";
-import {Filters} from "../../../interfaces/CustomData.ts";
+import {Filters} from "../../../models/CustomData.ts";
 import Row from "./Row.tsx";
 
 interface TableRowValues {

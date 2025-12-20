@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styles from './GoalCircle.module.css'
-import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
+import {FilteredGame, Goal} from "../../models/GameData.ts";
 import GoalInfoDialog from "../goal-info-prompt/GoalInfoDialog.tsx";
 
 interface Props {

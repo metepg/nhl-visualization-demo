@@ -1,4 +1,4 @@
-import {Goal} from "../../interfaces/GameData.ts";
+import {Goal} from "../../models/GameData.ts";
 import {addCurrentScores} from "../helpers.ts";
 import {mockedTeams} from "./mocks/teams.mock.ts";
 

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {Filters} from "../../interfaces/CustomData.ts";
-import {FilteredGame} from "../../interfaces/GameData.ts";
+import {Filters} from "../../models/CustomData.ts";
+import {FilteredGame} from "../../models/GameData.ts";
 import {Table, TableBody, tableCellClasses, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
 import TableBodyContent from "./table-body-content/TableBodyContent.tsx";
 import TableHeaders from "./table-headers/TableHeaders.tsx";

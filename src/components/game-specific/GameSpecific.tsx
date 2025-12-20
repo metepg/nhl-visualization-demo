@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './GameSpecific.module.css';
 import Timeline from "../timeline/Timeline.tsx";
-import {Game, Goal, Periods} from "../../interfaces/GameData.ts";
-import {Filters} from "../../interfaces/CustomData.ts";
+import {Game, Goal, Periods} from "../../models/GameData.ts";
+import {Filters} from "../../models/CustomData.ts";
 import {formatDate} from "../../utils/helpers.ts";
 import Shootout from "../shootout/Shootout.tsx";
 
