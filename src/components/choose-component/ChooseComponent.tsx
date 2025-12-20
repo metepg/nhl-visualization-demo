@@ -17,7 +17,7 @@ const ChooseComponent: React.FC = () => {
                 <div className={styles.introBox}>
                     <div className={styles.firstRow}>
                         <div className={styles.circle}>
-                            <div className={styles.number}>1</div>
+                            <div>1</div>
                         </div>
                     </div>
                     <div className={styles.secondRow}>Choose
@@ -30,7 +30,7 @@ const ChooseComponent: React.FC = () => {
                 <div className={styles.introBox}>
                     <div className={styles.firstRow}>
                         <div className={styles.circle}>
-                            <div className={styles.number}>2</div>
+                            <div>2</div>
                         </div>
                     </div>
                     <div className={styles.secondRow}>Explore
@@ -43,7 +43,7 @@ const ChooseComponent: React.FC = () => {
                 <div className={styles.introBox}>
                     <div className={styles.firstRow}>
                         <div className={styles.circle}>
-                            <div className={styles.number}>3</div>
+                            <div>3</div>
                         </div>
                     </div>
                     <div className={styles.secondRow}>Discover
@@ -60,7 +60,7 @@ const ChooseComponent: React.FC = () => {
                         <div className={styles.arrow}></div>
                     </div>
                     <div className={styles.line}></div>
-                    
+
             </div>
                 <h1>Choose team to get started</h1>
                 <hr/>

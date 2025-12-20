@@ -80,20 +80,3 @@ export interface Position {
     type: string
     abbreviation: string
 }
-
-// SM-LIIGA
-export interface TeamData {
-    teamName: string;
-    teamLogo: string;
-    id: number;
-    externalHomepageLink: string;
-}
-
-export interface TeamItem {
-    name: string;
-    data: TeamData;
-}
-
-export interface TeamResponse {
-    [key: string]: TeamItem[];
-}

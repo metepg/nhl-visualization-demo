@@ -1,8 +1,8 @@
-import teams from '../../teamData.json';
+import teams from '../../demo-data/teamData.json';
 import { AxiosResponse, HttpStatusCode, InternalAxiosRequestConfig } from 'axios';
-import { TeamResponse } from "../models/Teams.ts";
+import { TeamResponse } from "../models/liiga/Team.ts";
 
-export const getTeamData=async (): Promise<AxiosResponse<TeamResponse>> => {
+export const getTeamData = async (): Promise<AxiosResponse<TeamResponse>> => {
   return {
     data: teams,
     status: HttpStatusCode.Ok.valueOf(),

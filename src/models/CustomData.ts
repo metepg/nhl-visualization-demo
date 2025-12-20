@@ -1,4 +1,4 @@
-import {Team} from "./Teams.ts";
+import { Team } from "./liiga/Team.ts";
 
 interface GameEvent {
     player?: number;

@@ -1,5 +1,6 @@
 import {Game, Goal, Periods, Teams} from "../models/GameData.ts";
 import {Filters} from "../models/CustomData.ts";
+import { Player } from "../models/liiga/Player.ts";
 
 export const formatDate = (dateString: string): string => {
     const date: Date = new Date(dateString);
@@ -64,7 +65,7 @@ export const groupGoalsByPeriod = (goals: Goal[]): Periods => {
 
 
 export const filterGoals = (goals: Goal[], filters: Filters) => {
-    const selectedTeam: string | undefined = filters.team?.abbreviation;
+    const selectedTeam: string | undefined = filters.team?.name;
     const goalTypeAgainst: string = goalTypeShort(filters.goaltypeagainst);
     const goalTypeFor: string = goalTypeShort(filters.goaltypefor);
     return goals.map((goal: Goal): Goal => {
@@ -145,3 +146,13 @@ export const getWinnerFromGameStats = (game: Game, selectedTeamName: string | un
         ? selectedTeamName
         : opposingTeamName;
 }
+
+export const filterPlayersByTeam = (players: Player[], teamId: number | undefined): Player[] => {
+  if (teamId === undefined || teamId === null) {
+    return [];
+  }
+
+  return players.filter((player: Player) => player.teamId.startsWith(`${teamId}:`))
+    .slice()
+    .sort((a, b) => a.jersey - b.jersey);
+};
