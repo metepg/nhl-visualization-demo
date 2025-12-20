@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import styles from './FiltersComponent.module.css';
 import { FormControl, MenuItem, Select, Stack } from "@mui/material";
 import { Filters } from "../../models/CustomData.ts";
-import { ALL_PLAYERS_OBJECT } from "../../constants/defaultValues.ts";
+import { ALL_PLAYERS_OBJECT, GOAL_TYPE, SEASON } from "../../constants/defaultValues.ts";
 import { Team } from "../../models/liiga/Team.ts";
 import { filterPlayersByTeam } from "../../utils/helpers.ts";
 import { Player } from "../../models/liiga/Player.ts";
@@ -67,6 +67,10 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
     return typeof option === 'object' && option !== null && 'id' in option;
   }
 
+  function isTeam(option: unknown): option is Team {
+    return typeof option === 'object' && option !== null && 'data' in option;
+  }
+
   function handleChange<K extends FilterKey>(filterKey: K, value: Filters[K]) {
     switch (filterKey) {
       case 'team':
@@ -74,6 +78,9 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
           ...prev,
           team: value as Team,
           player: ALL_PLAYERS_OBJECT,
+          season: SEASON[0],
+          goaltypefor: GOAL_TYPE[0],
+          goaltypeagainst: GOAL_TYPE[0]
         }));
         break;
 
@@ -116,10 +123,25 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
     >
       {selectOptions.map((filterOption) => {
         const options = filterOption.options ?? [];
-        const playerIndex =
-          filterOption.key === 'player'
-            ? options.findIndex((p): p is Player => isPlayer(p) && p.id === filters.player?.id)
-            : 0;
+
+        const selectedIndex = options.findIndex(option => {
+          const filterValue = filters[filterOption.key];
+
+          if (isPlayer(option) && isPlayer(filterValue)) {
+            return option.id === filterValue.id;
+          }
+
+          if (isTeam(option) && isTeam(filterValue)) {
+            return option.data.id === filterValue.data.id;
+          }
+
+          if (typeof option === 'string') {
+            return option === filterValue;
+          }
+
+          return false;
+        });
+
         return (
           <Stack
             className={styles.filterTeamStyles}
@@ -133,13 +155,8 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
 
             <FormControl sx={{width: filterOption.width}}>
               <Select
-                value={filterOption.key === 'team'
-                  ? teams?.findIndex(t => t.data.id === filters.team?.data.id) ?? 0
-                  : playerIndex
-                }
-                renderValue={(idx) =>
-                  getOptionLabel(filterOption.key, options[idx])
-                }
+                value={selectedIndex === -1 ? 0 : selectedIndex}
+                renderValue={(idx) => getOptionLabel(filterOption.key, options[idx])}
                 onChange={(e) =>
                   handleChange(filterOption.key, options[e.target.value as number])
                 }

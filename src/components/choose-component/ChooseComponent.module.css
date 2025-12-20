@@ -105,7 +105,7 @@ hr {
 
 
 .introContainer {
-    width: 1080px;
+    width: var(--base-width);
     height: auto;
     position: relative;
     display: flex;
@@ -202,7 +202,6 @@ hr {
   justify-content: center;
 
   color: var(--white);
-  font-size: 18px;
   font-weight: bold;
 }
 .circle {
@@ -213,6 +212,9 @@ hr {
     margin: auto;
     position: relative;
     top: 25%;
+}
+.circle div {
+  font-size: var(--font-size-large);
 }
 
 .introDivider {

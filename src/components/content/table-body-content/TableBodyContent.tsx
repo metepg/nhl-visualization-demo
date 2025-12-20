@@ -1,85 +1,155 @@
-import React, {ReactElement, useState} from "react";
-import {FilteredGame, Goal, Periods} from "../../../models/GameData.ts";
+import React, { ReactElement, useState } from "react";
 import GameSpecific from "../../game-specific/GameSpecific.tsx";
-import {addCurrentScores, filterGoals, formatDate, groupGoalsByPeriod} from "../../../utils/helpers.ts";
+import { filterGoals, formatDate, groupGoalsByPeriod } from "../../../utils/helpers.ts";
 import Timeline from "../../timeline/Timeline.tsx";
 import Shootout from "../../shootout/Shootout.tsx";
 import Result from "../../result/Result.tsx";
-import {Filters} from "../../../models/CustomData.ts";
+import { Filters } from "../../../models/CustomData.ts";
 import Row from "./Row.tsx";
+import { Game, Periods } from "../../../models/liiga/GameData.ts";
+import { Player } from "../../../models/liiga/Player.ts";
 
 interface TableRowValues {
-    date: string;
-    teams: ReactElement;
-    period1: ReactElement,
-    period2: ReactElement,
-    period3: ReactElement,
-    OT: ReactElement,
-    SO: ReactElement,
-    result: ReactElement,
-    expandedContent: ReactElement
+  date: string;
+  teams: ReactElement;
+  period1: ReactElement,
+  period2: ReactElement,
+  period3: ReactElement,
+  OT: ReactElement,
+  SO: ReactElement,
+  result: ReactElement,
+  expandedContent: ReactElement
 }
 
 interface Props {
-    filters: Filters;
-    filteredGame: FilteredGame;
+  filters: Filters,
+  filteredGame: Game,
+  playersById: Map<number, Player> | undefined
 }
 
-const TableBodyContent: React.FC<Props> = ({filteredGame, filters}) => {
-    const [selectedRows, setSelectedRows] = useState<string[]>([]);
-    const [hoveredRow, setHoveredRow] = useState<string>();
+const TableBodyContent: React.FC<Props> = ({filteredGame, filters, playersById}) => {
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [hoveredRow, setHoveredRow] = useState<string>();
 
-    const handleRowClick = (date: string) => {
-        setSelectedRows((prevSelectedRows: string[]): string[] => {
-            const isSelected: boolean = prevSelectedRows.includes(date);
-            return isSelected
-                ? prevSelectedRows.filter((selectedDate) => selectedDate !== date)
-                : [...prevSelectedRows, date];
-        });
-    };
+  const handleRowClick = (date: string) => {
+    setSelectedRows((prevSelectedRows: string[]): string[] => {
+      const isSelected: boolean = prevSelectedRows.includes(date);
+      return isSelected
+        ? prevSelectedRows.filter((selectedDate) => selectedDate !== date)
+        : [...prevSelectedRows, date];
+    });
+  };
 
-    const handleRowHover = (date: string, isHovered: boolean) => {
-        setHoveredRow(isHovered ? date : '');
-    };
+  const handleRowHover = (date: string, isHovered: boolean) => {
+    setHoveredRow(isHovered ? date : '');
+  };
 
-    const getGameData = (filteredGame: FilteredGame) => {
-        const game = { ...filteredGame, goals: addCurrentScores(filteredGame.goals, filteredGame.teams) };
-        const filteredGoals: Goal[] = filterGoals(game.goals, filters);
-        const goalsByPeriod: Periods = groupGoalsByPeriod(filteredGoals);
-        const date: string = formatDate(game.startTime);
-        const isSelectedGame: boolean = selectedRows.includes(date);
-        const isHovered: boolean = date === hoveredRow;
-        const isSelectedTeam = filters.team?.abbreviation === game.teams.home.abbreviation;
-        const teams =
-            <>
-                <span style={{ color: isSelectedTeam ? 'var(--red)' : 'var(--black)' }}>{game.teams.home.abbreviation}</span>
-                {' - '}
-                <span style={{ color: isSelectedTeam ? 'var(--black)' : 'var(--red)' }}>{game.teams.away.abbreviation}</span>
-            </>
-        return {
-            date,
-            teams,
-            period1: <Timeline goals={goalsByPeriod.period1} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
-            period2: <Timeline goals={goalsByPeriod.period2} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
-            period3: <Timeline goals={goalsByPeriod.period3} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
-            OT: <Timeline goals={goalsByPeriod.overtime} filters={filters} game={game} selectedRowDate={isSelectedGame} isHoveredRow={isHovered} />,
-            SO: <Shootout showAll={false} game={game} filters={filters} />,
-            result: <Result game={game} filters={filters} />,
-            expandedContent: <GameSpecific game={game} goalsByPeriod={goalsByPeriod} filters={filters} />,
-        };
+  const getGameData = (filteredGame: Game) => {
+    if (!filteredGame.started || !filteredGame.ended) {
+      return null;
     }
 
-    const rowValues: TableRowValues = getGameData(filteredGame);
+    const game = filteredGame;
 
-    return (
-        <Row
-            key={rowValues.date}
-            game={rowValues}
-            selected={selectedRows.includes(rowValues.date)}
-            onClick={() => handleRowClick(rowValues.date)}
-            setHoveredRow={handleRowHover}
-        />
+    const filteredGoals = filterGoals(
+      game.homeTeam.teamName,
+      game.awayTeam.teamName,
+      game.homeTeam.goalEvents ?? [],
+      game.awayTeam.goalEvents ?? [],
+      filters
     );
+
+    const goalsByPeriod: Periods = groupGoalsByPeriod(filteredGoals);
+
+    const date = formatDate(game.start);
+    const isSelectedGame = selectedRows.includes(date);
+    const isHovered = date === hoveredRow;
+
+    const isSelectedTeam = filters.team?.name === game.homeTeam.teamName;
+
+    const teams = (
+      <>
+        <span style={{color: isSelectedTeam ? 'var(--red)' : 'var(--black)'}}>
+          {game.homeTeam.teamName.slice(0,3).toUpperCase()}
+        </span>
+          {' - '}
+          <span style={{color: isSelectedTeam ? 'var(--black)' : 'var(--red)'}}>
+          {game.awayTeam.teamName.slice(0,3).toUpperCase()}
+        </span>
+      </>
+    );
+
+    return {
+      date,
+      teams,
+      period1: (
+        <Timeline
+          goals={goalsByPeriod.period1}
+          filters={filters}
+          game={game}
+          selectedRowDate={isSelectedGame}
+          isHoveredRow={isHovered}
+          playersById={playersById}
+        />
+      ),
+      period2: (
+        <Timeline
+          goals={goalsByPeriod.period2}
+          filters={filters}
+          game={game}
+          selectedRowDate={isSelectedGame}
+          isHoveredRow={isHovered}
+          playersById={playersById}
+        />
+      ),
+      period3: (
+        <Timeline
+          goals={goalsByPeriod.period3}
+          filters={filters}
+          game={game}
+          selectedRowDate={isSelectedGame}
+          isHoveredRow={isHovered}
+          playersById={playersById}
+        />
+      ),
+      OT: (
+        <Timeline
+          goals={goalsByPeriod.overtime}
+          filters={filters}
+          game={game}
+          selectedRowDate={isSelectedGame}
+          isHoveredRow={isHovered}
+          playersById={playersById}
+        />
+      ),
+      SO: <Shootout showAll={false} game={game} filters={filters}/>,
+      result: <Result game={game} filters={filters}/>,
+      expandedContent: (
+        <GameSpecific
+          game={game}
+          goalsByPeriod={goalsByPeriod}
+          filters={filters}
+          playersById={playersById}
+        />
+      ),
+    };
+  };
+
+  const rowValues: TableRowValues | null = getGameData(filteredGame);
+
+  if (!rowValues) {
+    return null;
+  }
+
+  return (
+    <Row
+      key={rowValues.date}
+      game={rowValues}
+      selected={selectedRows.includes(rowValues.date)}
+      onClick={() => handleRowClick(rowValues.date)}
+      setHoveredRow={handleRowHover}
+    />
+  );
 }
 
 export default TableBodyContent;

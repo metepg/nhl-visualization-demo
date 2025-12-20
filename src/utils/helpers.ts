@@ -1,6 +1,7 @@
-import {Game, Goal, Periods, Teams} from "../models/GameData.ts";
-import {Filters} from "../models/CustomData.ts";
+import { Game, Goal, Teams } from "../models/GameData.ts";
+import { Filters } from "../models/CustomData.ts";
 import { Player } from "../models/liiga/Player.ts";
+import { FilteredGoalEvent, GoalEvent, Periods } from "../models/liiga/GameData.ts";
 
 export const formatDate = (dateString: string): string => {
     const date: Date = new Date(dateString);
@@ -9,11 +10,10 @@ export const formatDate = (dateString: string): string => {
     return `${monthAbbreviation} ${day}`;
 }
 
-export const getCirclePosition = (periodInMinutes = 20, goalMinutes = 0, goalSeconds = 0): string => {
-    const goalTime: number = goalTimeInSeconds(goalMinutes, goalSeconds);
-    const periodDurationInSeconds: number = periodInMinutes * 60;
-    const circlePosition: number = Math.floor((goalTime / periodDurationInSeconds) * 100);
-    return `${circlePosition}%`;
+export const getCirclePosition = (periodInMinutes: number, secondsIntoPeriod: number): string => {
+  const periodSeconds = periodInMinutes * 60;
+  const pct = Math.max(0, Math.min(secondsIntoPeriod / periodSeconds, 1));
+  return `${pct * 100}%`;
 };
 
 export const goalTimeInSeconds = (minutes = 0, seconds = 0) => {
@@ -25,10 +25,11 @@ export const goalTypeShort = (value: string | null | undefined): string => {
     value = value?.toLowerCase().replace(/[^a-z]/g, '');
     const shortened: { [key: string]: string } = {
         allgoals: 'AG',
-        powerplay: 'PPG',
-        shorthanded: 'SHG',
-        emptynet: 'EN',
-        gamewinning: 'GW'
+        powerplay: 'YV',
+        powerplay2: 'YV2',
+        shorthanded: 'AV',
+        emptynet: 'TM',
+        gamewinning: 'VT'
     };
     return shortened[value] || '';
 }
@@ -44,43 +45,69 @@ export const goalTypeLong = (value: string | null | undefined): string => {
     return long[value?.toString().toUpperCase()] || '';
 }
 
-export const groupGoalsByPeriod = (goals: Goal[]): Periods => {
-    const periods: Periods = {
-        period1: [],
-        period2: [],
-        period3: [],
-        overtime: []
-    };
+export const groupGoalsByPeriod = (goals: FilteredGoalEvent[]): Periods => {
+  const periods: Periods = {
+    period1: [],
+    period2: [],
+    period3: [],
+    overtime: [],
+  };
 
-    if (!goals || goals.length === 0) return periods;
+  if (!goals?.length) return periods;
 
-    for (const goal of goals) {
-        const period: string = goal.period;
-        if (period === "SO") continue;
-        if (period === "OT") periods.overtime.push(goal)
-        else periods[`period${period}`].push(goal);
+  for (const goal of goals) {
+    switch (goal.period) {
+      case 1:
+        periods.period1.push(goal);
+        break;
+      case 2:
+        periods.period2.push(goal);
+        break;
+      case 3:
+        periods.period3.push(goal);
+        break;
+      default:
+        periods.overtime.push(goal);
     }
-    return periods;
-}
+  }
+
+  return periods;
+};
 
 
-export const filterGoals = (goals: Goal[], filters: Filters) => {
-    const selectedTeam: string | undefined = filters.team?.name;
-    const goalTypeAgainst: string = goalTypeShort(filters.goaltypeagainst);
-    const goalTypeFor: string = goalTypeShort(filters.goaltypefor);
-    return goals.map((goal: Goal): Goal => {
-        const isPlayerSelected: boolean = filters.player === 999 || filters.player === goal.scorer.playerId;
-        const goalTypeSelectedTeam: boolean = filters.goaltypefor === 'All goals' || goalTypeFor === goal.strength;
-        const goalTypeOtherTeam: boolean = filters.goaltypeagainst === 'All goals' || goal.strength === goalTypeAgainst;
-        const isSelectedTeamsGoal: boolean = goal.team === selectedTeam;
+export const filterGoals = (
+  homeTeamName: string,
+  awayTeamName: string,
+  homeGoals: GoalEvent[],
+  awayGoals: GoalEvent[],
+  filters: Filters
+): FilteredGoalEvent[] => {
 
-        return {
-            ...goal,
-            showGoal:
-                (isSelectedTeamsGoal && isPlayerSelected && goalTypeSelectedTeam) ||
-                (!isSelectedTeamsGoal && goalTypeOtherTeam)
-        };
-    });
+  const selectedTeam = filters.team?.name;
+  const goalTypeAgainst = goalTypeShort(filters.goaltypeagainst);
+  const goalTypeFor = goalTypeShort(filters.goaltypefor);
+
+  const evaluateGoal = (goal: GoalEvent, teamName: string): FilteredGoalEvent => {
+    const strength = goal.goalTypes[0] ?? 'EV';
+    const isPlayerSelected = filters.player.id === 999 || filters.player.id === goal.scorerPlayerId;
+    const goalTypeSelectedTeam = filters.goaltypefor === 'All goals' || goalTypeFor === strength;
+    const goalTypeOtherTeam = filters.goaltypeagainst === 'All goals' || strength === goalTypeAgainst;
+    const isSelectedTeamsGoal = teamName === selectedTeam;
+
+    return {
+      ...goal,
+      teamName,
+      strength,
+      showGoal:
+        (isSelectedTeamsGoal && isPlayerSelected && goalTypeSelectedTeam) ||
+        (!isSelectedTeamsGoal && goalTypeOtherTeam),
+    };
+  };
+
+  return [
+    ...homeGoals.map(goalEvent => evaluateGoal(goalEvent, homeTeamName)),
+    ...awayGoals.map(goalEvent => evaluateGoal(goalEvent, awayTeamName)),
+  ];
 };
 
 export const getAssistLastNames = (goal: Goal): string[] => {

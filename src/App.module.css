@@ -8,6 +8,8 @@
     --filtered-other-team: #DEDEDE;
     --font-size-small: 12px;
     --font-size-normal: 14px;
+    --font-size-large: 18px;
+    --base-width: 1080px;
 }
 
 .loadingIconContainer {

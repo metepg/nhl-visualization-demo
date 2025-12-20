@@ -1,5 +1,6 @@
 import {Filters} from "../models/CustomData.ts";
 import { Player } from "../models/liiga/Player.ts";
+import { Team } from "../models/liiga/Team.ts";
 
 export const API_V2_URL = "https://www.liiga.fi/api/v2";
 export const GOAL_TYPE: string[] = ['All goals', 'Power-play', 'Short-handed', 'Empty-net', 'Game-winning'];
@@ -28,20 +29,29 @@ export const ALL_PLAYERS_OBJECT: Player = {
   alternateCaptain: false,
   pictureUrl: ''
 };
+export const DEFAULT_TEAM: Team = {
+  name: 'DEFAULT',
+  data: {
+    teamName: 'DEFAULT',
+    teamLogo: 'DEFAULT',
+    id: 12345,
+    externalHomepageLink: 'DEFAULT',
+  }
+};
+
 export const DEFAULT_FILTERS: Filters = {
-    team: null,
-    player: 999, // Value for all players
+    team: DEFAULT_TEAM,
+    player: ALL_PLAYERS_OBJECT,
     season: SEASON[0],
     goaltypefor: GOAL_TYPE[0],
     goaltypeagainst: GOAL_TYPE[0]
-
 }
 export const TABLE_HEADERS: {text: string, width: string}[] = [
     {text: 'Date', width: '60px'},
-    {text: 'Game', width: '75px'},
-    {text: '1st period', width: '223px'},
-    {text: '2nd period', width: '223px'},
-    {text: '3rd period', width: '223px'},
+    {text: 'Game', width: '105px'},
+    {text: '1st period', width: '213px'},
+    {text: '2nd period', width: '213px'},
+    {text: '3rd period', width: '213px'},
     {text: 'OT', width: '58px'},
     {text: 'SO', width: '25px'},
     {text: 'Result', width: '62px'},

@@ -1,5 +1,5 @@
 .navbar {
-    width: 100%;
+    min-width: var(--base-width);
     height: 100px;
     background-color: var(--black);
     position: relative;
@@ -24,10 +24,9 @@
 }
 
 .brandContent {
-    max-width: 1080px;
+    max-width: var(--base-width);
     margin: auto;
     height: 60px;
-
 }
 
 .logoArea {
@@ -38,7 +37,7 @@
     top: 10px;
     position: relative;
     float: left;
-    
+
 }
 
 .nameArea {
@@ -52,7 +51,7 @@
     font-size: 14px;
     letter-spacing: 2px;
     font-weight: bold;
-    
+
 }
 
 .sloganArea {
@@ -72,13 +71,4 @@
 .redColor {
     color: var(--red);
     margin-left: 2px;
-}
-
-@media (max-width: 768px) {
-    .navbar {
-        width: 1080px;
-    }
-    .hr {
-       width: 1080px;
-    }
 }
