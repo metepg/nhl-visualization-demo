@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 import styles from './FiltersComponent.module.css';
 import { Autocomplete, Stack, TextField } from "@mui/material";
 import { Filters } from "../../models/CustomData.ts";
-import { PlayerInfo } from "../../models/Teams.ts";
 import { ALL_PLAYERS_OBJECT } from "../../constants/defaultValues.ts";
 import { Team } from "../../models/liiga/Team.ts";
 import playersJSON from '../../../demo-data/playerData.json';
@@ -18,7 +17,7 @@ interface Props {
   teams: Team[] | undefined;
 }
 
-type OptionValue = Team | PlayerInfo | string | number;
+type OptionValue = Team | Player | string | number;
 
 const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, goalType}) => {
   const teamId = filters.team?.data.id;
@@ -28,7 +27,7 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
   const sortedPlayers: Player[] = teamId ? filterPlayersByTeam(players, teamId) : [];
   console.log(sortedPlayers);
 
-  const playerOptions: PlayerInfo[] = sortedPlayers
+  const playerOptions: Player[] = sortedPlayers
     ? [ALL_PLAYERS_OBJECT].concat(sortedPlayers)
     : [ALL_PLAYERS_OBJECT];
 
@@ -50,20 +49,20 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
   }
 
   // Option 'All players' has jersey number 999. This removes it
-  function getPlayerLabel(player: PlayerInfo): string {
-    const value = `${player.jerseyNumber || ''} ${player.person.fullName}`;
+  function getPlayerLabel(player: Player): string {
+    const value = `${player.jersey || ''} ${player.firstName} ${player.lastName}`;
     return value.replace(/999/g, '').trim();
   }
 
   function getOptionLabel(filterKey: string, value: OptionValue): string {
     if (filterKey === 'team') return (value as Team).name;
-    if (filterKey === 'player') return getPlayerLabel(value as PlayerInfo);
+    if (filterKey === 'player') return getPlayerLabel(value as Player);
     return String(value);
   }
 
   function handleChange(filterKey: string, value: OptionValue,) {
     if (filterKey === 'team') return filterEvents(filterKey, value as Team);
-    if (filterKey === 'player') return filterEvents(filterKey, (value as PlayerInfo).person.id);
+    if (filterKey === 'player') return filterEvents(filterKey, (value as Player).id);
     return filterEvents(filterKey, value);
   }
 
@@ -79,12 +78,11 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
               disablePortal
               disableClearable
               getOptionLabel={(value: OptionValue) => getOptionLabel(filterOption.key, value)}
-              // Set Carolina as default team
-              defaultValue={filterOption.key === 'team' ? filterOption.options?.[5] : filterOption.options?.[0]}
+              defaultValue={filterOption.options?.[0]}
               options={filterOption.options ?? []}
               onChange={(_, value: OptionValue) => handleChange(filterOption.key, value)}
               sx={{width: filterOption.width}}
-              renderInput={(params) => <TextField {...params} label=""/>}
+              renderInput={(params) => <TextField {...params} label="" />}
               getOptionDisabled={(option: OptionValue): boolean => {
                 return typeof option === 'string' && disabledOptions.includes(option);
               }}

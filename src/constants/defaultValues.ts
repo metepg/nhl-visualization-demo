@@ -1,13 +1,32 @@
-import {PlayerInfo} from "../models/Teams.ts";
 import {Filters} from "../models/CustomData.ts";
+import { Player } from "../models/liiga/Player.ts";
 
 export const API_V2_URL = "https://www.liiga.fi/api/v2";
 export const GOAL_TYPE: string[] = ['All goals', 'Power-play', 'Short-handed', 'Empty-net', 'Game-winning'];
 export const SEASON: string[] = ['Regular Season 2022-23', 'Post-Season 2022-23'];
-export const ALL_PLAYERS_OBJECT: PlayerInfo = {
-    person: {id: 999, fullName: 'All players',  link: ''},
-    position: {code: '', type: '', abbreviation: '', name: ''},
-    jerseyNumber: '999'
+export const ALL_PLAYERS_OBJECT: Player = {
+  id: 999,
+  teamId: 'ALL:all',
+  teamName: 'ALL',
+  countryOfBirth: '',
+  placeOfBirth: '',
+  dateOfBirth: '',
+  nationality: '',
+  firstName: 'All',
+  lastName: 'Players',
+  role: 'CENTER',
+  roleCode: '',
+  handedness: 'LEFT',
+  height: 0,
+  weight: 0,
+  rookie: false,
+  jersey: 999,
+  injured: false,
+  suspended: false,
+  removed: false,
+  captain: false,
+  alternateCaptain: false,
+  pictureUrl: ''
 };
 export const DEFAULT_FILTERS: Filters = {
     team: null,
