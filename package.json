@@ -1,9 +1,9 @@
 {
-  "name": "nhl",
+  "name": "liiga",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://metepg.github.io/nhl-visualization-demo",
+  "homepage": "https://metepg.github.io/liiga-visualization-demo",
   "scripts": {
     "dev": "vite",
     "test": "jest",

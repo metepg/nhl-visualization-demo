@@ -82,7 +82,7 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
               options={filterOption.options ?? []}
               onChange={(_, value: OptionValue) => handleChange(filterOption.key, value)}
               sx={{width: filterOption.width}}
-              renderInput={(params) => <TextField {...params} label="" />}
+              renderInput={(params) => <TextField {...params}  label="" inputProps={{...params.inputProps, readOnly: true}} />}
               getOptionDisabled={(option: OptionValue): boolean => {
                 return typeof option === 'string' && disabledOptions.includes(option);
               }}
