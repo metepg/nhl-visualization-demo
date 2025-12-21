@@ -2,10 +2,10 @@ import React, { Dispatch, SetStateAction } from 'react';
 import styles from './FiltersComponent.module.css';
 import { FormControl, MenuItem, Select, Stack } from "@mui/material";
 import { ALL_PLAYERS_OBJECT, GOAL_TYPE, SEASON } from "../../constants/defaultValues.ts";
-import { Team } from "../../models/liiga/Team.ts";
+import { Team } from "../../models/Team.ts";
 import { filterPlayersByTeam } from "../../utils/helpers.ts";
-import { Player } from "../../models/liiga/Player.ts";
-import { Filters } from "../../models/liiga/Filters.ts";
+import { Player } from "../../models/Player.ts";
+import { Filters } from "../../models/Filters.ts";
 
 interface Props {
   filters: Filters;

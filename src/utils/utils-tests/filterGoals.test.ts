@@ -1,5 +1,5 @@
 import { filterGoals } from "../helpers.ts";
-import { GoalEvent } from "../../models/liiga/GameData.ts";
+import { GoalEvent } from "../../models/GameData.ts";
 import { MOCK_FILTERS, MOCK_GOAL, MOCK_PLAYER } from "./mocks/goals.mock.ts";
 
 describe('filterGoals', () => {

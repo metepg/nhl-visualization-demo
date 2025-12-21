@@ -3,9 +3,9 @@ import styles from './GameSpecific.module.css';
 import Timeline from "../timeline/Timeline.tsx";
 import { formatDate } from "../../utils/helpers.ts";
 import Shootout from "../shootout/Shootout.tsx";
-import { Periods, PlayedGame } from "../../models/liiga/GameData.ts";
-import { Player } from "../../models/liiga/Player.ts";
-import { Filters } from "../../models/liiga/Filters.ts";
+import { Periods, PlayedGame } from "../../models/GameData.ts";
+import { Player } from "../../models/Player.ts";
+import { Filters } from "../../models/Filters.ts";
 
 interface Props {
   game: PlayedGame,

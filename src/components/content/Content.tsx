@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import TableBodyContent from "./table-body-content/TableBodyContent.tsx";
 import TableHeaders from "./table-headers/TableHeaders.tsx";
-import { Player } from "../../models/liiga/Player.ts";
-import { Game } from "../../models/liiga/GameData.ts";
-import { Filters } from "../../models/liiga/Filters.ts";
+import { Player } from "../../models/Player.ts";
+import { Game } from "../../models/GameData.ts";
+import { Filters } from "../../models/Filters.ts";
 
 
 interface Props {

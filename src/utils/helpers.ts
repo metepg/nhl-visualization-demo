@@ -1,6 +1,6 @@
-import { Player } from "../models/liiga/Player.ts";
-import { FilteredGoalEvent, GoalEvent, Periods } from "../models/liiga/GameData.ts";
-import { Filters } from "../models/liiga/Filters.ts";
+import { Player } from "../models/Player.ts";
+import { FilteredGoalEvent, GoalEvent, Periods } from "../models/GameData.ts";
+import { Filters } from "../models/Filters.ts";
 
 export const formatDate = (dateString: string): string => {
     const date: Date = new Date(dateString);

@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './NowVisualizing.module.css';
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 import ToggleSwitch from "../toggle-switch/ToggleSwitch.tsx";
-import { Player } from "../../models/liiga/Player.ts";
-import { Team } from "../../models/liiga/Team.ts";
-import { Filters } from "../../models/liiga/Filters.ts";
+import { Player } from "../../models/Player.ts";
+import { Team } from "../../models/Team.ts";
+import { Filters } from "../../models/Filters.ts";
 
 interface Props {
   filters: Filters

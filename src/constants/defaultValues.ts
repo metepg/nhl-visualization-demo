@@ -1,6 +1,6 @@
-import { Player } from "../models/liiga/Player.ts";
-import { Team } from "../models/liiga/Team.ts";
-import { Filters } from "../models/liiga/Filters.ts";
+import { Player } from "../models/Player.ts";
+import { Team } from "../models/Team.ts";
+import { Filters } from "../models/Filters.ts";
 
 export const API_V2_URL = "https://www.liiga.fi/api/v2";
 export const GOAL_TYPE: string[] = ['All goals', 'Power-play', 'Short-handed', 'Empty-net', 'Game-winning'];

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './GoalInfoDialog.module.css';
 import { goalTypeLong } from "../../utils/helpers.ts";
-import { FilteredGoalEvent, PlayedGame } from "../../models/liiga/GameData.ts";
+import { FilteredGoalEvent, PlayedGame } from "../../models/GameData.ts";
 
 interface Props {
   game?: PlayedGame;

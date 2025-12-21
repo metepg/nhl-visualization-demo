@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './GoalCircle.module.css'
 import GoalInfoDialog from "../goal-info-prompt/GoalInfoDialog.tsx";
-import { FilteredGoalEvent, PlayedGame } from "../../models/liiga/GameData.ts";
+import { FilteredGoalEvent, PlayedGame } from "../../models/GameData.ts";
 
 interface Props {
   game?: PlayedGame;

@@ -3,7 +3,7 @@ import styles from './App.module.css';
 import { getTeamData } from "./services/teamService.ts";
 import { CircularProgress } from "@mui/material";
 import MainContent from "./components/main-content/MainContent.tsx";
-import { Team } from "./models/liiga/Team.ts";
+import { Team } from "./models/Team.ts";
 
 const App: React.FC = () => {
   const [teams, setTeams] = useState<Team[] | null>(null);

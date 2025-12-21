@@ -7,11 +7,11 @@ import ChooseComponent from "../choose-component/ChooseComponent.tsx";
 import FiltersComponent from "../filters-component/FiltersComponent.tsx";
 import NowVisualizing from "../now-visualizing/NowVisualizing.tsx";
 import Content from "../content/Content.tsx";
-import { Team } from "../../models/liiga/Team.ts";
+import { Team } from "../../models/Team.ts";
 import playersJSON from '../../../demo-data/playerData.json';
-import { Player } from "../../models/liiga/Player.ts";
-import { Game } from "../../models/liiga/GameData.ts";
-import { Filters } from "../../models/liiga/Filters.ts";
+import { Player } from "../../models/Player.ts";
+import { Game } from "../../models/GameData.ts";
+import { Filters } from "../../models/Filters.ts";
 
 interface Props {
   teams: Team[];

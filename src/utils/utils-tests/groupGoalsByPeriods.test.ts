@@ -1,5 +1,5 @@
 import { groupGoalsByPeriod } from "../helpers.ts";
-import { FilteredGoalEvent } from "../../models/liiga/GameData.ts";
+import { FilteredGoalEvent } from "../../models/GameData.ts";
 import { MOCK_FILTERED_GOAL } from "./mocks/goals.mock.ts";
 
 describe('groupGoalsByPeriod()', () => {

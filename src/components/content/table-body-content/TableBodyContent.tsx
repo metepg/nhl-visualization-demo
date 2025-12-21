@@ -5,9 +5,9 @@ import Timeline from "../../timeline/Timeline.tsx";
 import Shootout from "../../shootout/Shootout.tsx";
 import Result from "../../result/Result.tsx";
 import Row from "./Row.tsx";
-import { Game, Periods } from "../../../models/liiga/GameData.ts";
-import { Player } from "../../../models/liiga/Player.ts";
-import { Filters } from "../../../models/liiga/Filters.ts";
+import { Game, Periods } from "../../../models/GameData.ts";
+import { Player } from "../../../models/Player.ts";
+import { Filters } from "../../../models/Filters.ts";
 
 interface TableRowValues {
   date: string;

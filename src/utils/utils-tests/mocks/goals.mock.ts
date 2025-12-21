@@ -1,6 +1,6 @@
-import { FilteredGoalEvent, GoalEvent } from "../../../models/liiga/GameData.ts";
-import { Filters } from "../../../models/liiga/Filters.ts";
-import { Handedness, Player, PlayerRole } from "../../../models/liiga/Player.ts";
+import { FilteredGoalEvent, GoalEvent } from "../../../models/GameData.ts";
+import { Filters } from "../../../models/Filters.ts";
+import { Handedness, Player, PlayerRole } from "../../../models/Player.ts";
 
 export const MOCK_BASE_GOAL: GoalEvent = {
   scorerPlayerId: 1,
