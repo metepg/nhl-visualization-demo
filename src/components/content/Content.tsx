@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Filters } from "../../models/CustomData.ts";
 import {
   Table,
   TableBody,
@@ -13,6 +12,7 @@ import TableBodyContent from "./table-body-content/TableBodyContent.tsx";
 import TableHeaders from "./table-headers/TableHeaders.tsx";
 import { Player } from "../../models/liiga/Player.ts";
 import { Game } from "../../models/liiga/GameData.ts";
+import { Filters } from "../../models/liiga/Filters.ts";
 
 
 interface Props {

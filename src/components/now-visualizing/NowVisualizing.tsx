@@ -1,10 +1,10 @@
 import React from 'react';
-import {Filters} from "../../models/CustomData.ts";
 import styles from './NowVisualizing.module.css';
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 import ToggleSwitch from "../toggle-switch/ToggleSwitch.tsx";
 import { Player } from "../../models/liiga/Player.ts";
 import { Team } from "../../models/liiga/Team.ts";
+import { Filters } from "../../models/liiga/Filters.ts";
 
 interface Props {
   filters: Filters

@@ -90,7 +90,7 @@ export interface GameTeam {
 
 export interface GoalEvent {
   scorerPlayerId: number;
-  scorerPlayer: Player | null;
+  scorerPlayer: GamePlayer | null;
   logTime: string;
   winningGoal: boolean;
   gameTime: number;
@@ -98,7 +98,7 @@ export interface GoalEvent {
   eventId: number;
   goalTypes: string[];
   assistantPlayerIds: number[];
-  assistantPlayers: Player[];
+  assistantPlayers: GamePlayer[];
   plusPlayerIds: string | null;
   minusPlayerIds: string | null;
   homeTeamScore: number;
@@ -111,7 +111,7 @@ export interface GoalEvent {
 
 /* ---------- Shared ---------- */
 
-export interface Player {
+export interface GamePlayer {
   playerId: number;
   firstName: string;
   lastName: string;

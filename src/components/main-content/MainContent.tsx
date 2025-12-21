@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import styles from './MainContent.module.css';
 import { DEFAULT_FILTERS, GOAL_TYPE, SEASON } from "../../constants/defaultValues.ts";
-import { Filters } from "../../models/CustomData.ts";
 import { getGameDataById } from "../../services/gameDataService.ts";
 import Navbar from "../navbar/Navbar.tsx";
 import ChooseComponent from "../choose-component/ChooseComponent.tsx";
@@ -12,6 +11,7 @@ import { Team } from "../../models/liiga/Team.ts";
 import playersJSON from '../../../demo-data/playerData.json';
 import { Player } from "../../models/liiga/Player.ts";
 import { Game } from "../../models/liiga/GameData.ts";
+import { Filters } from "../../models/liiga/Filters.ts";
 
 interface Props {
   teams: Team[];

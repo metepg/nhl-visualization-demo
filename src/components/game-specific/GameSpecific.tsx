@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './GameSpecific.module.css';
 import Timeline from "../timeline/Timeline.tsx";
-import { Filters } from "../../models/CustomData.ts";
 import { formatDate } from "../../utils/helpers.ts";
 import Shootout from "../shootout/Shootout.tsx";
 import { Periods, PlayedGame } from "../../models/liiga/GameData.ts";
 import { Player } from "../../models/liiga/Player.ts";
+import { Filters } from "../../models/liiga/Filters.ts";
 
 interface Props {
   game: PlayedGame,

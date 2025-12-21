@@ -1,64 +1,58 @@
-import {Goal} from "../../models/GameData.ts";
-import {Filters} from "../../models/CustomData.ts";
-import {filterGoals} from "../helpers.ts";
-import {SEASON} from "../../constants/defaultValues.ts";
+import { filterGoals } from "../helpers.ts";
+import { GoalEvent } from "../../models/liiga/GameData.ts";
+import { MOCK_FILTERS, MOCK_GOAL, MOCK_PLAYER } from "./mocks/goals.mock.ts";
 
 describe('filterGoals', () => {
-    it('sets filtered property to true for all goals when filters dont apply', () => {
-        const goals: Goal[] = [
-            { period: '1', scorer: { player: 'Player 1', playerId: 1 }, team: 'TMA'},
-            { period: '2', scorer: { player: 'Player 2', playerId: 2 }, team: 'TMB'},
-            { period: '1', scorer: { player: 'Player 3', playerId: 3 }, team: 'TMA'},
-            { period: '3', scorer: { player: 'Player 4', playerId: 4 }, team: 'TMB'},
-            { period: 'OT', scorer: { player: 'Player 5', playerId: 5 }, team: 'TMA'},
-        ];
-        const filters: Filters = {
-            team: {
-                id: 1,
-                name: 'Team A',
-                teamName: 'Team A',
-                abbreviation: 'TMA',
-            },
-            goaltypefor: 'All goals',
-            goaltypeagainst: 'All goals',
-            player: 999,
-            season: SEASON[0]
-        };
+  it('shows all goals when filters do not restrict', () => {
+    const homeGoals: GoalEvent[] = [
+      MOCK_GOAL(1, 1),
+      MOCK_GOAL(1, 3),
+    ];
 
-        const filteredGoals: Goal[] = filterGoals(goals, filters);
+    const awayGoals: GoalEvent[] = [
+      MOCK_GOAL(2, 2),
+      MOCK_GOAL(3, 4),
+      MOCK_GOAL(4, 5),
+    ];
 
-        filteredGoals.forEach((goal: Goal) => {
-            expect(goal.showGoal).toBe(true);
-        });
+    const result = filterGoals(
+      'Team A',
+      'Team B',
+      homeGoals,
+      awayGoals,
+      MOCK_FILTERS
+    );
+
+    result.forEach(goal => {
+      expect(goal.showGoal).toBe(true);
     });
+  });
 
-    it('correctly filters goals based on the provided filters', () => {
-        const goals: Goal[] = [
-            { period: '1', scorer: { player: 'Player 1', playerId: 1 }, team: 'TMA'},
-            { period: '2', scorer: { player: 'Player 2', playerId: 8 }, team: 'TMB'},
-            { period: '1', scorer: { player: 'Player 2', playerId: 2 }, team: 'TMA'},
-            { period: '3', scorer: { player: 'Player 4', playerId: 4 }, team: 'TMB'},
-            { period: 'OT', scorer: { player: 'Player 2', playerId: 2 }, team: 'TMA'},
-        ];
-        const filters: Filters = {
-            team: {
-                id: 1,
-                name: 'Team A',
-                teamName: 'Team A',
-                abbreviation: 'TMA',
-            },
-            goaltypefor: 'All goals',
-            goaltypeagainst: 'All goals',
-            player: 2,
-            season: SEASON[0]
-        };
+  it('filters by selected player for selected team', () => {
+    const filters = {
+      ...MOCK_FILTERS,
+      player: { ...MOCK_PLAYER, id: 2 },
+    };
 
-        const filteredGoals: Goal[] = filterGoals(goals, filters);
+    const homeGoals: GoalEvent[] = [
+      MOCK_GOAL(1, 1), // Team A, player 1
+      MOCK_GOAL(1, 2), // Team A, player 2
+    ];
 
-        expect(filteredGoals[0].showGoal).toBe(false);
-        expect(filteredGoals[1].showGoal).toBe(true);
-        expect(filteredGoals[2].showGoal).toBe(true); // Player 2 matches the filter
-        expect(filteredGoals[3].showGoal).toBe(true);
-        expect(filteredGoals[4].showGoal).toBe(true);  // Player 2 matches the filter
-    });
+    const awayGoals: GoalEvent[] = [
+      MOCK_GOAL(2, 8), // Team B
+    ];
+
+    const result = filterGoals(
+      'Team A',
+      'Team B',
+      homeGoals,
+      awayGoals,
+      filters
+    );
+
+    expect(result[0].showGoal).toBe(false); // Team A, wrong player
+    expect(result[1].showGoal).toBe(true);  // Team A, player match
+    expect(result[2].showGoal).toBe(true);  // Team B always shown
+  });
 });

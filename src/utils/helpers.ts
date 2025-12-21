@@ -1,7 +1,6 @@
-import { Game, Goal, Teams } from "../models/GameData.ts";
-import { Filters } from "../models/CustomData.ts";
 import { Player } from "../models/liiga/Player.ts";
 import { FilteredGoalEvent, GoalEvent, Periods } from "../models/liiga/GameData.ts";
+import { Filters } from "../models/liiga/Filters.ts";
 
 export const formatDate = (dateString: string): string => {
     const date: Date = new Date(dateString);
@@ -15,10 +14,6 @@ export const getCirclePosition = (periodInMinutes: number, secondsIntoPeriod: nu
   const pct = Math.max(0, Math.min(secondsIntoPeriod / periodSeconds, 1));
   return `${pct * 100}%`;
 };
-
-export const goalTimeInSeconds = (minutes = 0, seconds = 0) => {
-    return minutes * 60 + seconds;
-}
 
 export const goalTypeShort = (value: string | null | undefined): string => {
     if (!value) return '';
@@ -109,70 +104,6 @@ export const filterGoals = (
     ...awayGoals.map(goalEvent => evaluateGoal(goalEvent, awayTeamName)),
   ];
 };
-
-export const getAssistLastNames = (goal: Goal): string[] => {
-    const assistNames: string[] = [];
-
-    if (goal.assists) {
-        for (const assist of goal.assists) {
-            const playerLastName = assist.player.split(' ')[1];
-            const assistName = `${playerLastName} (${assist.seasonTotal})`;
-            assistNames.push(assistName);
-        }
-    }
-
-    return assistNames;
-};
-
-export const sortGoals = (goals: Goal[]): Goal[] => {
-    return goals.sort((a: Goal, b: Goal): number => {
-        const periodMap: { [key: string]: number } = {
-            '1': 1,
-            '2': 2,
-            '3': 3,
-            'OT': 4,
-            'SO': 5,
-        };
-        const periodA: number = periodMap[a.period];
-        const periodB: number = periodMap[b.period];
-        const goalTimeA: number = goalTimeInSeconds(a.min, a.sec);
-        const goalTimeB: number = goalTimeInSeconds(b.min, b.sec);
-
-        // Sort by period and time, with shootout goals last
-        return periodA - periodB || goalTimeA - goalTimeB || (a.period === 'SO' ? 1 : -1);
-    });
-}
-export const addCurrentScores = (goals?: Goal[], teams?: Teams): Goal[] => {
-    if (!goals || !teams) return [];
-    const sortedGoals = sortGoals(goals);
-    let homeScore = 0;
-    let awayScore = 0;
-
-    return sortedGoals.map((goal: Goal, index: number) => {
-        const { team } = goal;
-        const isHomeTeam: boolean = team === teams.home.abbreviation;
-        const isAwayTeam: boolean = team === teams.away.abbreviation;
-
-        goal.homeScore = isHomeTeam ? ++homeScore : homeScore;
-        goal.awayScore = isAwayTeam ? ++awayScore : awayScore;
-        goal.currentGoal = index + 1;
-        return goal;
-    });
-};
-
-export const getWinnerFromGameStats = (game: Game, selectedTeamName: string | undefined): string | null => {
-    const scores = game.scores;
-    if (!selectedTeamName) return null;
-
-    const opposingTeamName = Object.keys(scores).find(name => name !== selectedTeamName);
-    if (!opposingTeamName) return null;
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return scores[selectedTeamName] > scores[opposingTeamName]
-        ? selectedTeamName
-        : opposingTeamName;
-}
 
 export const filterPlayersByTeam = (players: Player[], teamId: number | undefined): Player[] => {
   if (teamId === undefined || teamId === null) {

@@ -1,11 +1,11 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import styles from './FiltersComponent.module.css';
 import { FormControl, MenuItem, Select, Stack } from "@mui/material";
-import { Filters } from "../../models/CustomData.ts";
 import { ALL_PLAYERS_OBJECT, GOAL_TYPE, SEASON } from "../../constants/defaultValues.ts";
 import { Team } from "../../models/liiga/Team.ts";
 import { filterPlayersByTeam } from "../../utils/helpers.ts";
 import { Player } from "../../models/liiga/Player.ts";
+import { Filters } from "../../models/liiga/Filters.ts";
 
 interface Props {
   filters: Filters;
@@ -54,13 +54,19 @@ const FiltersComponent: React.FC<Props> = ({filters, setFilters, teams, season, 
   }
 
   function getOptionLabel(filterKey: string, value: OptionValue): string {
-    if (filterKey === 'team') {
+    if (filterKey === 'team' && typeof value === 'object' && value) {
       return (value as Team).name;
     }
-    if (filterKey === 'player') {
+
+    if (filterKey === 'player' && typeof value === 'object' && value) {
       return getPlayerLabel(value as Player);
     }
-    return String(value);
+
+    if (typeof value === 'string' || typeof value === 'number') {
+      return String(value);
+    }
+
+    return '';
   }
 
   function isPlayer(option: unknown): option is Player {

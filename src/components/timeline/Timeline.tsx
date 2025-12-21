@@ -1,10 +1,10 @@
 import React from 'react';
-import { Filters } from "../../models/CustomData.ts";
 import styles from './Timeline.module.css'
 import { getCirclePosition } from "../../utils/helpers.ts";
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 import { FilteredGoalEvent, PlayedGame } from "../../models/liiga/GameData.ts";
 import { Player } from "../../models/liiga/Player.ts";
+import { Filters } from "../../models/liiga/Filters.ts";
 
 interface Props {
   goals: FilteredGoalEvent[],
