@@ -1,48 +1,77 @@
-import React, {useState} from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './GoalCircle.module.css'
-import {FilteredGame, Goal} from "../../interfaces/GameData.ts";
 import GoalInfoDialog from "../goal-info-prompt/GoalInfoDialog.tsx";
+import { FilteredGoalEvent, PlayedGame } from "../../models/GameData.ts";
 
 interface Props {
-    game?: FilteredGame;
-    goalInfo?: Goal;
-    jerseyNumber: string | number;
-    isSelectedTeam: boolean;
-    customCircleStyles: any;
+  game?: PlayedGame;
+  goalInfo?: FilteredGoalEvent;
+  jerseyNumber: string | number | null;
+  isSelectedTeam: boolean;
+  customCircleStyles?: React.CSSProperties;
 }
-const GoalCircle: React.FC<Props> = ({jerseyNumber, isSelectedTeam, customCircleStyles, goalInfo, game}) => {
-    const [showElement, setShowElement] = useState<boolean>(false);
-    const defaultCircleStyle = {
-        width: isSelectedTeam ? '25px' : '12.5px',
-        height: isSelectedTeam ? '25px' : '12.5px',
-        fontSize: 'var(--font-size-normal)',
-        fontWeight: "normal",
-        backgroundColor: isSelectedTeam
-                ? 'var(--red)'
-                : 'var(--black)'
-    };
 
-    function handleHover(event: React.MouseEvent<HTMLDivElement>, value: boolean | null): void {
-        event.stopPropagation();
-        if (value === null) return;
-        setShowElement(value);
+const GoalCircle: React.FC<Props> = ({jerseyNumber, isSelectedTeam, customCircleStyles, goalInfo, game,}) => {
+  const [showElement, setShowElement] = useState(false);
+
+  const defaultCircleStyle: React.CSSProperties = {
+    width: isSelectedTeam ? '25px' : '12.5px',
+    height: isSelectedTeam ? '25px' : '12.5px',
+    fontSize: 'var(--font-size-normal)',
+    fontWeight: 'normal',
+    backgroundColor: isSelectedTeam ? 'var(--red)' : 'var(--black)',
+  };
+
+  const hideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function handleHover(event: React.MouseEvent<HTMLDivElement>, value: boolean | null): void {
+    event.stopPropagation();
+
+    if (value === null) return;
+
+    if (!value) {
+      if (hideTimeout.current) {
+        clearTimeout(hideTimeout.current);
+      }
+
+      hideTimeout.current = setTimeout(() => {
+        setShowElement(false);
+        hideTimeout.current = null;
+      }, 100);
+
+      return;
     }
 
-    // Remove this if time to test if works normally without
-    if (game?.goals.length === 0 && !game?.goals && jerseyNumber !== 'X' && !jerseyNumber) return null;
-    return (
-        <div
-            className={styles.circle}
-            onMouseEnter={(e) => handleHover(e, true)}
-            onMouseLeave={(e) => handleHover(e, false)}
-            onClick={(e) => handleHover(e, null)}
-            // TODO: Remove inline styles to css
-            style={customCircleStyles ?? defaultCircleStyle}
-        >
-            <span className={styles.eventText}>{jerseyNumber}</span>
-            {showElement && <GoalInfoDialog game={game} goalInfo={goalInfo} isSelectedTeam={isSelectedTeam} />}
-        </div>
-    );
+    if (hideTimeout.current) {
+      clearTimeout(hideTimeout.current);
+      hideTimeout.current = null;
+    }
+
+    setShowElement(true);
+  }
+
+  if (jerseyNumber === null || jerseyNumber === undefined) {
+    return null;
+  }
+
+  return (
+    <div
+      className={styles.circle}
+      onMouseEnter={(e) => handleHover(e, true)}
+      onMouseLeave={(e) => handleHover(e, false)}
+      onClick={(e) => handleHover(e, null)}
+      style={customCircleStyles ?? defaultCircleStyle}
+    >
+      <span className={styles.eventText}>{isSelectedTeam ? jerseyNumber : ''}</span>
+      {showElement && goalInfo && (
+        <GoalInfoDialog
+          game={game}
+          goalInfo={goalInfo}
+          isSelectedTeam={isSelectedTeam}
+        />
+      )}
+    </div>
+  );
 };
 
 export default GoalCircle;

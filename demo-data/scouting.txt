@@ -1,0 +1,16 @@
+JOUKKUEET:
+Logo ja nimet: https://cdn.builder.io/api/v3/....
+
+PELAAJAT
+kaikki 2026 vuoden?: https://www.liiga.fi/api/v2/players/info?tournament=runkosarja&fromSeason=2026&toSeason=2026
+
+PELIT
+yksittäinen peli: https://liiga.fi/api/v2/games/2026/13
+
+kaikki viikon pelit vkon mukaan?: https://www.liiga.fi/api/v2/games?tournament=runkosarja&week=14
+
+tulevat matsit?: https://www.liiga.fi/api/v2/games?tournament=runkosarja&date=2025-12-20
+
+joku tournament polku: https://www.liiga.fi/api/v2/tournament
+
+toinen tournament polku?: https://www.liiga.fi/api/v2/games?tournament=runkosarja&date=2025-12-20

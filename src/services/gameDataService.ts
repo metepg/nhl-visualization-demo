@@ -1,8 +1,11 @@
-import data from '../gameData_MONTH.ts'
-import {FilteredGame, Game, GamesData} from "../interfaces/GameData.ts";
+import { games } from "../../demo-data/gameData_2_WEEK.ts"
+import { Game } from "../models/GameData.ts";
 
-export const getGameDataById = (teamID: number | undefined | null): FilteredGame[]  =>
-    data.demoGamesData
-        .flatMap((data: GamesData) =>
-            data.games.filter((game: Game) =>
-                game.teams.home.id === teamID || game.teams.away.id === teamID));
+const extractTeamId = (teamId: string): number =>
+  Number(teamId.split(":")[0]);
+
+export const getGameDataById = (teamId?: number | null): Game[] =>
+  games.filter((game: Game) =>
+    extractTeamId(game.homeTeam.teamId) === teamId ||
+    extractTeamId(game.awayTeam.teamId) === teamId
+  );

@@ -1,21 +1,23 @@
 import React from 'react';
-import {Filters} from "../../interfaces/CustomData.ts";
 import styles from './NowVisualizing.module.css';
-import {PlayerInfo, Team} from "../../interfaces/Teams.ts";
 import GoalCircle from "../goal-circle/GoalCircle.tsx";
 import ToggleSwitch from "../toggle-switch/ToggleSwitch.tsx";
+import { Player } from "../../models/Player.ts";
+import { Team } from "../../models/Team.ts";
+import { Filters } from "../../models/Filters.ts";
 
 interface Props {
-    filters: Filters
+  filters: Filters
+  players: Player[]
 }
 
-const NowVisualizing: React.FC<Props> = ({filters}) => {
+const NowVisualizing: React.FC<Props> = ({filters, players}) => {
     const team: Team | null = filters?.team;
     const season: string = filters.season;
     const goaltypefor: string = filters.goaltypefor;
     const goaltypeagainst: string = filters.goaltypeagainst;
-    const selectedPlayer: PlayerInfo | undefined = team?.roster?.roster.find((player: PlayerInfo): boolean => player.person.id === filters.player)
-    const playerName: string = !selectedPlayer ? 'All players' : selectedPlayer.person.fullName;
+    const selectedPlayer: Player | undefined = players.find((player: Player): boolean => player.id === filters.player.id)
+    const playerName: string = !selectedPlayer ? 'All players' : `${selectedPlayer.firstName} ${selectedPlayer.lastName}`;
     const selectedFilters = [team?.name, playerName, season, `${goaltypefor} FOR`, `${goaltypeagainst} AGAINST`];
 
     return (
@@ -33,11 +35,11 @@ const NowVisualizing: React.FC<Props> = ({filters}) => {
             <div className={styles.infoText}>
                 <div className={styles.circleContainer}>
                     <div className={styles.selectedTeamCircleContainer}>
-                        <GoalCircle jerseyNumber={'X'} isSelectedTeam={true} customCircleStyles={null}/>
+                        <GoalCircle jerseyNumber={'X'} isSelectedTeam={true} customCircleStyles={undefined}/>
                         <p className={styles.circleText}>Goals for (w/player number)</p>
                     </div>
                     <div className={styles.otherTeamCircleContainer}>
-                        <GoalCircle jerseyNumber={''} isSelectedTeam={false} customCircleStyles={null} />
+                        <GoalCircle jerseyNumber={''} isSelectedTeam={false} customCircleStyles={undefined} />
                         <p className={styles.circleText}>Goals against</p>
                     </div>
                 </div>

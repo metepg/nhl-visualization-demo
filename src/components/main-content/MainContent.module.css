@@ -1,5 +1,5 @@
 .contentWrapper {
-    width: 1080px;
-    margin: 0 auto;
+  width: var(--base-width);
+  margin: 0 auto;
 }
 

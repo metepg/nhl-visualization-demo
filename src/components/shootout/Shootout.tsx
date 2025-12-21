@@ -1,54 +1,59 @@
 import React from 'react';
 import styles from './Shootout.module.css'
-import {Game} from "../../interfaces/GameData.ts";
-import {Filters} from "../../interfaces/CustomData.ts";
-import {getWinnerFromGameStats} from "../../utils/helpers.ts";
+import { PlayedGame } from "../../models/GameData.ts";
+import { Filters } from "../../models/Filters.ts";
 
 interface Props {
-    game: Game;
-    filters: Filters;
-    showAll: boolean;
+  game: PlayedGame;
+  filters: Filters;
+  showAll: boolean;
 }
+
 const Shootout: React.FC<Props> = ({ game, filters, showAll }) => {
-    const isShootout = game.scores.shootout;
-    const selectedTeamName = filters.team?.abbreviation;
-    const gameWinner= getWinnerFromGameStats(game, selectedTeamName);
-    const selectedTeamIsWinner = selectedTeamName === gameWinner;
-    const shootoutStyles = {
-        backgroundColor: isShootout
-            ? selectedTeamIsWinner
-                ? 'var(--red)'
-                : 'var(--black)'
-            : 'var(--white)',
-        border: '1px solid var(--light-grey)'
-    }
-    const shootOutGoals = game.goals.filter((goal) => goal.period === 'SO');
-    const selectedTeamSOGoals = shootOutGoals.filter((goal) => goal.team === selectedTeamName);
-    const otherTeamSOGoals = shootOutGoals.filter((goal) => goal.team !== selectedTeamName);
+  const selectedTeamName = filters.team?.name;
+  const homeShootoutGoals = game.homeTeam.goalEvents?.filter(g => g.goalTypes.includes('VL')) ?? [];
+  const awayShootoutGoals = game.awayTeam.goalEvents?.filter(g => g.goalTypes.includes('VL')) ?? [];
+  const hasShootout = homeShootoutGoals.length > 0 || awayShootoutGoals.length > 0;
 
-    const { home, away } = game.teams;
-    const homeTeamFullName = `${home.locationName} ${game.teams.home.teamName}`;
-    const awayTeamFullName = `${away.locationName} ${game.teams.away.teamName}`;
-    const homeIsSelectedTeam: boolean = filters?.team?.abbreviation === home.abbreviation;
+  if (!hasShootout) {
+    return null;
+  }
 
-    // Get the full names of the game winners
-    const homeTeamWinnerFullName = homeIsSelectedTeam ? homeTeamFullName : awayTeamFullName;
-    const awayTeamWinnerFullName = homeIsSelectedTeam ? awayTeamFullName : homeTeamFullName;
+  const homeTeamName = game.homeTeam.teamName;
+  const awayTeamName = game.awayTeam.teamName;
 
+  const homeWins = homeShootoutGoals.length > awayShootoutGoals.length;
+  const awayWins = awayShootoutGoals.length > homeShootoutGoals.length;
+
+  const selectedTeamIsWinner =
+    (selectedTeamName === homeTeamName && homeWins) ||
+    (selectedTeamName === awayTeamName && awayWins);
+
+  const shootoutStyles = {
+    backgroundColor: selectedTeamIsWinner
+      ? 'var(--red)'
+      : 'var(--black)',
+    border: '1px solid var(--light-grey)',
+  };
+
+  if (!showAll) {
     return (
-        showAll ? (
-            <div>
-                <span>{selectedTeamIsWinner ? homeTeamWinnerFullName : awayTeamWinnerFullName} win </span>
-                    <span>{Math.max(selectedTeamSOGoals.length, otherTeamSOGoals.length)}</span>
-                    -
-                    <span>{Math.min(selectedTeamSOGoals.length, otherTeamSOGoals.length)}</span>
-            </div>
-        ) : (
-            <div className={styles.container}>
-                <div className={styles.circle} style={shootoutStyles}></div>
-            </div>
-        )
+      <div className={styles.container}>
+        <div className={styles.circle} style={shootoutStyles}></div>
+      </div>
     );
+  }
+
+  const winnerName = homeWins ? homeTeamName : awayTeamName;
+
+  return (
+    <div>
+      <span>{winnerName} wins </span>
+      <span>{Math.max(homeShootoutGoals.length, awayShootoutGoals.length)}</span>
+      -
+      <span>{Math.min(homeShootoutGoals.length, awayShootoutGoals.length)}</span>
+    </div>
+  );
 };
 
 export default Shootout;

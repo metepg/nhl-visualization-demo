@@ -31,10 +31,6 @@ const Row: React.FC<Props> = ({game, onClick, selected, setHoveredRow}) => {
          '&.Mui-selected': {
              backgroundColor: 'var(--light-grey)'
         },
-
-
-
-        
     };
 
     return(

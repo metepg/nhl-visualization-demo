@@ -8,12 +8,12 @@ const Navbar: React.FC = () => {
                 <div className={styles.brandContent}>
                     <div className={styles.logoArea}>
                     </div>
-                    <div className={styles.nameArea}><span className={styles.whiteColor}>VISUALIZING</span><span className={styles.redColor}>NHL</span>
+                    <div className={styles.nameArea}><span className={styles.whiteColor}>VISUALIZING</span><span className={styles.redColor}>LIIGA</span>
                     </div>
                     <div className={styles.sloganArea}> | Hockey Stats at One Glance
                     </div>
                 </div>
-                <p className={styles.topRight}>VISUALIZINGNHL.COM</p>
+                <p className={styles.topRight}>VISUALIZINGLIIGA.COM</p>
             </div>
             <hr className={styles.hr} />
         </nav>
