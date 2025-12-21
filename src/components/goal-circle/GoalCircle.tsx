@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './GoalCircle.module.css'
 import GoalInfoDialog from "../goal-info-prompt/GoalInfoDialog.tsx";
 import { FilteredGoalEvent, PlayedGame } from "../../models/GameData.ts";
@@ -22,12 +22,32 @@ const GoalCircle: React.FC<Props> = ({jerseyNumber, isSelectedTeam, customCircle
     backgroundColor: isSelectedTeam ? 'var(--red)' : 'var(--black)',
   };
 
+  const hideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   function handleHover(event: React.MouseEvent<HTMLDivElement>, value: boolean | null): void {
     event.stopPropagation();
-    if (value === null) {
+
+    if (value === null) return;
+
+    if (!value) {
+      if (hideTimeout.current) {
+        clearTimeout(hideTimeout.current);
+      }
+
+      hideTimeout.current = setTimeout(() => {
+        setShowElement(false);
+        hideTimeout.current = null;
+      }, 100);
+
       return;
     }
-    setShowElement(value);
+
+    if (hideTimeout.current) {
+      clearTimeout(hideTimeout.current);
+      hideTimeout.current = null;
+    }
+
+    setShowElement(true);
   }
 
   if (jerseyNumber === null || jerseyNumber === undefined) {
