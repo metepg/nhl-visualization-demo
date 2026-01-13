@@ -47,7 +47,7 @@ const Timeline: React.FC<Props> = ({goals, filters, game, selectedRowDate, isHov
       justifyContent: 'center',
       alignItems: 'center',
       border: '1px solid var(--white)',
-      zIndex: 2,
+      zIndex: isSelectedTeam ? 3 : 2,
       fontSize: 'var(--font-size-small)',
       fontWeight: 'normal',
       backgroundColor: isSelectedTeam

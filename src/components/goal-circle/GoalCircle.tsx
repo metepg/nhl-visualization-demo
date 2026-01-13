@@ -60,7 +60,10 @@ const GoalCircle: React.FC<Props> = ({jerseyNumber, isSelectedTeam, customCircle
       onMouseEnter={(e) => handleHover(e, true)}
       onMouseLeave={(e) => handleHover(e, false)}
       onClick={(e) => handleHover(e, null)}
-      style={customCircleStyles ?? defaultCircleStyle}
+      style={{
+          ...(customCircleStyles ?? defaultCircleStyle),
+          zIndex: showElement ? 100 : customCircleStyles?.zIndex
+      }}
     >
       <span className={styles.eventText}>{isSelectedTeam ? jerseyNumber : ''}</span>
       {showElement && goalInfo && (

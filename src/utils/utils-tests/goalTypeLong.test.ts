@@ -9,8 +9,8 @@ describe('goalTypeLong', () => {
 
     it('should return the corresponding long goal type for valid input', () => {
         const testData: [string, string][] = [
-            ['PPG', 'POWER-PLAY -GOAL'],
-            ['SHG', 'SHORT-HANDED -GOAL'],
+            ['YV', 'POWER-PLAY -GOAL'],
+            ['AV', 'SHORT-HANDED -GOAL'],
             ['EN', 'EMPTY NET'],
             ['GW', 'GAME-WINNING -GOAL'],
         ];
@@ -21,8 +21,8 @@ describe('goalTypeLong', () => {
     });
 
     it('should handle uppercase and lowercase goal types', () => {
-        expect(goalTypeLong('ppg')).toBe('POWER-PLAY -GOAL');
-        expect(goalTypeLong('shg')).toBe('SHORT-HANDED -GOAL');
+        expect(goalTypeLong('yv')).toBe('POWER-PLAY -GOAL');
+        expect(goalTypeLong('av')).toBe('SHORT-HANDED -GOAL');
         expect(goalTypeLong('en')).toBe('EMPTY NET');
         expect(goalTypeLong('gw')).toBe('GAME-WINNING -GOAL');
     });

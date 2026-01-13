@@ -59,7 +59,7 @@ const GoalInfoDialog: React.FC<Props> = ({goalInfo, game, isSelectedTeam}) => {
                     : 'normal',
               }}
             >
-              {homeTeam.teamName} {goalInfo.homeTeamScore}</label>
+              {homeTeam.teamName.slice(0,3).toUpperCase()} {goalInfo.homeTeamScore}</label>
             &nbsp;-&nbsp;
             <label
               style={{
@@ -69,7 +69,7 @@ const GoalInfoDialog: React.FC<Props> = ({goalInfo, game, isSelectedTeam}) => {
                     : 'normal',
               }}
             >
-              {awayTeam.teamName} {goalInfo.awayTeamScore}
+              {awayTeam.teamName.slice(0,3).toUpperCase()} {goalInfo.awayTeamScore}
             </label>
           </p>
         </div>

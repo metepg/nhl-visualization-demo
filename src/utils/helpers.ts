@@ -32,8 +32,9 @@ export const goalTypeShort = (value: string | null | undefined): string => {
 export const goalTypeLong = (value: string | null | undefined): string => {
     if (!value) return '';
     const long: { [key: string]: string } = {
-        PPG: 'POWER-PLAY -GOAL',
-        SHG: 'SHORT-HANDED -GOAL',
+      // TODO: What are the correct keys?
+        YV: 'POWER-PLAY -GOAL',
+        AV: 'SHORT-HANDED -GOAL',
         EN: 'EMPTY NET',
         GW: 'GAME-WINNING -GOAL'
     };
