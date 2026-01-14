@@ -4,7 +4,7 @@ import { Filters } from "../models/Filters.ts";
 
 export const API_V2_URL = "https://www.liiga.fi/api/v2";
 export const GOAL_TYPE: string[] = ['All goals', 'Power-play', 'Short-handed', 'Empty-net', 'Game-winning'];
-export const SEASON: string[] = ['Regular Season 2022-23', 'Post-Season 2022-23'];
+export const SEASON: string[] = ['Regular Season 2025-26', 'Post-Season 2025-26'];
 export const ALL_PLAYERS_OBJECT: Player = {
   id: 999,
   teamId: 'ALL:all',
